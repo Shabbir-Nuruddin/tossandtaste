@@ -1,37 +1,64 @@
+"use client";
+import Link from 'next/link';
+
 export default function Footer() {
   return (
-    <footer className="bg-[#0a0a0a] border-t border-white/5 py-24">
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-16">
-        <div>
-          <h3 className="text-3xl font-black tracking-tighter uppercase mb-6">Toss <span className="text-red-500 font-light">&</span> Taste</h3>
-          <p className="text-zinc-400 text-lg leading-relaxed max-w-sm font-light">
-            Redefining healthy dining in Delhi & Gurugram. Wholesome, balanced, and impeccable meals delivered or served fresh.
+    <footer className="bg-[#f6faed] text-[#2c3e21] pt-16 pb-8 border-t border-[#d8e6c4]">
+      <div className="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+        {/* Brand */}
+        <div className="space-y-6">
+          <img src="/uploads/2026/07/cropped-Toss-Taste-LOGO-ICON--180x180.png" alt="Toss & Taste" className="h-16 object-contain" />
+          <h4 className="font-bold uppercase tracking-widest text-sm text-[#182411]">About Company</h4>
+          <p className="text-sm font-medium leading-relaxed opacity-80">
+            At Toss and Taste, we are dedicated to helping you achieve a healthier lifestyle through personalized diet meal plans. Our meals are carefully designed by nutrition experts and prepared fresh daily using high-quality, natural ingredients.
           </p>
         </div>
+
+        {/* Links 1 */}
         <div>
-          <h4 className="text-sm font-black tracking-[0.2em] uppercase mb-8 text-white">Location & Contact</h4>
-          <p className="text-zinc-400 text-lg leading-relaxed font-light mb-4">
-            Sector 55, Golf Course Road<br />
-            Gurgaon 122001
-          </p>
-          <div className="flex flex-col gap-2">
-            <a href="tel:+919711533944" className="text-red-500 hover:text-white transition-colors font-bold">+91 9711533944</a>
-            <a href="mailto:contact@tossandtaste.com" className="text-red-500 hover:text-white transition-colors font-bold">contact@tossandtaste.com</a>
-          </div>
-        </div>
-        <div>
-          <h4 className="text-sm font-black tracking-[0.2em] uppercase mb-8 text-white">Links</h4>
-          <ul className="text-zinc-400 text-lg space-y-4 font-light">
-            <li><a href="/menu" className="hover:text-red-500 transition-colors">Order Online</a></li>
-            <li><a href="/subscriptions" className="hover:text-red-500 transition-colors">Meal Plans</a></li>
-            <li><a href="/about" className="hover:text-red-500 transition-colors">Our Philosophy</a></li>
-            <li><a href="https://wa.me/919711533944" target="_blank" rel="noopener noreferrer" className="hover:text-red-500 transition-colors">WhatsApp Support</a></li>
+          <h4 className="font-bold uppercase tracking-widest text-sm mb-6 text-[#182411]">Information</h4>
+          <ul className="space-y-3 text-sm font-medium opacity-80">
+            <li><Link href="/" className="hover:text-[#5e9d34] transition-colors">Home</Link></li>
+            <li><Link href="/about" className="hover:text-[#5e9d34] transition-colors">About us</Link></li>
+            <li><Link href="/blog" className="hover:text-[#5e9d34] transition-colors">Blog</Link></li>
+            <li><Link href="/cart" className="hover:text-[#5e9d34] transition-colors">Check Out</Link></li>
+            <li><Link href="/contact" className="hover:text-[#5e9d34] transition-colors">Contact</Link></li>
           </ul>
         </div>
+
+        {/* Links 2 */}
+        <div>
+          <h4 className="font-bold uppercase tracking-widest text-sm mb-6 text-[#182411]">Legal</h4>
+          <ul className="space-y-3 text-sm font-medium opacity-80">
+            <li><Link href="/terms" className="hover:text-[#5e9d34] transition-colors">Terms and Condition</Link></li>
+            <li><Link href="/privacy" className="hover:text-[#5e9d34] transition-colors">Privacy Policy</Link></li>
+            <li><Link href="/shipping" className="hover:text-[#5e9d34] transition-colors">Shipping Policy</Link></li>
+            <li><Link href="/return-refund" className="hover:text-[#5e9d34] transition-colors">Return and Refund policy</Link></li>
+          </ul>
+        </div>
+
+        {/* Address & Socials */}
+        <div>
+          <h4 className="font-bold uppercase tracking-widest text-sm mb-6 text-[#182411]">Address</h4>
+          <ul className="space-y-4 text-sm font-medium opacity-80 mb-8">
+            <li><strong>Address:</strong> Sector 55 golf course road Gurgaon 122001</li>
+            <li><strong>Phone:</strong> <a href="tel:+919711533944" className="hover:text-[#5e9d34]">+919711533944</a></li>
+            <li><strong>Email:</strong> <a href="mailto:contact@tosstandtaste.com" className="hover:text-[#5e9d34]">contact@tosstandtaste.com</a></li>
+          </ul>
+          <div className="flex gap-4">
+            <a href="#" className="w-8 h-8 rounded-full bg-[#182411] text-white flex items-center justify-center hover:bg-[#5e9d34] transition-colors">f</a>
+            <a href="#" className="w-8 h-8 rounded-full bg-[#182411] text-white flex items-center justify-center hover:bg-[#5e9d34] transition-colors">t</a>
+            <a href="#" className="w-8 h-8 rounded-full bg-[#182411] text-white flex items-center justify-center hover:bg-[#5e9d34] transition-colors">in</a>
+            <a href="#" className="w-8 h-8 rounded-full bg-[#182411] text-white flex items-center justify-center hover:bg-[#5e9d34] transition-colors">yt</a>
+          </div>
+        </div>
       </div>
-      <div className="max-w-7xl mx-auto px-6 mt-20 pt-8 border-t border-white/5 text-zinc-600 text-xs flex justify-between font-bold tracking-widest uppercase">
-        <p>&copy; {new Date().getFullYear()} Toss & Taste. FSSAI: 20824005000269</p>
-        <p>Designed with Impeccable Taste.</p>
+
+      <div className="max-w-[1400px] mx-auto px-6 border-t border-[#d8e6c4] pt-8 flex flex-col md:flex-row justify-between items-center text-xs font-medium opacity-60">
+        <p>Copyright 2026 Toss and Taste. All Rights Reserved.</p>
+        <div className="flex gap-2 mt-4 md:mt-0 opacity-50 grayscale">
+          <span>💳 Secure Payments</span>
+        </div>
       </div>
     </footer>
   );

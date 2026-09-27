@@ -66,7 +66,7 @@ export default function MenuPage() {
         className="text-center mb-24"
       >
         <h1 className="text-6xl md:text-[6rem] font-black uppercase tracking-tighter mb-6">The Menu</h1>
-        <p className="text-zinc-400 text-xl font-light max-w-2xl mx-auto">Uncompromising nutrition. Impeccable taste. Explore our chef-crafted healthy meals designed for busy professionals and fitness lovers.</p>
+        <p className="text-zinc-500 text-xl font-light max-w-2xl mx-auto">Uncompromising nutrition. Impeccable taste. Explore our chef-crafted healthy meals designed for busy professionals and fitness lovers.</p>
       </motion.div>
 
       {/* Filters */}
@@ -78,7 +78,7 @@ export default function MenuPage() {
             className={`px-8 py-3 rounded-full text-sm font-bold tracking-widest uppercase transition-all duration-300 ${
               activeCategory === category 
                 ? 'bg-white text-black' 
-                : 'bg-zinc-900 text-zinc-400 hover:text-white hover:bg-zinc-800'
+                : 'bg-zinc-100 text-zinc-500 hover:text-[#1a1a1a] hover:bg-zinc-800'
             }`}
           >
             {category}
@@ -100,10 +100,10 @@ export default function MenuPage() {
               exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.2 } }}
               transition={{ duration: 0.5, delay: i * 0.05 }}
               key={item.id}
-              className="group relative bg-[#0a0a0a] border border-white/5 rounded-[2rem] overflow-hidden hover:border-white/10 transition-colors duration-500 flex flex-col mb-8 break-inside-avoid"
+              className="group relative bg-white border border-zinc-200 rounded-[2rem] overflow-hidden hover:border-white/10 transition-colors duration-500 flex flex-col mb-8 break-inside-avoid"
             >
               {/* Media Container */}
-              <div className="relative w-full bg-zinc-900 overflow-hidden" style={{ height: item.video ? "400px" : "280px" }}>
+              <div className="relative w-full bg-zinc-100 overflow-hidden" style={{ height: item.video ? "400px" : "280px" }}>
                 {item.video ? (
                   <video 
                     loop 
@@ -127,7 +127,7 @@ export default function MenuPage() {
                 
                 <div className="absolute top-4 left-4 flex flex-wrap gap-2 z-10">
                   {item.tags.map(tag => (
-                    <span key={tag} className="bg-black/80 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border border-white/10">
+                    <span key={tag} className="bg-black/80 backdrop-blur-md text-[#1a1a1a] text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border border-white/10">
                       {tag}
                     </span>
                   ))}
@@ -142,12 +142,12 @@ export default function MenuPage() {
                   </div>
                   <div className="flex justify-between items-center mb-4">
                      <span className="text-xl font-bold text-red-500">{item.price}</span>
-                     <p className="text-zinc-400 font-medium text-xs tracking-widest uppercase bg-zinc-900 px-2 py-1 rounded">{item.cals}</p>
+                     <p className="text-zinc-500 font-medium text-xs tracking-widest uppercase bg-zinc-100 px-2 py-1 rounded">{item.cals}</p>
                   </div>
                   <p className="text-zinc-500 text-sm font-light leading-relaxed mb-6">{item.desc}</p>
                 </div>
                 
-                <MagneticButton className="w-full flex items-center justify-center gap-2 bg-white hover:bg-red-500 text-black hover:text-white py-4 rounded-xl font-black uppercase tracking-[0.2em] text-xs transition-all duration-300">
+                <MagneticButton className="w-full flex items-center justify-center gap-2 bg-white hover:bg-red-500 text-black hover:text-[#1a1a1a] py-4 rounded-xl font-black uppercase tracking-[0.2em] text-xs transition-all duration-300">
                   <Plus className="w-4 h-4" /> Add to Order
                 </MagneticButton>
               </div>

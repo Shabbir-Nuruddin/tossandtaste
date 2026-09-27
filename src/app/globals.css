@@ -1,9 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
-  --foreground: #ffffff;
-  --accent: #E53935; /* A bold red for food appetite */
+  --background: #fcfdf8; /* Very light, clean off-white */
+  --foreground: #1a1a1a; /* Dark gray for text */
+  --accent: #5e9d34; /* The healthy green from the Toss & Taste logo */
+  --accent-light: #f4faeb; /* The light green background from their footer */
 }
 
 body {
@@ -22,14 +23,14 @@ body {
   background: transparent; 
 }
 ::-webkit-scrollbar-thumb {
-  background: #222; 
+  background: #cbd5e1; 
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #94a3b8; 
 }
 
 ::selection {
-  background: #E53935;
+  background: var(--accent);
   color: white;
 }

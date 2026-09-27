@@ -79,7 +79,7 @@ export default function SubscriptionsPage() {
         className="text-center mb-16"
       >
         <h1 className="text-6xl md:text-[6rem] font-black uppercase tracking-tighter mb-6">Meal Plans</h1>
-        <p className="text-zinc-400 text-xl font-light max-w-2xl mx-auto">
+        <p className="text-zinc-500 text-xl font-light max-w-2xl mx-auto">
           Commit to your health. Choose a subscription plan and let us take care of your daily nutrition with uncompromising taste.
         </p>
       </motion.div>
@@ -95,9 +95,9 @@ export default function SubscriptionsPage() {
                 transition={{ duration: 0.8, delay: idx * 0.2 }}
                 key={plan.id} 
                 onClick={() => setSelectedPlan(plan.id)}
-                className={`group cursor-pointer relative rounded-[2rem] overflow-hidden bg-[#0a0a0a] border transition-all duration-500 flex flex-col ${selectedPlan === plan.id ? 'border-red-500 ring-1 ring-red-500' : 'border-white/5 hover:border-white/20'}`}
+                className={`group cursor-pointer relative rounded-[2rem] overflow-hidden bg-white border transition-all duration-500 flex flex-col ${selectedPlan === plan.id ? 'border-red-500 ring-1 ring-red-500' : 'border-white/5 hover:border-white/20'}`}
               >
-                <div className="relative h-64 w-full bg-zinc-900 overflow-hidden">
+                <div className="relative h-64 w-full bg-zinc-100 overflow-hidden">
                   <video 
                     autoPlay 
                     loop 
@@ -110,7 +110,7 @@ export default function SubscriptionsPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent opacity-90" />
                   
                   {selectedPlan === plan.id && (
-                    <div className="absolute top-4 right-4 bg-red-500 text-white rounded-full p-1.5 z-20">
+                    <div className="absolute top-4 right-4 bg-red-500 text-[#1a1a1a] rounded-full p-1.5 z-20">
                       <CheckCircle2 className="w-5 h-5" />
                     </div>
                   )}
@@ -118,7 +118,7 @@ export default function SubscriptionsPage() {
                 
                 <div className="p-8 flex-grow flex flex-col -mt-16 relative z-10">
                   <h3 className="text-3xl font-black uppercase tracking-tight mb-4">{plan.title}</h3>
-                  <p className="text-zinc-400 font-light mb-6 flex-grow">{plan.description}</p>
+                  <p className="text-zinc-500 font-light mb-6 flex-grow">{plan.description}</p>
                   
                   <ul className="space-y-3">
                     {plan.features.map(feature => (
@@ -138,7 +138,7 @@ export default function SubscriptionsPage() {
              initial={{ opacity: 0 }}
              animate={{ opacity: 1 }}
              transition={{ delay: 0.5 }}
-             className="bg-[#0a0a0a] border border-white/5 rounded-[2rem] p-8"
+             className="bg-white border border-white/5 rounded-[2rem] p-8"
           >
             <h3 className="text-2xl font-black uppercase tracking-tight mb-6">Customize with Add-ons</h3>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -148,13 +148,13 @@ export default function SubscriptionsPage() {
                   <button
                     key={addon.id}
                     onClick={() => toggleAddon(addon.id)}
-                    className={`flex flex-col items-start p-4 rounded-xl border transition-all text-left ${isSelected ? 'border-red-500 bg-red-500/10' : 'border-white/10 hover:border-white/20 bg-white/5'}`}
+                    className={`flex flex-col items-start p-4 rounded-xl border transition-all text-left ${isSelected ? 'border-red-500 bg-red-500/10' : 'border-zinc-200 hover:border-white/20 bg-white/5'}`}
                   >
                     <div className="flex justify-between w-full items-center mb-2">
                       <span className="font-bold text-sm">{addon.label}</span>
                       {isSelected && <CheckCircle2 className="w-4 h-4 text-red-500" />}
                     </div>
-                    <span className="text-xs text-zinc-400">+₹{addon.price}/meal</span>
+                    <span className="text-xs text-zinc-500">+₹{addon.price}/meal</span>
                   </button>
                 )
               })}
@@ -169,7 +169,7 @@ export default function SubscriptionsPage() {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="sticky top-32 bg-[#0a0a0a] border border-white/10 rounded-[2rem] p-8 flex flex-col"
+            className="sticky top-32 bg-white border border-zinc-200 rounded-[2rem] p-8 flex flex-col"
           >
             <h3 className="text-2xl font-black uppercase tracking-tight mb-8">Plan Summary</h3>
             
@@ -182,14 +182,14 @@ export default function SubscriptionsPage() {
                     <button
                       key={dur.id}
                       onClick={() => setSelectedDuration(dur.id)}
-                      className={`w-full flex items-center justify-between p-4 rounded-xl border transition-all ${selectedDuration === dur.id ? 'border-white bg-white text-black' : 'border-white/10 text-white hover:border-white/30'}`}
+                      className={`w-full flex items-center justify-between p-4 rounded-xl border transition-all ${selectedDuration === dur.id ? 'border-white bg-white text-black' : 'border-zinc-200 text-[#1a1a1a] hover:border-white/30'}`}
                     >
                       <div className="flex flex-col items-start">
                         <span className="font-bold">{dur.label}</span>
                         <span className={`text-xs ${selectedDuration === dur.id ? 'text-zinc-600' : 'text-zinc-500'}`}>{dur.desc}</span>
                       </div>
                       <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedDuration === dur.id ? 'border-black' : 'border-white/20'}`}>
-                        {selectedDuration === dur.id && <div className="w-2.5 h-2.5 rounded-full bg-black" />}
+                        {selectedDuration === dur.id && <div className="w-2.5 h-2.5 rounded-full bg-[#fcfdf8]" />}
                       </div>
                     </button>
                   ))}
@@ -200,27 +200,27 @@ export default function SubscriptionsPage() {
               <div>
                 <p className="text-sm font-bold text-zinc-500 uppercase tracking-widest mb-4">Delivery Location</p>
                 <div className="relative">
-                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" />
+                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
                   <select 
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    className="w-full bg-white/5 border border-white/10 text-white pl-12 pr-4 py-4 rounded-xl appearance-none focus:outline-none focus:border-red-500 transition-colors cursor-pointer"
+                    className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-4 rounded-xl appearance-none focus:outline-none focus:border-red-500 transition-colors cursor-pointer"
                   >
                     {LOCATIONS.map(loc => (
-                      <option key={loc} value={loc} className="bg-zinc-900">{loc}</option>
+                      <option key={loc} value={loc} className="bg-zinc-100">{loc}</option>
                     ))}
                   </select>
                 </div>
               </div>
 
               {/* Price Breakdown */}
-              <div className="pt-8 border-t border-white/10 space-y-4">
-                <div className="flex justify-between text-zinc-400">
+              <div className="pt-8 border-t border-zinc-200 space-y-4">
+                <div className="flex justify-between text-zinc-500">
                   <span>Base Plan ({activePlan.title})</span>
                   <span>₹{basePrice.toLocaleString()}</span>
                 </div>
                 {selectedAddons.length > 0 && (
-                  <div className="flex justify-between text-zinc-400">
+                  <div className="flex justify-between text-zinc-500">
                     <span>Add-ons ({selectedAddons.length})</span>
                     <span>+₹{addonsPrice.toLocaleString()}</span>
                   </div>
@@ -232,7 +232,7 @@ export default function SubscriptionsPage() {
               </div>
             </div>
 
-            <MagneticButton className="w-full mt-12 flex items-center justify-center gap-3 bg-red-500 hover:bg-red-600 text-white py-5 rounded-xl font-black uppercase tracking-[0.2em] text-sm transition-all duration-300">
+            <MagneticButton className="w-full mt-12 flex items-center justify-center gap-3 bg-red-500 hover:bg-red-600 text-[#1a1a1a] py-5 rounded-xl font-black uppercase tracking-[0.2em] text-sm transition-all duration-300">
               Checkout <ArrowRight className="w-5 h-5" />
             </MagneticButton>
           </motion.div>
