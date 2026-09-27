@@ -116,7 +116,7 @@ export default function Home() {
           transition={{ duration: 1 }}
           className="text-4xl md:text-6xl font-light leading-tight text-zinc-400"
         >
-          We believe <span className="text-white font-bold">100% fresh ingredients</span> and <span className="text-white font-bold">zero refined sugar</span> is not a diet—it's a standard.
+          We believe <span className="text-white font-bold">100% fresh ingredients</span> and <span className="text-white font-bold">zero refined sugar</span> is not a diet it's a standard.
         </motion.p>
       </section>
     </div>
