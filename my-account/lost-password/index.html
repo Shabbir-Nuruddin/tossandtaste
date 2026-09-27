@@ -508,7 +508,47 @@ section.related.products.elementor-element {
     background:#ff6b00;
 }
 </style>
-    </head>
+    
+<style>
+/* Impeccable CSS Fixes */
+/* Fix header full-width white background issue */
+header .cm-header-bottom, 
+header .elementor-container,
+header .e-con-boxed {
+    background-color: #ffffff !important;
+}
+
+header .elementor-section.elementor-section-boxed > .elementor-container {
+    max-width: 100% !important;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* Ensure body doesn't leak gray around the header */
+header {
+    background-color: #ffffff !important;
+    width: 100%;
+}
+
+/* Fix the product page injected Impeccable UI layout */
+/* The product short description container might be narrow, so stack it */
+#impeccable-order-app {
+    grid-template-columns: 1fr !important; 
+    padding: 10px 0 !important;
+}
+
+.summary-panel {
+    position: static !important;
+    margin-top: 20px;
+}
+
+/* Fix product page floating elements overlapping */
+.woocommerce-product-details__short-description {
+    overflow: visible !important;
+}
+</style>
+
+</head>
     <body class="wp-singular page-template-default page page-id-12 wp-custom-logo wp-embed-responsive wp-theme-freshio2 wp-child-theme-freshio2-child theme-freshio2 woocommerce-account woocommerce-page woocommerce-lost-password woocommerce-no-js metaslider-plugin etb-header etb-footer etb-template-freshio2 etb-stylesheet-freshio2-child woo-variation-swatches wvs-behavior-blur wvs-theme-freshio2-child wvs-show-label wvs-tooltip woocommerce-active product-block-style-1 elementor-default elementor-kit-7">
         
         <div id="page" class="hfeed site">
