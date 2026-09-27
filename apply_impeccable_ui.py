@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 impeccable_ui = """
 <style>
-/* Impeccable UI Styles */
+/* Impeccable UI Styles - V2 */
 :root {
   --brand-green: #4CAF50;
   --brand-green-hover: #45a049;
@@ -22,62 +22,67 @@ impeccable_ui = """
 #impeccable-order-app {
   font-family: var(--font-family);
   background: var(--bg-color);
-  padding: 40px 20px;
+  padding: 30px 15px;
   color: var(--text-main);
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 380px;
-  gap: 40px;
+  grid-template-columns: 1fr;
+  gap: 30px;
   border-radius: var(--radius);
 }
 
-@media (max-width: 900px) {
-  #impeccable-order-app {
-    grid-template-columns: 1fr;
-  }
-}
-
 .section-title {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   color: var(--brand-green);
   border-bottom: 2px solid var(--brand-green);
-  padding-bottom: 10px;
+  padding-bottom: 8px;
   display: inline-block;
 }
 
 /* Grids */
 .options-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.meal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 15px;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 5px;
 }
 
 /* Cards */
-.option-card {
+.option-card, .meal-card {
   background: var(--card-bg);
-  border: 1px solid var(--border-color);
+  border: 1.5px solid var(--border-color);
   border-radius: var(--radius);
-  padding: 15px;
+  padding: 12px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100px;
+  min-height: 90px;
+  position: relative;
 }
 
-.option-card:hover {
+.option-card:hover, .meal-card:hover {
   box-shadow: var(--shadow-hover);
   border-color: var(--brand-green);
 }
 
-.option-card.active {
+.option-card.active, .meal-card.active {
   border-color: var(--brand-green);
   background: #f0fdf4;
   box-shadow: 0 0 0 2px var(--brand-green);
@@ -85,13 +90,22 @@ impeccable_ui = """
 
 .option-title {
   font-weight: 600;
-  font-size: 15px;
-  margin-bottom: 8px;
+  font-size: 14px;
+  margin-bottom: 4px;
 }
 
 .option-price {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-muted);
+}
+
+.meal-category {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--brand-orange);
+  margin-bottom: 5px;
+  font-weight: bold;
 }
 
 /* Counter for add-ons */
@@ -101,7 +115,7 @@ impeccable_ui = """
   align-items: center;
   background: var(--card-bg);
   border: 1px solid var(--border-color);
-  padding: 15px;
+  padding: 12px;
   border-radius: var(--radius);
   margin-bottom: 10px;
 }
@@ -109,21 +123,22 @@ impeccable_ui = """
 .counter-ctrl {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
 }
 
 .btn-count {
   background: #f3f4f6;
   border: none;
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background 0.2s;
+  color: #333;
 }
 
 .btn-count:hover {
@@ -134,27 +149,25 @@ impeccable_ui = """
 .summary-panel {
   background: var(--card-bg);
   border-radius: var(--radius);
-  padding: 30px;
+  padding: 25px;
   box-shadow: var(--shadow);
-  position: sticky;
-  top: 40px;
-  height: fit-content;
+  border: 1px solid var(--brand-green);
 }
 
 .summary-row {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 15px;
-  font-size: 15px;
+  margin-bottom: 12px;
+  font-size: 14px;
 }
 
 .summary-total {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px solid var(--border-color);
-  font-size: 24px;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 2px solid var(--border-color);
+  font-size: 22px;
   font-weight: 800;
   color: var(--brand-green);
 }
@@ -164,11 +177,11 @@ impeccable_ui = """
   color: white;
   border: none;
   width: 100%;
-  padding: 16px;
+  padding: 14px;
   border-radius: var(--radius);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
-  margin-top: 30px;
+  margin-top: 20px;
   cursor: pointer;
   transition: background 0.3s, transform 0.1s;
 }
@@ -184,7 +197,7 @@ impeccable_ui = """
 <div id="impeccable-order-app">
   <div class="main-config">
     
-    <h2 class="section-title">1. Select Subscription Plan</h2>
+    <h2 class="section-title">1. Subscription Duration</h2>
     <div class="options-grid" id="plan-grid">
       <div class="option-card active" data-plan="1" data-multiplier="1">
         <div class="option-title">Single Meal</div>
@@ -200,29 +213,12 @@ impeccable_ui = """
       </div>
     </div>
 
-    <h2 class="section-title">2. Choose Your Base Meal</h2>
-    <select id="base-meal-select" style="width:100%; padding: 15px; font-size: 16px; border-radius: 8px; border: 1px solid #ccc; margin-bottom: 40px;">
-        <optgroup label="Breakfast">
-            <option value="250">Grilled Chicken Sandwich (₹250)</option>
-            <option value="200">Grilled Paneer Sandwich (₹200)</option>
-            <option value="220">Masala Omelet With Toast (₹220)</option>
-            <option value="180">Overnight Oats with Yogurt (₹180)</option>
-        </optgroup>
-        <optgroup label="Lunch & Dinner Bowls">
-            <option value="350">Southwest Chicken / Paneer Bowl (₹350)</option>
-            <option value="350">Pesto Pasta Chicken / Paneer Bowl (₹350)</option>
-            <option value="380">Protein Pack Buddha Bowl (₹380)</option>
-            <option value="360">Moroccan Chicken With Brown Rice (₹360)</option>
-            <option value="370">Stir Fry Chicken with Steamed Rice (₹370)</option>
-        </optgroup>
-        <optgroup label="Scrumptious Salads">
-            <option value="320">Grilled Cottage Cheese Salad (₹320)</option>
-            <option value="340">Quinoa Salad (₹340)</option>
-            <option value="330">Teriyaki Chicken Salad (₹330)</option>
-        </optgroup>
-    </select>
+    <h2 class="section-title">2. Select Your Base Meal</h2>
+    <div class="meal-grid" id="meal-grid">
+      <!-- Injected via JS -->
+    </div>
 
-    <h2 class="section-title">3. Add-ons (Per Meal)</h2>
+    <h2 class="section-title">3. Add Extras (Per Meal)</h2>
     <div class="addons-list" id="addons-container">
       <!-- Addons injected via JS -->
     </div>
@@ -230,7 +226,7 @@ impeccable_ui = """
   </div>
 
   <div class="summary-panel">
-    <h3 style="margin-top:0; border-bottom: 1px solid #eee; padding-bottom:15px;">Order Summary</h3>
+    <h3 style="margin-top:0; border-bottom: 1px solid #eee; padding-bottom:12px; color: var(--brand-green);">Order Summary</h3>
     
     <div id="summary-items">
        <!-- dynamic items -->
@@ -240,19 +236,36 @@ impeccable_ui = """
       <span>Total</span>
       <span id="total-price">₹0</span>
     </div>
-    <button class="btn-checkout">Add to Cart</button>
+    <button class="btn-checkout">Checkout & Pay</button>
   </div>
 </div>
 
 <script>
+  const mealsList = [
+    { cat: 'Breakfast', name: 'Grilled Chicken Sandwich', price: 250 },
+    { cat: 'Breakfast', name: 'Grilled Paneer Sandwich', price: 200 },
+    { cat: 'Breakfast', name: 'Masala Omelet & Toast', price: 220 },
+    { cat: 'Breakfast', name: 'Overnight Oats & Yogurt', price: 180 },
+    { cat: 'Bowls', name: 'Southwest Chicken Bowl', price: 350 },
+    { cat: 'Bowls', name: 'Pesto Pasta Paneer Bowl', price: 350 },
+    { cat: 'Bowls', name: 'Protein Pack Buddha Bowl', price: 380 },
+    { cat: 'Bowls', name: 'Moroccan Chicken Rice', price: 360 },
+    { cat: 'Bowls', name: 'Stir Fry Chicken Bowl', price: 370 },
+    { cat: 'Salads', name: 'Grilled Cottage Cheese Salad', price: 320 },
+    { cat: 'Salads', name: 'Quinoa Salad', price: 340 },
+    { cat: 'Salads', name: 'Teriyaki Chicken Salad', price: 330 }
+  ];
+
   const addons = [
-    { id: 'add_chicken', name: 'Additional Chicken', price: 120 },
+    { id: 'add_chicken', name: 'Extra Chicken', price: 120 },
     { id: 'add_protein', name: 'Extra Protein Scoop', price: 80 },
     { id: 'add_veg', name: 'Extra Vegetables', price: 50 },
     { id: 'add_potatoes', name: 'Sweet Potatoes', price: 60 },
     { id: 'add_shake', name: 'Protein Shake', price: 150 },
     { id: 'add_fish', name: 'Fish (Salmon/Tuna)', price: 250 }
   ];
+
+  const DELIVERY_CHARGE = 60; // Placeholder delivery charge per checkout
 
   let state = {
     planDays: 1,
@@ -264,21 +277,30 @@ impeccable_ui = """
   addons.forEach(a => state.addonCounts[a.id] = 0);
 
   const planCards = document.querySelectorAll('.option-card');
-  const mealSelect = document.getElementById('base-meal-select');
+  const mealGrid = document.getElementById('meal-grid');
   const addonsContainer = document.getElementById('addons-container');
   const summaryItems = document.getElementById('summary-items');
   const totalPriceEl = document.getElementById('total-price');
+
+  // Render Meals
+  mealGrid.innerHTML = mealsList.map((m, idx) => `
+    <div class="meal-card ${idx === 0 ? 'active' : ''}" data-name="${m.name}" data-price="${m.price}">
+      <div class="meal-category">${m.cat}</div>
+      <div class="option-title">${m.name}</div>
+      <div class="option-price">₹${m.price}</div>
+    </div>
+  `).join('');
 
   // Render Addons
   addonsContainer.innerHTML = addons.map(a => `
     <div class="addon-card">
       <div>
-        <div style="font-weight:600">${a.name}</div>
-        <div style="color:#666; font-size:14px;">+₹${a.price}</div>
+        <div style="font-weight:600; font-size: 14px;">${a.name}</div>
+        <div style="color:#666; font-size:13px;">+₹${a.price}</div>
       </div>
       <div class="counter-ctrl">
         <button class="btn-count" onclick="updateAddon('${a.id}', -1)">-</button>
-        <span id="qty-${a.id}" style="font-weight:bold; width:20px; text-align:center;">0</span>
+        <span id="qty-${a.id}" style="font-weight:bold; width:15px; text-align:center; font-size: 14px;">0</span>
         <button class="btn-count" onclick="updateAddon('${a.id}', 1)">+</button>
       </div>
     </div>
@@ -294,10 +316,15 @@ impeccable_ui = """
     });
   });
 
-  mealSelect.addEventListener('change', (e) => {
-    state.baseMealPrice = parseInt(e.target.value);
-    state.baseMealName = e.target.options[e.target.selectedIndex].text.split(' (')[0];
-    updateSummary();
+  const mealCards = document.querySelectorAll('.meal-card');
+  mealCards.forEach(card => {
+    card.addEventListener('click', () => {
+      mealCards.forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      state.baseMealName = card.dataset.name;
+      state.baseMealPrice = parseInt(card.dataset.price);
+      updateSummary();
+    });
   });
 
   window.updateAddon = function(id, delta) {
@@ -318,26 +345,32 @@ impeccable_ui = """
       if(qty > 0) {
         const cost = qty * a.price;
         addonsTotal += cost;
-        addonsHtml += `<div class="summary-row"><span style="color:#666;">${qty}x ${a.name}</span><span>₹${cost}</span></div>`;
+        addonsHtml += `<div class="summary-row"><span style="color:#666; font-size: 13px;">${qty}x ${a.name}</span><span>₹${cost}</span></div>`;
       }
     });
 
     const singleMealCost = state.baseMealPrice + addonsTotal;
-    const totalCost = singleMealCost * state.planDays;
+    const mealsTotalCost = singleMealCost * state.planDays;
+    
+    // Add delivery charge to total
+    const totalCost = mealsTotalCost + DELIVERY_CHARGE;
 
     summaryItems.innerHTML = `
+      <div class="summary-row" style="font-weight:600; color:var(--brand-green);">
+        <span>${state.planDays} Day Plan</span>
+      </div>
       <div class="summary-row" style="font-weight:600;">
         <span>${state.baseMealName}</span>
         <span>₹${state.baseMealPrice}</span>
       </div>
       ${addonsHtml}
-      <div class="summary-row" style="margin-top:15px; border-top: 1px dashed #ccc; padding-top:15px;">
-        <span>Cost per meal</span>
-        <span>₹${singleMealCost}</span>
+      <div class="summary-row" style="margin-top:10px; border-top: 1px dashed #ccc; padding-top:10px; font-weight:600;">
+        <span>Meals Subtotal</span>
+        <span>₹${mealsTotalCost.toLocaleString('en-IN')}</span>
       </div>
-      <div class="summary-row">
-        <span>Plan Duration</span>
-        <span>${state.planDays} Day(s)</span>
+      <div class="summary-row" style="margin-top:8px;">
+        <span style="color:#666;">Delivery Charge</span>
+        <span>₹${DELIVERY_CHARGE}</span>
       </div>
     `;
     
@@ -355,20 +388,13 @@ def replace_ui():
             html = f.read()
         soup = BeautifulSoup(html, 'html.parser')
         
-        # Remove the old custom-woo-fix if it exists
-        old_fix = soup.find('div', id='custom-woo-fix')
+        old_fix = soup.find('div', id='impeccable-order-app')
         if old_fix:
-            old_fix.decompose()
-            
-        desc = soup.find('div', class_='woocommerce-product-details__short-description')
-        if desc:
-            # We want to replace the whole description with this massive beautiful UI
-            desc.clear()
             snippet_soup = BeautifulSoup(impeccable_ui, 'html.parser')
-            desc.append(snippet_soup)
+            old_fix.replace_with(snippet_soup)
             
             with open(f_name, 'w', encoding='utf-8') as f:
                 f.write(str(soup))
-            print(f"Replaced UI on: {f_name}")
+            print(f"Upgraded UI on: {f_name}")
 
 replace_ui()
