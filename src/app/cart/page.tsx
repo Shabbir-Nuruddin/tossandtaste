@@ -217,8 +217,8 @@ export default function CheckoutPage() {
                 onSelect={handleDateSelect}
                 className="font-sans"
                 classNames={{
-                  day_selected: "bg-[#5e9d34] text-white hover:bg-[#4a8027] hover:text-white rounded-full",
-                  day_today: "font-black text-[#5e9d34]"
+                  selected: "bg-[#5e9d34] text-white hover:bg-[#4a8027] hover:text-white rounded-full",
+                  today: "font-black text-[#5e9d34]"
                 }}
               />
               {selectedDates.length === 0 && (
