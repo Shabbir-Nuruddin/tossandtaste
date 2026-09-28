@@ -211,7 +211,7 @@ export default function Home() {
             Enjoy convenient, freshly prepared, and nutritious meals delivered weekly or monthly throughout Delhi NCR, Gurgaon, and Noida.
           </p>
           <Link href="/subscriptions" className="inline-block bg-[#a3c94a] text-white px-8 py-3 rounded-full font-bold text-sm shadow-lg hover:bg-[#8eb53d] transition-colors">
-            Experience Your First Meal &raquo;
+            Enjoy healthy meals without compromising on flavor &raquo;
           </Link>
         </div>
       </section>
