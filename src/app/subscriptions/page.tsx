@@ -8,7 +8,7 @@ const PLANS = [
   {
     id: 'fat-loss',
     title: 'Fat Loss Plan',
-    video: '19_fat_loss_plan.mp4',
+    video: '19_fat_loss_hero.mp4',
     description: 'Clean, calorie-controlled meals that never compromise on taste. Perfect for sustainable weight management.',
     features: ['Low Carb Options', 'Calorie Counted', 'Sugar Free', 'Daily Delivery'],
     basePrices: {
@@ -20,7 +20,7 @@ const PLANS = [
   {
     id: 'protein-pack',
     title: 'Protein Pack Plan',
-    video: '20_protein_pack_plan.mp4',
+    video: 'toss_taste_lunch_dinner_9x16.mp4',
     description: 'Build strength and boost energy with our high-protein meals designed for active lifestyles.',
     features: ['120g+ Protein Daily', 'Lean Meats', 'Keto Friendly', 'Post-workout Shakes'],
     basePrices: {
