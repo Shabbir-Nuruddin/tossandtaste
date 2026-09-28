@@ -7,7 +7,7 @@ export default function Home() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['hero', 'banner', 'plans', 'included', 'works', 'cta', 'blog'];
+      const sections = ['hero', 'banner', 'plans', 'included', 'works', 'cta'];
       const scrollY = window.scrollY;
       
       for (const section of sections) {
@@ -28,7 +28,7 @@ export default function Home() {
       
       {/* Scroll Navigation Pills */}
       <div className="fixed right-4 top-1/2 -translate-y-1/2 z-50 hidden md:flex flex-col gap-3 bg-[#111111] rounded-full px-2 py-4 shadow-2xl border border-white/10 backdrop-blur-md">
-        {['hero', 'banner', 'plans', 'included', 'works', 'cta', 'blog'].map((section, i) => (
+        {['hero', 'banner', 'plans', 'included', 'works', 'cta'].map((section, i) => (
           <a 
             key={section} 
             href={`#${section}`}
@@ -41,9 +41,24 @@ export default function Home() {
         ))}
       </div>
 
-      {/* Hero Image Slider Section */}
-      <section id="hero" className="w-full pt-24 md:pt-32">
-        <img src="/uploads/2026/07/HEALTHY-MEALS-WebSlider-1998x874.jpg" alt="Healthy Meals Delivered Daily" className="w-full object-cover" />
+      {/* Hero Video Section */}
+      <section id="hero" className="w-full h-screen relative overflow-hidden pt-24">
+        <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover z-0">
+          <source src="/videos/17_menu_cover_hero.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-black/40 z-10"></div>
+        <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-6">
+          <h1 className="text-5xl md:text-7xl font-black text-white uppercase tracking-tight mb-6 drop-shadow-2xl">
+            Healthy Meals <br/>
+            <span className="text-[#a3c94a]">Delivered Daily</span>
+          </h1>
+          <p className="text-white/90 text-xl md:text-2xl font-medium max-w-2xl mb-10 drop-shadow-md">
+            Nutritionist-designed, freshly prepared, and effortlessly delicious.
+          </p>
+          <Link href="/subscriptions" className="bg-[#5e9d34] text-white px-10 py-4 rounded-full font-black uppercase tracking-[0.15em] text-sm hover:bg-[#4a8027] transition-all shadow-[0_4px_20px_rgba(94,157,52,0.4)]">
+            Explore Plans
+          </Link>
+        </div>
       </section>
 
       {/* Balanced Meals Banner */}
@@ -200,8 +215,7 @@ export default function Home() {
       {/* NEW: Try Toss & Taste today */}
       <section id="cta" className="w-full py-24 relative flex flex-col items-center justify-center">
         {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0">
-          <img src="/uploads/2026/07/Grilled-tofu-with-rice-and-exotic-veggies-sdadqw-1024x1024.jpg" alt="Try Toss and Taste" className="w-full h-full object-cover" />
+        <div className="absolute inset-0 z-0 bg-[url('/uploads/live/Fat-Loss-Plan-0001x.jpg')] bg-fixed bg-cover bg-center">
           <div className="absolute inset-0 bg-black/70"></div>
         </div>
         
@@ -220,74 +234,6 @@ export default function Home() {
       <div className="w-full py-8 bg-white border-b border-zinc-100 text-center">
         <h3 className="text-3xl font-bold text-[#555]">Enjoy Healthy Meals Without Compromising On Flavor.</h3>
       </div>
-
-      {/* NEW: Blog / Latest News Grid */}
-      <section id="blog" className="py-24 px-6 bg-[#f6faed]">
-        <div className="max-w-[1400px] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            
-            {/* Left Large Blog Post */}
-            <Link href="/blog/natural-nutrition" className="group relative h-[500px] lg:h-auto rounded-md overflow-hidden bg-white shadow-sm block">
-              <img src="/uploads/about/Food-Image-sweass-930x540.jpg" alt="Natural Nutrition" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onError={(e) => { e.currentTarget.src = '/uploads/2026/02/pic1-1.webp' }} />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-              
-              <div className="absolute bottom-0 left-0 p-8 text-white w-full">
-                <span className="bg-[#a3c94a] text-white text-[10px] font-bold px-2 py-1 rounded-sm uppercase tracking-wider mb-4 inline-block">Blog</span>
-                <p className="text-xs text-white/80 mb-2 flex items-center gap-2">
-                  <span>&#128197; February 17, 2026</span>
-                  <span>|</span>
-                  <span>&#128100; by Toss Taste</span>
-                  <span>|</span>
-                  <span>&#128172; 0</span>
-                </p>
-                <h3 className="text-3xl font-bold leading-tight group-hover:text-[#a3c94a] transition-colors">Natural Nutrition vs Processed Food: Which One Is...</h3>
-              </div>
-            </Link>
-
-            {/* Right Small Blog Posts */}
-            <div className="grid grid-rows-2 gap-6">
-              
-              {/* Top Small Post */}
-              <Link href="/blog/protein-pack" className="group bg-white rounded-md overflow-hidden shadow-sm flex flex-col md:flex-row min-h-[250px]">
-                <div className="w-full md:w-[45%] relative h-[250px] md:h-full shrink-0 overflow-hidden">
-                  <img src="/uploads/2026/02/50.jpg" alt="Protein Pack" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onError={(e) => { e.currentTarget.src = '/uploads/2026/02/pic2.webp' }} />
-                  <span className="absolute bottom-4 left-4 bg-[#a3c94a] text-white text-[10px] font-bold px-2 py-1 rounded-sm uppercase tracking-wider z-10">Blog</span>
-                </div>
-                <div className="p-8 flex flex-col justify-center">
-                  <p className="text-xs text-zinc-500 mb-3 flex flex-wrap items-center gap-2">
-                    <span>&#128197; February 17, 2026</span>
-                    <span>|</span>
-                    <span>&#128100; by Toss Taste</span>
-                  </p>
-                  <h3 className="text-xl font-bold text-[#0f3b21] mb-3 leading-snug group-hover:text-[#a3c94a] transition-colors">Protein Pack: Fuel Strength, Boost Energy</h3>
-                  <p className="text-zinc-500 text-sm leading-relaxed mb-4">Protein is the building block of the body. Without enough protein, yo...</p>
-                  <span className="text-[#a3c94a] font-bold text-sm">Read more &raquo;</span>
-                </div>
-              </Link>
-              
-              {/* Bottom Small Post */}
-              <Link href="/blog/energy-bites" className="group bg-white rounded-md overflow-hidden shadow-sm flex flex-col md:flex-row min-h-[250px]">
-                <div className="w-full md:w-[45%] relative h-[250px] md:h-full shrink-0 overflow-hidden">
-                  <img src="/uploads/about/Group-38-930x540.png" alt="Energy Bites" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onError={(e) => { e.currentTarget.src = '/uploads/2026/02/pic3.webp' }} />
-                  <span className="absolute bottom-4 left-4 bg-[#a3c94a] text-white text-[10px] font-bold px-2 py-1 rounded-sm uppercase tracking-wider z-10">Blog</span>
-                </div>
-                <div className="p-8 flex flex-col justify-center">
-                  <p className="text-xs text-zinc-500 mb-3 flex flex-wrap items-center gap-2">
-                    <span>&#128197; February 17, 2026</span>
-                    <span>|</span>
-                    <span>&#128100; by Toss Taste</span>
-                  </p>
-                  <h3 className="text-xl font-bold text-[#0f3b21] mb-3 leading-snug group-hover:text-[#a3c94a] transition-colors">Energy Bites: Power Your Body Naturally</h3>
-                  <p className="text-zinc-500 text-sm leading-relaxed mb-4">We often reach for junk food when hunger strikes. But unhealthy...</p>
-                  <span className="text-[#a3c94a] font-bold text-sm">Read more &raquo;</span>
-                </div>
-              </Link>
-
-            </div>
-          </div>
-        </div>
-      </section>
-
     </div>
   );
 }

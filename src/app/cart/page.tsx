@@ -110,19 +110,19 @@ export default function CheckoutPage() {
 
     const phoneNumber = "919711533944";
     let message = `Hello Toss & Taste, I'd like to subscribe to the ${selectedPlan.title}.\n\n`;
-    message += `*Customer Details:*\n`;
+    message += `Customer Details:\n`;
     message += `Name: ${name}\n`;
     message += `Email: ${email}\n`;
     message += `Location: ${location}\n\n`;
     
-    message += `*Meal Selections:*\n`;
+    message += `Meal Selections:\n`;
     
     const sortedDates = [...selectedDates].sort((a, b) => a.getTime() - b.getTime());
     sortedDates.forEach((d, i) => {
       const key = format(d, 'yyyy-MM-dd');
       const sel = mealSelections[key];
       const meal = MENU_ITEMS.find(m => m.id === Number(sel?.mealId))?.title || '';
-      message += `Day ${i + 1} (${format(d, 'MMM dd, yyyy')}): ${sel?.time} - ${meal}\n`;
+      message += `Day ${i + 1} (${format(d, 'MMM dd, yyyy')}): ${sel?.time} ${meal}\n`;
     });
 
     message += `\n*Total Plan Price: ₹${selectedPlan.price}*\n\n`;
