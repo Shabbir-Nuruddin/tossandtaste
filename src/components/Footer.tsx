@@ -44,6 +44,7 @@ export default function Footer() {
             <li><strong>Address:</strong> Sector 55 golf course road Gurgaon 122001</li>
             <li><strong>Phone:</strong> <a href="tel:+919711533944" className="hover:text-[#5e9d34]">+919711533944</a></li>
             <li><strong>Email:</strong> <a href="mailto:contact@tossandtaste.com" className="hover:text-[#5e9d34]">contact@tossandtaste.com</a></li>
+            <li><strong>FSSAI Licence No:</strong> 20824005000269</li>
           </ul>
           <div className="flex gap-4">
             <a href="#" className="w-8 h-8 rounded-full bg-[#182411] text-white flex items-center justify-center hover:bg-[#5e9d34] transition-colors">f</a>
