@@ -1,28 +1,48 @@
 "use client"
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 
 const blogs = [
   {
-    title: "Energy Bites: The Smart Way to Snack Healthy",
-    excerpt: "Discover how you can curb your afternoon cravings without spiking your insulin levels.",
-    date: "July 12, 2026",
-    img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop",
-    slug: "energy-bites"
-  },
-  {
-    title: "Natural Nutrition vs Processed Food: Make the Right Choice",
-    excerpt: "Why zero refined sugar and whole ingredients make a massive difference in your daily energy.",
-    date: "July 5, 2026",
-    img: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=800&auto=format&fit=crop",
+    title: "Natural Nutrition vs Processed Food: Which One Is Better for Your Health?",
+    excerpt: "Learn why choosing whole, natural ingredients over processed foods makes a massive difference in your daily energy and overall health.",
+    date: "February 17, 2026",
+    img: "/uploads/about/Food-Image-sweass-930x540.jpg",
     slug: "natural-nutrition"
   },
   {
-    title: "Protein Pack Plan: Build Strength & Boost Energy",
-    excerpt: "A deep dive into how our Protein Pack is scientifically designed for muscle recovery.",
-    date: "June 28, 2026",
-    img: "https://images.unsplash.com/photo-1533622597524-a1215e26c0a2?q=80&w=800&auto=format&fit=crop",
+    title: "Why Smart Planning Is Essential for Weight Loss",
+    excerpt: "Discover the importance of planning your meals to maintain consistency and achieve sustainable weight loss goals.",
+    date: "February 17, 2026",
+    img: "/uploads/about/Group-36-930x540.png",
+    slug: "smart-planning"
+  },
+  {
+    title: "Healthy Sip: Refreshment with Benefits",
+    excerpt: "Explore our range of healthy shakes and smoothies that pack a nutritional punch while keeping you refreshed.",
+    date: "February 17, 2026",
+    img: "/uploads/about/Group-37-930x540.png",
+    slug: "healthy-sip"
+  },
+  {
+    title: "Energy Bites: Power Your Body Naturally",
+    excerpt: "Discover how you can curb your afternoon cravings without spiking your insulin levels with our natural energy bites.",
+    date: "February 17, 2026",
+    img: "/uploads/about/Group-38-930x540.png",
+    slug: "energy-bites"
+  },
+  {
+    title: "Protein Pack: Fuel Strength, Boost Energy",
+    excerpt: "A deep dive into how our Protein Pack is scientifically designed for muscle recovery and sustained energy.",
+    date: "February 17, 2026",
+    img: "/uploads/2026/02/pic14.webp",
     slug: "protein-pack-plan"
+  },
+  {
+    title: "Smart Fat Loss: A Sustainable Plan to Lose Weight Effectively",
+    excerpt: "Lose fat without losing flavor. Read about our approach to portion-controlled, nutrient-dense meals.",
+    date: "February 17, 2026",
+    img: "/uploads/about/24.jpg",
+    slug: "smart-fat-loss"
   }
 ];
 
@@ -30,27 +50,25 @@ export default function BlogPage() {
   return (
     <div className="pt-40 pb-32 px-6 max-w-[1200px] mx-auto min-h-screen text-[#1a1a1a]">
       <div className="text-center mb-20">
-        <h1 className="text-5xl md:text-[5rem] font-black uppercase tracking-tighter mb-4">The Toss & Taste Blog</h1>
-        <p className="text-[#555] text-lg font-medium">Nutrition advice, recipes, and lifestyle tips from our experts.</p>
+        <h1 className="text-5xl md:text-[5rem] font-black uppercase tracking-tighter mb-4 text-[#0f3b21]">The Toss & Taste Blog</h1>
+        <p className="text-[#555] text-lg font-light max-w-2xl mx-auto">Nutrition advice, recipes, and lifestyle tips from our experts.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
         {blogs.map((blog, i) => (
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.2 }}
-            key={i} 
-            className="group cursor-pointer"
-          >
-            <div className="aspect-[4/3] rounded-3xl overflow-hidden mb-6 shadow-sm border border-zinc-100">
-              <img src={blog.img} alt={blog.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+          <div key={i} className="group cursor-pointer flex flex-col h-full bg-white border border-zinc-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <div className="aspect-[4/3] w-full overflow-hidden bg-zinc-50">
+              <img src={blog.img} alt={blog.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onError={(e) => { e.currentTarget.src = '/uploads/2026/02/pic1-1.webp' }} />
             </div>
-            <p className="text-[#5e9d34] text-xs font-bold uppercase tracking-widest mb-3">{blog.date}</p>
-            <h2 className="text-2xl font-black leading-tight mb-3 group-hover:text-[#5e9d34] transition-colors">{blog.title}</h2>
-            <p className="text-[#666] font-medium text-sm leading-relaxed mb-6">{blog.excerpt}</p>
-            <span className="text-[#1a1a1a] text-xs font-bold uppercase tracking-widest border-b-2 border-[#1a1a1a] pb-1">Read Article</span>
-          </motion.div>
+            <div className="p-8 flex flex-col flex-grow">
+              <p className="text-[#5e9d34] text-xs font-bold uppercase tracking-widest mb-3">{blog.date}</p>
+              <h2 className="text-xl font-bold leading-snug mb-3 group-hover:text-[#5e9d34] transition-colors">{blog.title}</h2>
+              <p className="text-zinc-600 font-light text-sm leading-relaxed mb-6 flex-grow">{blog.excerpt}</p>
+              <div className="mt-auto">
+                <span className="text-[#1a1a1a] text-xs font-bold uppercase tracking-widest border-b-2 border-[#1a1a1a] pb-1 group-hover:border-[#5e9d34] group-hover:text-[#5e9d34] transition-colors">Read Article</span>
+              </div>
+            </div>
+          </div>
         ))}
       </div>
     </div>
