@@ -3,6 +3,9 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, User, Mail, Calendar, ArrowRight, Utensils, Clock } from 'lucide-react';
 import MagneticButton from '@/components/MagneticButton';
+import { DayPicker } from 'react-day-picker';
+import 'react-day-picker/dist/style.css';
+import { format } from 'date-fns';
 
 const MENU_ITEMS = [
   { id: 1, title: 'Grilled Chicken Sandwich', category: 'Breakfast' },
@@ -53,28 +56,46 @@ export default function CheckoutPage() {
   const [location, setLocation] = useState(LOCATIONS[0]);
   const [selectedPlan, setSelectedPlan] = useState(PLANS[0]);
   
-  const [selections, setSelections] = useState(
-    Array.from({ length: 10 }, (_, i) => ({
-      id: i,
-      date: '',
-      time: 'Lunch',
-      mealId: 17
-    }))
-  );
+  const [selectedDates, setSelectedDates] = useState<Date[]>([]);
+  const [mealSelections, setMealSelections] = useState<Record<string, { time: string, mealId: number }>>({});
 
   useEffect(() => {
-    setSelections(
-      Array.from({ length: selectedPlan.days }, (_, i) => ({
-        id: i,
-        date: '',
-        time: 'Lunch',
-        mealId: 17
-      }))
-    );
-  }, [selectedPlan]);
+    // Reset selections if the plan days are reduced below current selection count
+    if (selectedDates.length > selectedPlan.days) {
+      const newDates = selectedDates.slice(0, selectedPlan.days);
+      setSelectedDates(newDates);
+    }
+  }, [selectedPlan, selectedDates]);
 
-  const updateSelection = (id: number, field: string, value: string | number) => {
-    setSelections(selections.map(s => s.id === id ? { ...s, [field]: value } : s));
+  const handleDateSelect = (dates: Date[] | undefined) => {
+    if (!dates) {
+      setSelectedDates([]);
+      return;
+    }
+    if (dates.length > selectedPlan.days) {
+      alert(`You can only select up to ${selectedPlan.days} days for this plan.`);
+      return;
+    }
+    setSelectedDates(dates);
+    
+    const newSelections = { ...mealSelections };
+    dates.forEach(d => {
+      const key = format(d, 'yyyy-MM-dd');
+      if (!newSelections[key]) {
+        newSelections[key] = { time: 'Lunch', mealId: 17 };
+      }
+    });
+    setMealSelections(newSelections);
+  };
+
+  const updateSelection = (dateKey: string, field: string, value: string | number) => {
+    setMealSelections(prev => ({
+      ...prev,
+      [dateKey]: {
+        ...prev[dateKey],
+        [field]: value
+      }
+    }));
   };
 
   const handleWhatsAppCheckout = () => {
@@ -83,9 +104,8 @@ export default function CheckoutPage() {
       return;
     }
     
-    const missingDates = selections.filter(s => !s.date);
-    if (missingDates.length > 0) {
-      alert("Please select dates for all meals.");
+    if (selectedDates.length !== selectedPlan.days) {
+      alert(`Please select exactly ${selectedPlan.days} days on the calendar.`);
       return;
     }
 
@@ -98,9 +118,12 @@ export default function CheckoutPage() {
     
     message += `*Meal Selections:*\n`;
     
-    selections.forEach((sel, i) => {
-      const meal = MENU_ITEMS.find(m => m.id === Number(sel.mealId))?.title;
-      message += `Day ${i + 1} (${sel.date}): ${sel.time} - ${meal}\n`;
+    const sortedDates = [...selectedDates].sort((a, b) => a.getTime() - b.getTime());
+    sortedDates.forEach((d, i) => {
+      const key = format(d, 'yyyy-MM-dd');
+      const sel = mealSelections[key];
+      const meal = MENU_ITEMS.find(m => m.id === Number(sel?.mealId))?.title || '';
+      message += `Day ${i + 1} (${format(d, 'MMM dd, yyyy')}): ${sel?.time} - ${meal}\n`;
     });
 
     message += `\n*Total Plan Price: ₹${selectedPlan.price}*\n\n`;
@@ -181,60 +204,79 @@ export default function CheckoutPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-black uppercase tracking-widest mb-6">3. Meal Calendar</h2>
-            <div className="space-y-6">
+            <h2 className="text-2xl font-black uppercase tracking-widest mb-6 flex items-center justify-between">
+              <span>3. Meal Calendar</span>
+              <span className="text-sm font-normal text-zinc-500 normal-case tracking-normal">
+                Selected: {selectedDates.length} / {selectedPlan.days}
+              </span>
+            </h2>
+            <div className="bg-white p-6 rounded-3xl border border-zinc-200 shadow-sm flex flex-col items-center">
+              <DayPicker
+                mode="multiple"
+                selected={selectedDates}
+                onSelect={handleDateSelect}
+                className="font-sans"
+                classNames={{
+                  day_selected: "bg-[#5e9d34] text-white hover:bg-[#4a8027] hover:text-white rounded-full",
+                  day_today: "font-black text-[#5e9d34]"
+                }}
+              />
+              {selectedDates.length === 0 && (
+                <p className="text-zinc-500 text-sm mt-4">Please select {selectedPlan.days} dates to build your plan.</p>
+              )}
+            </div>
+
+            <div className="space-y-6 mt-8">
               <AnimatePresence>
-                {selections.map((sel, idx) => (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    key={sel.id}
-                    className="p-6 rounded-3xl bg-white border border-zinc-200 space-y-4"
-                  >
-                    <div className="flex items-center justify-between border-b border-zinc-200 pb-4 mb-4">
-                      <span className="text-sm font-bold uppercase tracking-widest text-zinc-500">Day {idx + 1}</span>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div className="relative flex-1">
-                        <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-                        <input 
-                          type="date"
-                          value={sel.date}
-                          onChange={e => updateSelection(sel.id, 'date', e.target.value)}
-                          className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-3 rounded-xl focus:outline-none focus:border-[#5e9d34] transition-colors text-sm [color-scheme:dark]"
-                        />
+                {[...selectedDates].sort((a, b) => a.getTime() - b.getTime()).map((date, idx) => {
+                  const dateKey = format(date, 'yyyy-MM-dd');
+                  const sel = mealSelections[dateKey] || { time: 'Lunch', mealId: 17 };
+
+                  return (
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      key={dateKey}
+                      className="p-6 rounded-3xl bg-white border border-zinc-200 space-y-4 shadow-sm"
+                    >
+                      <div className="flex items-center justify-between border-b border-zinc-200 pb-4 mb-4">
+                        <span className="text-sm font-bold uppercase tracking-widest text-zinc-500">
+                          Day {idx + 1} &middot; {format(date, 'MMMM dd, yyyy')}
+                        </span>
                       </div>
                       
-                      <div className="relative flex-1">
-                        <Clock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-                        <select
-                          value={sel.time}
-                          onChange={e => updateSelection(sel.id, 'time', e.target.value)}
-                          className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-3 rounded-xl appearance-none focus:outline-none focus:border-[#5e9d34] transition-colors cursor-pointer text-sm"
-                        >
-                          <option value="Lunch" className="bg-zinc-100">Lunch</option>
-                          <option value="Dinner" className="bg-zinc-100">Dinner</option>
-                        </select>
-                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="relative flex-1">
+                          <Clock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+                          <select
+                            value={sel.time}
+                            onChange={e => updateSelection(dateKey, 'time', e.target.value)}
+                            className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-3 rounded-xl appearance-none focus:outline-none focus:border-[#5e9d34] transition-colors cursor-pointer text-sm"
+                          >
+                            <option value="Lunch" className="bg-zinc-100">Lunch</option>
+                            <option value="Dinner" className="bg-zinc-100">Dinner</option>
+                          </select>
+                        </div>
 
-                      <div className="relative flex-1 md:col-span-1">
-                        <Utensils className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-                        <select
-                          value={sel.mealId}
-                          onChange={e => updateSelection(sel.id, 'mealId', Number(e.target.value))}
-                          className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-3 rounded-xl appearance-none focus:outline-none focus:border-[#5e9d34] transition-colors cursor-pointer text-sm truncate"
-                        >
-                          {MENU_ITEMS.map(item => (
-                            <option key={item.id} value={item.id} className="bg-zinc-100">
-                              {item.title}
-                            </option>
-                          ))}
-                        </select>
+                        <div className="relative flex-1">
+                          <Utensils className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+                          <select
+                            value={sel.mealId}
+                            onChange={e => updateSelection(dateKey, 'mealId', Number(e.target.value))}
+                            className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-3 rounded-xl appearance-none focus:outline-none focus:border-[#5e9d34] transition-colors cursor-pointer text-sm truncate"
+                          >
+                            {MENU_ITEMS.map(item => (
+                              <option key={item.id} value={item.id} className="bg-zinc-100">
+                                {item.title}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
                       </div>
-                    </div>
-                  </motion.div>
-                ))}
+                    </motion.div>
+                  );
+                })}
               </AnimatePresence>
             </div>
           </section>
@@ -246,7 +288,7 @@ export default function CheckoutPage() {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="sticky top-32 bg-white border border-zinc-200 rounded-[2rem] p-8"
+            className="sticky top-32 bg-white border border-zinc-200 rounded-[2rem] p-8 shadow-sm"
           >
             <h3 className="text-2xl font-black uppercase tracking-tight mb-8">Summary</h3>
             
@@ -259,9 +301,11 @@ export default function CheckoutPage() {
                 <span>Delivery Location</span>
                 <span className="text-[#1a1a1a] text-right break-words w-1/2">{location}</span>
               </div>
-              <div className="flex justify-between">
-                <span>Total Days</span>
-                <span className="text-[#1a1a1a]">{selectedPlan.days}</span>
+              <div className="flex justify-between items-center">
+                <span>Selected Days</span>
+                <span className={`text-[#1a1a1a] font-bold ${selectedDates.length === selectedPlan.days ? 'text-[#5e9d34]' : 'text-red-500'}`}>
+                  {selectedDates.length} / {selectedPlan.days}
+                </span>
               </div>
             </div>
             
