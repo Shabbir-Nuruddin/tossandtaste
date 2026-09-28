@@ -59,13 +59,12 @@ export default function CheckoutPage() {
   const [selectedDates, setSelectedDates] = useState<Date[]>([]);
   const [mealSelections, setMealSelections] = useState<Record<string, { time: string, mealId: number }>>({});
 
-  useEffect(() => {
-    // Reset selections if the plan days are reduced below current selection count
-    if (selectedDates.length > selectedPlan.days) {
-      const newDates = selectedDates.slice(0, selectedPlan.days);
-      setSelectedDates(newDates);
+  const handlePlanSelect = (plan: typeof PLANS[0]) => {
+    setSelectedPlan(plan);
+    if (selectedDates.length > plan.days) {
+      setSelectedDates(selectedDates.slice(0, plan.days));
     }
-  }, [selectedPlan, selectedDates]);
+  };
 
   const handleDateSelect = (dates: Date[] | undefined) => {
     if (!dates) {
@@ -155,7 +154,7 @@ export default function CheckoutPage() {
               {PLANS.map(plan => (
                 <button
                   key={plan.id}
-                  onClick={() => setSelectedPlan(plan)}
+                  onClick={() => handlePlanSelect(plan)}
                   className={`p-6 rounded-3xl border transition-all duration-300 flex flex-col text-left ${selectedPlan.id === plan.id ? 'bg-[#f6faed] text-[#1a1a1a] border-[#5e9d34]' : 'bg-white text-[#1a1a1a] border-zinc-200 hover:border-zinc-300'}`}
                 >
                   <span className="text-2xl font-black uppercase tracking-tight">{plan.title}</span>
