@@ -1,12 +1,8 @@
 "use client"
 import Link from 'next/link';
-import { ArrowRight, Star, Leaf, HeartPulse, Clock } from 'lucide-react';
+import { ArrowRight, Leaf, Target, Star, CheckCircle2 } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
-import MagneticButton from '@/components/MagneticButton';
-import { BlurText } from '@/components/ui/BlurText';
-import { Marquee } from '@/components/ui/Marquee';
-import { BentoGrid, BentoGridItem } from '@/components/ui/BentoGrid';
 
 export default function Home() {
   const ref = useRef(null);
@@ -15,9 +11,9 @@ export default function Home() {
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
 
   return (
-    <div className="w-full bg-[#fcfdf8] text-[#1a1a1a]">
-      {/* Cinematic Hero */}
-      <section ref={ref} className="relative h-screen w-full overflow-hidden flex items-center justify-center">
+    <div className="w-full bg-[#fdfdfc] text-[#1a1a1a] selection:bg-[#5e9d34] selection:text-white">
+      {/* Hero Section */}
+      <section ref={ref} className="relative min-h-[100dvh] w-full overflow-hidden flex items-center justify-center pt-24 pb-16">
         <motion.div style={{ y, opacity }} className="absolute inset-0 w-full h-full">
           <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover scale-105">
             <source src="/videos/toss_taste_lunch_dinner_9x16.mp4" type="video/mp4" />
@@ -25,184 +21,223 @@ export default function Home() {
           <div className="absolute inset-0 bg-black/40" />
         </motion.div>
         
-        <div className="relative z-10 text-center px-4 max-w-5xl mx-auto mt-20">
-          <BlurText 
-            text="TOSS & TASTE" 
-            className="text-7xl md:text-[9rem] leading-[0.85] font-black tracking-tighter uppercase mb-8 drop-shadow-2xl text-white" 
-          />
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.8 }}
-            className="text-xl md:text-3xl font-light tracking-wide max-w-3xl mx-auto drop-shadow-lg text-white"
-          >
-            Fresh. Fit. Flavourful. 
-          </motion.p>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1 }}
-            className="mt-4 text-base md:text-xl font-medium tracking-wide max-w-3xl mx-auto drop-shadow-lg text-[#5e9d34]"
-          >
-            Delivering in Delhi-Gurugram
-          </motion.p>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 1.2 }}
-            className="mt-16 flex flex-col md:flex-row items-center justify-center gap-6"
-          >
-            <Link href="/menu">
-              <MagneticButton className="bg-[#5e9d34] text-white px-10 py-5 rounded-full font-bold uppercase tracking-widest text-sm hover:bg-[#4a8027] transition-all flex items-center gap-3">
-                Explore Menu <ArrowRight className="w-4 h-4" />
-              </MagneticButton>
-            </Link>
-          </motion.div>
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-8 items-end h-full">
+          <div className="md:col-span-8 pb-12">
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="text-5xl md:text-[5.5rem] leading-[1.05] font-black tracking-tight text-white mb-6 uppercase"
+            >
+              Balanced meals <br />delivered to <br />your doorstep.
+            </motion.h1>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="text-lg md:text-2xl font-light tracking-wide max-w-xl text-white/90 mb-10"
+            >
+              Fresh, healthy salads and protein meals crafted for Delhi & Gurugram.
+            </motion.p>
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col sm:flex-row items-start sm:items-center gap-4"
+            >
+              <Link href="/subscriptions" className="bg-[#5e9d34] text-white px-8 py-4 rounded-full font-bold uppercase tracking-wide text-sm hover:bg-[#4a8027] transition-colors flex items-center gap-3">
+                Explore Meal Plans <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link href="/menu" className="bg-white/10 backdrop-blur-md text-white border border-white/20 px-8 py-4 rounded-full font-bold uppercase tracking-wide text-sm hover:bg-white hover:text-black transition-colors flex items-center gap-3">
+                View Menu
+              </Link>
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Personalized Nutrition Quiz */}
-      <section className="relative py-32 bg-white px-6">
-        <div className="max-w-5xl mx-auto relative z-10 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-6 text-[#1a1a1a]">What is your goal?</h2>
-            <p className="text-[#555] text-lg md:text-xl font-light mb-16 max-w-2xl mx-auto">Select your fitness objective below and let our chef-crafted algorithm recommend the perfect fuel for your journey.</p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <Link href="/subscriptions">
-                <MagneticButton className="w-full h-full p-10 rounded-3xl bg-[#f6faed] border border-[#d8e6c4] hover:border-[#5e9d34] transition-all duration-500 flex flex-col items-center justify-center gap-4 group shadow-sm">
-                  <span className="text-4xl group-hover:scale-125 transition-transform duration-500">🔥</span>
-                  <h3 className="text-2xl font-bold uppercase tracking-widest text-[#1a1a1a] group-hover:text-[#5e9d34] transition-colors">Lose Fat</h3>
-                  <p className="text-sm text-[#666] font-medium">Calorie-controlled, high satiation meals.</p>
-                </MagneticButton>
-              </Link>
-              
-              <Link href="/subscriptions">
-                <MagneticButton className="w-full h-full p-10 rounded-3xl bg-[#f6faed] border border-[#d8e6c4] hover:border-[#5e9d34] transition-all duration-500 flex flex-col items-center justify-center gap-4 group shadow-sm">
-                  <span className="text-4xl group-hover:scale-125 transition-transform duration-500">💪</span>
-                  <h3 className="text-2xl font-bold uppercase tracking-widest text-[#1a1a1a] group-hover:text-[#5e9d34] transition-colors">Build Muscle</h3>
-                  <p className="text-sm text-[#666] font-medium">High protein, complex carbs for recovery.</p>
-                </MagneticButton>
-              </Link>
-              
-              <Link href="/menu">
-                <MagneticButton className="w-full h-full p-10 rounded-3xl bg-[#f6faed] border border-[#d8e6c4] hover:border-[#5e9d34] transition-all duration-500 flex flex-col items-center justify-center gap-4 group shadow-sm">
-                  <span className="text-4xl group-hover:scale-125 transition-transform duration-500">🥑</span>
-                  <h3 className="text-2xl font-bold uppercase tracking-widest text-[#1a1a1a] group-hover:text-[#5e9d34] transition-colors">Eat Clean</h3>
-                  <p className="text-sm text-[#666] font-medium">Balanced macros for everyday wellness.</p>
-                </MagneticButton>
+      {/* Meal Plans Section */}
+      <section className="py-32 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+            <div className="lg:col-span-5 sticky top-32">
+              <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-[#1a1a1a] mb-6">Explore Our<br />Meal Plans</h2>
+              <p className="text-zinc-500 text-lg leading-relaxed mb-8">
+                Whether you want to build strength or lose fat naturally, our portion-controlled, protein-rich meals are designed for sustainable results.
+              </p>
+              <Link href="/subscriptions" className="inline-flex items-center gap-2 font-bold uppercase tracking-widest text-[#5e9d34] hover:text-[#1a1a1a] transition-colors">
+                View all plans <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-          </motion.div>
-        </div>
-      </section>
 
-      {/* How it Works - Bento Grid */}
-      <section className="py-24 bg-[#fcfdf8] px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4">How It Works</h2>
-            <p className="text-[#666] font-medium text-lg">Nutrition made effortless.</p>
+            <div className="lg:col-span-7 grid gap-8">
+              <Link href="/subscriptions" className="group block">
+                <div className="bg-[#f6faed] p-10 md:p-12 rounded-3xl transition-all duration-500 hover:bg-[#eaf5d8]">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
+                    <div>
+                      <h3 className="text-3xl font-black uppercase tracking-tight text-[#1a1a1a] mb-4">Protein Pack Plan</h3>
+                      <p className="text-zinc-600 leading-relaxed max-w-sm">
+                        Protein-rich meals crafted to fuel your strength and support a healthier lifestyle.
+                      </p>
+                    </div>
+                    <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-500">
+                      <Target className="w-6 h-6 text-[#5e9d34]" />
+                    </div>
+                  </div>
+                </div>
+              </Link>
+
+              <Link href="/subscriptions" className="group block">
+                <div className="bg-zinc-50 p-10 md:p-12 rounded-3xl transition-all duration-500 hover:bg-zinc-100">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
+                    <div>
+                      <h3 className="text-3xl font-black uppercase tracking-tight text-[#1a1a1a] mb-4">Fat Loss Plan</h3>
+                      <p className="text-zinc-600 leading-relaxed max-w-sm">
+                        Lose fat naturally with portion-controlled, protein-rich meals designed for sustainable results.
+                      </p>
+                    </div>
+                    <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-500 shadow-sm">
+                      <Leaf className="w-6 h-6 text-[#1a1a1a]" />
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </div>
           </div>
-          <BentoGrid className="max-w-4xl mx-auto">
-            <BentoGridItem
-              title="Step 1: Planned by Experts"
-              description="Understand your body, goals, lifestyle, and dietary needs through a personalized expert consultation."
-              header={<div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-[#f6faed] to-[#d8e6c4] flex items-center justify-center"><Leaf size={48} className="text-[#5e9d34]" /></div>}
-              className="md:col-span-1"
-            />
-            <BentoGridItem
-              title="Step 2: Freshly Prepared"
-              description="We evaluate your health condition, preferences, and nutritional requirements to create the right foundation with fresh ingredients."
-              header={<div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-[#f6faed] to-[#d8e6c4] flex items-center justify-center"><HeartPulse size={48} className="text-[#5e9d34]" /></div>}
-              className="md:col-span-1"
-            />
-            <BentoGridItem
-              title="Step 3: Delivered on Time"
-              description="Receive freshly prepared, healthy, and tasty meals delivered directly to your doorstep in Delhi & Gurugram."
-              header={<div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-[#f6faed] to-[#d8e6c4] flex items-center justify-center"><Clock size={48} className="text-[#5e9d34]" /></div>}
-              className="md:col-span-1"
-            />
-          </BentoGrid>
         </div>
       </section>
 
-      {/* Infinite Testimonials Marquee */}
-      <section className="py-32 bg-white overflow-hidden flex flex-col items-center">
-        <div className="text-center mb-16 px-6">
-          <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4">Loved by our clients</h2>
-          <p className="text-[#666] font-medium text-lg">Don't just take our word for it.</p>
+      {/* How it Works - Editorial Layout */}
+      <section className="py-32 px-6 bg-zinc-950 text-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+            <div className="order-2 lg:order-1">
+              <div className="space-y-12">
+                {[
+                  { step: '01', title: 'Planned by fitness expert', desc: 'Understand your body, goals, lifestyle, and dietary needs through a personalized expert consultation.' },
+                  { step: '02', title: 'Freshly prepared meals', desc: 'We evaluate your health condition and preferences to create the right foundation with fresh ingredients.' },
+                  { step: '03', title: 'Progress Monitoring', desc: 'Our nutrition experts design a customized meal plan tailored specifically to your fitness and health goals.' },
+                  { step: '04', title: 'Maintain healthy habits', desc: 'We continuously track your progress and make necessary adjustments to ensure optimal results.' },
+                  { step: '05', title: 'Delivered on time', desc: 'Receive freshly prepared, healthy, and tasty meals delivered directly to your doorstep.' }
+                ].map((s, i) => (
+                  <div key={i} className="flex gap-6 items-start group">
+                    <span className="text-sm font-mono text-zinc-500 pt-1 group-hover:text-[#5e9d34] transition-colors">{s.step}</span>
+                    <div>
+                      <h4 className="text-xl font-bold uppercase tracking-wide mb-2">{s.title}</h4>
+                      <p className="text-zinc-400 leading-relaxed max-w-md">{s.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="order-1 lg:order-2">
+              <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-8 leading-[0.9]">
+                How <br /> Toss & Taste <br /> Works
+              </h2>
+              <p className="text-xl text-zinc-400 font-light max-w-md mb-12">
+                We combine clean nutrition with rich flavors to create meals that are both nourishing and enjoyable.
+              </p>
+            </div>
+          </div>
         </div>
-        
-        <div className="relative flex w-full flex-col items-center justify-center overflow-hidden bg-white">
-          <Marquee pauseOnHover className="[--duration:20s]">
+      </section>
+
+      {/* Menu Highlight (Experience Your First Meal) */}
+      <section className="py-32 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-[#1a1a1a] mb-6">Experience Your First Meal</h2>
+            <p className="text-zinc-500 text-lg leading-relaxed">
+              Enjoy healthy meals without compromising on flavor. Healthy food doesn't have to be boring. Every dish is prepared with fresh ingredients and balanced macros.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="group rounded-3xl overflow-hidden bg-zinc-50 relative min-h-[500px] flex flex-col justify-end p-10">
+              <img src="/uploads/2026/07/Grilled-panner-with-hummus-and-exotic-veggies-wed3.jpg" alt="Grilled Paprika Paneer Bowl" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="relative z-10 text-white">
+                <div className="flex gap-3 mb-4">
+                  <span className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-bold uppercase tracking-wider">360 Kcal</span>
+                  <span className="px-3 py-1 bg-[#5e9d34] rounded-full text-xs font-bold uppercase tracking-wider text-white">18.5g Protein</span>
+                </div>
+                <h3 className="text-2xl font-black uppercase tracking-tight mb-3">Grilled Paprika Paneer Bowl</h3>
+                <p className="text-white/80 text-sm leading-relaxed max-w-sm line-clamp-2">
+                  Cottage cheese, rice, spinach, bell peppers, broccoli, baby corn, with Greek yogurt dressing.
+                </p>
+              </div>
+            </div>
+
+            <div className="group rounded-3xl overflow-hidden bg-zinc-50 relative min-h-[500px] flex flex-col justify-end p-10">
+              <img src="/uploads/2026/07/Grilled-tofu-with-rice-and-exotic-veggies-sdadqw-1024x1024.jpg" alt="South West Chicken Bowl" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="relative z-10 text-white">
+                <div className="flex gap-3 mb-4">
+                  <span className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-bold uppercase tracking-wider">280 Kcal</span>
+                  <span className="px-3 py-1 bg-[#5e9d34] rounded-full text-xs font-bold uppercase tracking-wider text-white">32.8g Protein</span>
+                </div>
+                <h3 className="text-2xl font-black uppercase tracking-tight mb-3">South West Chicken Bowl</h3>
+                <p className="text-white/80 text-sm leading-relaxed max-w-sm line-clamp-2">
+                  Pan roast chicken, black beans, avocado, cherry tomato, onions, baby corn, spinach, lettuce.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-16 text-center">
+            <Link href="/menu" className="inline-flex items-center gap-2 font-bold uppercase tracking-widest text-[#1a1a1a] hover:text-[#5e9d34] transition-colors">
+              View full menu <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials - Clean Grid */}
+      <section className="py-32 px-6 bg-[#f6faed]">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-20">
+            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-[#1a1a1a] mb-6">Our Customers<br/>Love Toss Taste</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { text: "Toss Taste has completely changed my eating habits. The meals are fresh, delicious, and perfectly portioned. I've already started seeing great results.", name: "Neha Verma", detail: "Working Professional" },
               { text: "The convenience and quality are amazing. I don't have to worry about cooking or counting calories anymore. Toss Taste delivers healthy meals right on time.", name: "Rahul Sharma", detail: "Fitness Enthusiast" },
               { text: "Highly recommend Toss Taste to anyone who wants healthy and convenient meals. The quality, taste, and delivery service are excellent.", name: "Priya Mehta", detail: "Lifestyle Customer" },
               { text: "I've lost noticeable weight since starting Toss Taste meal plans. The meals are nutritious, tasty, and make it easy to stay consistent with my diet goals.", name: "Amit Gupta", detail: "Weight Loss Customer" }
             ].map((t, i) => (
-              <div key={i} className="bg-[#fcfdf8] p-6 rounded-3xl border border-zinc-100 shadow-sm w-80 shrink-0 mx-2 flex flex-col justify-between">
+              <div key={i} className="bg-white p-8 rounded-3xl flex flex-col justify-between shadow-sm">
                 <div>
-                  <div className="flex gap-1 text-[#5e9d34] mb-4">
-                    <Star fill="currentColor" size={16} /><Star fill="currentColor" size={16} /><Star fill="currentColor" size={16} /><Star fill="currentColor" size={16} /><Star fill="currentColor" size={16} />
+                  <div className="flex gap-1 text-[#5e9d34] mb-6">
+                    <Star fill="currentColor" size={14} /><Star fill="currentColor" size={14} /><Star fill="currentColor" size={14} /><Star fill="currentColor" size={14} /><Star fill="currentColor" size={14} />
                   </div>
-                  <p className="text-[#444] text-base font-medium leading-relaxed mb-6 italic">"{t.text}"</p>
+                  <p className="text-[#444] text-sm leading-relaxed mb-8">"{t.text}"</p>
                 </div>
                 <div>
-                  <h4 className="font-bold text-[#1a1a1a]">{t.name}</h4>
-                  <p className="text-xs text-[#888] font-bold uppercase tracking-widest mt-1">{t.detail}</p>
+                  <h4 className="font-bold text-[#1a1a1a] uppercase text-sm tracking-wide">{t.name}</h4>
+                  <span className="text-zinc-500 text-xs uppercase tracking-wider mt-1 block">{t.detail}</span>
                 </div>
               </div>
             ))}
-          </Marquee>
-          {/* Gradient masks for smooth fade out at screen edges */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white dark:from-background"></div>
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-white dark:from-background"></div>
+          </div>
         </div>
       </section>
 
-      {/* About The Founder Teaser */}
-      <section className="py-24 bg-[#f6faed] px-6">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="w-full md:w-1/2"
-          >
-            <div className="aspect-square rounded-[3rem] overflow-hidden shadow-lg border-4 border-white">
-              <img src="/uploads/2026/07/WhatsApp-Image-2026-07-13-at-4.47.01-PM.jpeg" alt="Chef preparing food" className="w-full h-full object-cover" />
-            </div>
-          </motion.div>
-          <motion.div 
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="w-full md:w-1/2"
-          >
-            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-6 text-[#1a1a1a]">Our Story</h2>
-            <p className="text-[#555] font-medium text-lg leading-relaxed mb-8">
-              At Toss & Taste, we believe that healthy eating shouldn't be a punishment. Our founder started this journey to prove that nutritious, macro-balanced food can taste absolutely phenomenal. 
-              We use 100% fresh ingredients, zero refined sugar, and high-quality proteins.
+      {/* Final CTA */}
+      <section className="py-32 px-6">
+        <div className="max-w-4xl mx-auto text-center bg-zinc-950 text-white rounded-[3rem] p-12 md:p-24 overflow-hidden relative">
+          <div className="absolute inset-0 bg-[#5e9d34]/20 opacity-50 blur-3xl rounded-full translate-y-1/2" />
+          <div className="relative z-10">
+            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-8 leading-[0.9]">Try Toss & Taste Today</h2>
+            <p className="text-zinc-400 text-lg max-w-xl mx-auto mb-10">
+              Enjoy convenient, freshly prepared, and nutritious meals delivered weekly or monthly throughout Delhi NCR, Gurgaon, and Noida.
             </p>
-            <Link href="/about">
-              <MagneticButton className="border-2 border-[#1a1a1a] text-[#1a1a1a] px-8 py-3 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-[#1a1a1a] hover:text-white transition-all">
-                Read Full Story
-              </MagneticButton>
+            <Link href="/subscriptions" className="bg-[#5e9d34] text-white px-10 py-5 rounded-full font-bold uppercase tracking-widest text-sm hover:bg-[#4a8027] transition-all inline-block">
+              Start Your Plan
             </Link>
-          </motion.div>
+          </div>
         </div>
       </section>
     </div>
   );
 }
-
