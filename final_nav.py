@@ -1,4 +1,4 @@
-"use client"
+﻿content = '''"use client"
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ShoppingBag } from 'lucide-react';
@@ -42,3 +42,6 @@ export default function Navbar() {
     </nav>
   );
 }
+'''
+with open('src/components/Navbar.tsx', 'w', encoding='utf-8') as f:
+    f.write(content)

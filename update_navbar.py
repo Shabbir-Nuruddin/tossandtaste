@@ -1,4 +1,6 @@
-"use client"
+﻿import sys
+
+content = '''"use client"
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ShoppingBag } from 'lucide-react';
@@ -28,7 +30,7 @@ export default function Navbar() {
               <Link 
                 key={link.name} 
                 href={link.href} 
-                className={"text-sm font-black tracking-widest px-3 py-1.5 transition-all uppercase " + (isActive ? "border-2 border-black text-black" : "text-black hover:text-[#5e9d34] border-2 border-transparent")}
+                className={	ext-sm font-black tracking-widest px-3 py-1.5 transition-all uppercase \}
               >
                 {link.name}
               </Link>
@@ -42,3 +44,7 @@ export default function Navbar() {
     </nav>
   );
 }
+'''
+
+with open('src/components/Navbar.tsx', 'w', encoding='utf-8') as f:
+    f.write(content)

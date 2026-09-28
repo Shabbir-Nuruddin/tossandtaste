@@ -1,4 +1,6 @@
-"use client"
+﻿import sys
+
+content = '''"use client"
 import Link from 'next/link';
 
 export default function AboutPage() {
@@ -74,3 +76,7 @@ export default function AboutPage() {
     </div>
   );
 }
+'''
+
+with open('src/app/about/page.tsx', 'w', encoding='utf-8') as f:
+    f.write(content)

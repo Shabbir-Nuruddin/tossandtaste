@@ -1,4 +1,6 @@
-"use client"
+﻿import sys
+
+content = '''"use client"
 import Link from 'next/link';
 
 const blogs = [
@@ -48,32 +50,24 @@ const blogs = [
 
 export default function BlogPage() {
   return (
-    <div className="w-full bg-[#fdfdfc] text-[#1a1a1a] min-h-screen pt-20">
-      
-      {/* Page Header */}
-      <div className="py-20 text-center bg-[#fdfbf6] border-b border-zinc-100">
-        <h1 className="text-5xl font-black uppercase tracking-tight text-[#0f3b21]">Blog</h1>
-        <p className="mt-4 text-zinc-600">Home &raquo; Blog</p>
+    <div className="pt-40 pb-32 px-6 max-w-[1200px] mx-auto min-h-screen text-[#1a1a1a]">
+      <div className="text-center mb-20">
+        <h1 className="text-5xl md:text-[5rem] font-black uppercase tracking-tighter mb-4 text-[#0f3b21]">The Toss & Taste Blog</h1>
+        <p className="text-[#555] text-lg font-light max-w-2xl mx-auto">Nutrition advice, recipes, and lifestyle tips from our experts.</p>
       </div>
 
-      <div className="max-w-[1000px] mx-auto px-6 py-20 space-y-16">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
         {blogs.map((blog, i) => (
-          <div key={i} className="flex flex-col md:flex-row gap-8 items-center bg-white rounded-xl overflow-hidden shadow-sm border border-zinc-100 p-6">
-            <div className="w-full md:w-[40%] h-[250px] shrink-0 rounded-lg overflow-hidden relative">
-              <img src={blog.img} alt={blog.title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" onError={(e) => { e.currentTarget.src = '/uploads/2026/07/Salad-200.png' }} />
-              <span className="absolute top-4 left-4 bg-[#a3c94a] text-white text-[10px] font-bold px-3 py-1 rounded-sm uppercase tracking-wider">Blog</span>
+          <div key={i} className="group cursor-pointer flex flex-col h-full bg-white border border-zinc-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <div className="aspect-[4/3] w-full overflow-hidden bg-zinc-50">
+              <img src={blog.img} alt={blog.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onError={(e) => { e.currentTarget.src = '/uploads/2026/02/pic1-1.webp' }} />
             </div>
-            
-            <div className="w-full md:w-[60%] flex flex-col justify-center">
-              <p className="text-xs text-zinc-500 mb-3 flex items-center gap-2">
-                <span>&#128197; {blog.date}</span>
-                <span>|</span>
-                <span>&#128100; by Toss Taste</span>
-              </p>
-              <h2 className="text-2xl font-bold leading-snug mb-4 hover:text-[#a3c94a] transition-colors cursor-pointer">{blog.title}</h2>
-              <p className="text-zinc-600 text-sm leading-relaxed mb-6">{blog.excerpt}</p>
-              <div>
-                <button className="bg-[#a3c94a] text-white text-xs font-bold uppercase tracking-wider px-6 py-2.5 rounded-sm hover:bg-[#8eb53d] transition-colors">Read More</button>
+            <div className="p-8 flex flex-col flex-grow">
+              <p className="text-[#5e9d34] text-xs font-bold uppercase tracking-widest mb-3">{blog.date}</p>
+              <h2 className="text-xl font-bold leading-snug mb-3 group-hover:text-[#5e9d34] transition-colors">{blog.title}</h2>
+              <p className="text-zinc-600 font-light text-sm leading-relaxed mb-6 flex-grow">{blog.excerpt}</p>
+              <div className="mt-auto">
+                <span className="text-[#1a1a1a] text-xs font-bold uppercase tracking-widest border-b-2 border-[#1a1a1a] pb-1 group-hover:border-[#5e9d34] group-hover:text-[#5e9d34] transition-colors">Read Article</span>
               </div>
             </div>
           </div>
@@ -82,3 +76,7 @@ export default function BlogPage() {
     </div>
   );
 }
+'''
+
+with open('src/app/blog/page.tsx', 'w', encoding='utf-8') as f:
+    f.write(content)

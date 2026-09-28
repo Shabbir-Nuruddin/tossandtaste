@@ -1,4 +1,6 @@
-"use client"
+﻿import sys
+
+content = '''"use client"
 import Link from 'next/link';
 
 const blogs = [
@@ -82,3 +84,7 @@ export default function BlogPage() {
     </div>
   );
 }
+'''
+
+with open('src/app/blog/page.tsx', 'w', encoding='utf-8') as f:
+    f.write(content)
