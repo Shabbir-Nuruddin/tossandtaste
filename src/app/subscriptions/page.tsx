@@ -95,7 +95,7 @@ export default function SubscriptionsPage() {
                 transition={{ duration: 0.8, delay: idx * 0.2 }}
                 key={plan.id} 
                 onClick={() => setSelectedPlan(plan.id)}
-                className={`group cursor-pointer relative rounded-[2rem] overflow-hidden bg-white border transition-all duration-500 flex flex-col ${selectedPlan === plan.id ? 'border-red-500 ring-1 ring-red-500' : 'border-white/5 hover:border-white/20'}`}
+                className={`group cursor-pointer relative rounded-[2rem] overflow-hidden bg-white border transition-all duration-500 flex flex-col ${selectedPlan === plan.id ? 'border-[#5e9d34] ring-1 ring-[#5e9d34]' : 'border-zinc-200 hover:border-[#5e9d34]/50'}`}
               >
                 <div className="relative h-64 w-full bg-zinc-100 overflow-hidden">
                   <video 
@@ -107,10 +107,10 @@ export default function SubscriptionsPage() {
                   >
                     <source src={`/videos/${plan.video}`} type="video/mp4" />
                   </video>
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent opacity-90" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-transparent opacity-90" />
                   
                   {selectedPlan === plan.id && (
-                    <div className="absolute top-4 right-4 bg-red-500 text-[#1a1a1a] rounded-full p-1.5 z-20">
+                    <div className="absolute top-4 right-4 bg-[#5e9d34] text-[#1a1a1a] rounded-full p-1.5 z-20">
                       <CheckCircle2 className="w-5 h-5" />
                     </div>
                   )}
@@ -122,8 +122,8 @@ export default function SubscriptionsPage() {
                   
                   <ul className="space-y-3">
                     {plan.features.map(feature => (
-                      <li key={feature} className="flex items-center gap-3 text-sm font-medium text-zinc-300">
-                        <CheckCircle2 className="w-4 h-4 text-red-500 shrink-0" />
+                      <li key={feature} className="flex items-center gap-3 text-sm font-medium text-zinc-600">
+                        <CheckCircle2 className="w-4 h-4 text-[#5e9d34] shrink-0" />
                         {feature}
                       </li>
                     ))}
@@ -138,7 +138,7 @@ export default function SubscriptionsPage() {
              initial={{ opacity: 0 }}
              animate={{ opacity: 1 }}
              transition={{ delay: 0.5 }}
-             className="bg-white border border-white/5 rounded-[2rem] p-8"
+             className="bg-white border border-zinc-200 rounded-[2rem] p-8"
           >
             <h3 className="text-2xl font-black uppercase tracking-tight mb-6">Customize with Add-ons</h3>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -154,7 +154,7 @@ export default function SubscriptionsPage() {
                         <img src={addon.img} alt={addon.label} className={`w-full h-full object-cover transition-transform duration-700 ${isSelected ? 'scale-105' : 'group-hover:scale-105'}`} />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                         {isSelected && (
-                          <div className="absolute top-2 right-2 bg-[#5e9d34] text-white rounded-full p-1">
+                          <div className="absolute top-2 right-2 bg-[#5e9d34] text-[#1a1a1a] rounded-full p-1">
                             <CheckCircle2 className="w-4 h-4" />
                           </div>
                         )}
@@ -212,7 +212,7 @@ export default function SubscriptionsPage() {
                   <select 
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-4 rounded-xl appearance-none focus:outline-none focus:border-red-500 transition-colors cursor-pointer"
+                    className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-4 rounded-xl appearance-none focus:outline-none focus:border-[#5e9d34] transition-colors cursor-pointer"
                   >
                     {LOCATIONS.map(loc => (
                       <option key={loc} value={loc} className="bg-zinc-100">{loc}</option>
@@ -235,12 +235,12 @@ export default function SubscriptionsPage() {
                 )}
                 <div className="flex justify-between text-xl font-black pt-4">
                   <span>Total Total</span>
-                  <span className="text-red-500">₹{totalPrice.toLocaleString()}</span>
+                  <span className="text-[#5e9d34]">₹{totalPrice.toLocaleString()}</span>
                 </div>
               </div>
             </div>
 
-            <MagneticButton className="w-full mt-12 flex items-center justify-center gap-3 bg-red-500 hover:bg-red-600 text-[#1a1a1a] py-5 rounded-xl font-black uppercase tracking-[0.2em] text-sm transition-all duration-300">
+            <MagneticButton className="w-full mt-12 flex items-center justify-center gap-3 bg-[#5e9d34] hover:bg-[#4a8027] text-[#1a1a1a] py-5 rounded-xl font-black uppercase tracking-[0.2em] text-sm transition-all duration-300">
               Checkout <ArrowRight className="w-5 h-5" />
             </MagneticButton>
           </motion.div>

@@ -123,7 +123,7 @@ export default function MenuPage() {
                   />
                 )}
                 
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent opacity-90 group-hover:opacity-60 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent opacity-90 group-hover:opacity-60 transition-opacity duration-500" />
                 
                 <div className="absolute top-4 left-4 flex flex-wrap gap-2 z-10">
                   {item.tags.map(tag => (
@@ -135,19 +135,19 @@ export default function MenuPage() {
               </div>
               
               {/* Content */}
-              <div className="p-8 flex-grow flex flex-col justify-between -mt-8 relative z-10 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a] to-transparent pt-12">
+              <div className="p-8 flex-grow flex flex-col justify-between -mt-8 relative z-10 bg-gradient-to-t from-white via-white to-transparent pt-12">
                 <div>
                   <div className="flex justify-between items-start mb-2 gap-4">
                     <h3 className="text-2xl font-black tracking-tight leading-tight">{item.title}</h3>
                   </div>
                   <div className="flex justify-between items-center mb-4">
-                     <span className="text-xl font-bold text-red-500">{item.price}</span>
+                     <span className="text-xl font-bold text-[#5e9d34]">{item.price}</span>
                      <p className="text-zinc-500 font-medium text-xs tracking-widest uppercase bg-zinc-100 px-2 py-1 rounded">{item.cals}</p>
                   </div>
                   <p className="text-zinc-500 text-sm font-light leading-relaxed mb-6">{item.desc}</p>
                 </div>
                 
-                <MagneticButton className="w-full flex items-center justify-center gap-2 bg-white hover:bg-red-500 text-black hover:text-[#1a1a1a] py-4 rounded-xl font-black uppercase tracking-[0.2em] text-xs transition-all duration-300">
+                <MagneticButton className="w-full flex items-center justify-center gap-2 bg-white hover:bg-[#5e9d34] text-black hover:text-[#1a1a1a] py-4 rounded-xl font-black uppercase tracking-[0.2em] text-xs transition-all duration-300">
                   <Plus className="w-4 h-4" /> Add to Order
                 </MagneticButton>
               </div>

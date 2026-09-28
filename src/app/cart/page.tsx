@@ -133,7 +133,7 @@ export default function CheckoutPage() {
                 <button
                   key={plan.id}
                   onClick={() => setSelectedPlan(plan)}
-                  className={`p-6 rounded-3xl border transition-all duration-300 flex flex-col text-left ${selectedPlan.id === plan.id ? 'bg-white text-black border-white' : 'bg-white text-[#1a1a1a] border-zinc-200 hover:border-white/30'}`}
+                  className={`p-6 rounded-3xl border transition-all duration-300 flex flex-col text-left ${selectedPlan.id === plan.id ? 'bg-[#f6faed] text-[#1a1a1a] border-[#5e9d34]' : 'bg-white text-[#1a1a1a] border-zinc-200 hover:border-zinc-300'}`}
                 >
                   <span className="text-2xl font-black uppercase tracking-tight">{plan.title}</span>
                   <span className={`text-sm mt-2 font-bold ${selectedPlan.id === plan.id ? 'text-zinc-600' : 'text-zinc-500'}`}>₹{plan.price}</span>
@@ -152,7 +152,7 @@ export default function CheckoutPage() {
                   placeholder="Full Name"
                   value={name}
                   onChange={e => setName(e.target.value)}
-                  className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-4 rounded-xl focus:outline-none focus:border-red-500 transition-colors"
+                  className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-4 rounded-xl focus:outline-none focus:border-[#5e9d34] transition-colors"
                 />
               </div>
               <div className="relative">
@@ -162,7 +162,7 @@ export default function CheckoutPage() {
                   placeholder="Email Address"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-4 rounded-xl focus:outline-none focus:border-red-500 transition-colors"
+                  className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-4 rounded-xl focus:outline-none focus:border-[#5e9d34] transition-colors"
                 />
               </div>
               <div className="relative">
@@ -170,7 +170,7 @@ export default function CheckoutPage() {
                 <select 
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-4 rounded-xl appearance-none focus:outline-none focus:border-red-500 transition-colors cursor-pointer"
+                  className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-4 rounded-xl appearance-none focus:outline-none focus:border-[#5e9d34] transition-colors cursor-pointer"
                 >
                   {LOCATIONS.map(loc => (
                     <option key={loc} value={loc} className="bg-zinc-100">{loc}</option>
@@ -191,7 +191,7 @@ export default function CheckoutPage() {
                     key={sel.id}
                     className="p-6 rounded-3xl bg-white border border-zinc-200 space-y-4"
                   >
-                    <div className="flex items-center justify-between border-b border-white/5 pb-4 mb-4">
+                    <div className="flex items-center justify-between border-b border-zinc-200 pb-4 mb-4">
                       <span className="text-sm font-bold uppercase tracking-widest text-zinc-500">Day {idx + 1}</span>
                     </div>
                     
@@ -202,7 +202,7 @@ export default function CheckoutPage() {
                           type="date"
                           value={sel.date}
                           onChange={e => updateSelection(sel.id, 'date', e.target.value)}
-                          className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-3 rounded-xl focus:outline-none focus:border-red-500 transition-colors text-sm [color-scheme:dark]"
+                          className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-3 rounded-xl focus:outline-none focus:border-[#5e9d34] transition-colors text-sm [color-scheme:dark]"
                         />
                       </div>
                       
@@ -211,7 +211,7 @@ export default function CheckoutPage() {
                         <select
                           value={sel.time}
                           onChange={e => updateSelection(sel.id, 'time', e.target.value)}
-                          className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-3 rounded-xl appearance-none focus:outline-none focus:border-red-500 transition-colors cursor-pointer text-sm"
+                          className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-3 rounded-xl appearance-none focus:outline-none focus:border-[#5e9d34] transition-colors cursor-pointer text-sm"
                         >
                           <option value="Lunch" className="bg-zinc-100">Lunch</option>
                           <option value="Dinner" className="bg-zinc-100">Dinner</option>
@@ -223,7 +223,7 @@ export default function CheckoutPage() {
                         <select
                           value={sel.mealId}
                           onChange={e => updateSelection(sel.id, 'mealId', Number(e.target.value))}
-                          className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-3 rounded-xl appearance-none focus:outline-none focus:border-red-500 transition-colors cursor-pointer text-sm truncate"
+                          className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-3 rounded-xl appearance-none focus:outline-none focus:border-[#5e9d34] transition-colors cursor-pointer text-sm truncate"
                         >
                           {MENU_ITEMS.map(item => (
                             <option key={item.id} value={item.id} className="bg-zinc-100">
@@ -267,12 +267,12 @@ export default function CheckoutPage() {
             
             <div className="flex justify-between items-center mb-8 pt-6 border-t border-zinc-200">
               <span className="text-xl font-bold uppercase tracking-widest text-zinc-500">Total</span>
-              <span className="text-3xl font-black text-red-500">₹{selectedPlan.price}</span>
+              <span className="text-3xl font-black text-[#5e9d34]">₹{selectedPlan.price}</span>
             </div>
             
             <MagneticButton 
               onClick={handleWhatsAppCheckout}
-              className="w-full flex items-center justify-center gap-3 bg-white hover:bg-red-500 text-black hover:text-[#1a1a1a] py-5 rounded-xl font-black uppercase tracking-[0.2em] text-sm transition-all duration-300"
+              className="w-full flex items-center justify-center gap-3 bg-[#5e9d34] hover:bg-[#4a8027] text-white hover:text-white py-5 rounded-xl font-black uppercase tracking-[0.2em] text-sm transition-all duration-300"
             >
               Checkout on WhatsApp <ArrowRight className="w-5 h-5" />
             </MagneticButton>
