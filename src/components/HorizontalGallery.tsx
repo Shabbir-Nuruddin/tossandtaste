@@ -1,6 +1,6 @@
 ﻿"use client"
-import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 
 const videos = [
   "/videos/4_exotic_fruit_salad.mp4",
@@ -23,12 +23,38 @@ const videos = [
 
 export default function HorizontalGallery() {
   const targetRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [scrollRange, setScrollRange] = useState(0);
+
+  useEffect(() => {
+    const updateScrollRange = () => {
+      if (containerRef.current) {
+        const scrollWidth = containerRef.current.scrollWidth;
+        const clientWidth = window.innerWidth;
+        // 40px buffer to ensure the last video doesn't hug the very edge tightly
+        setScrollRange(scrollWidth - clientWidth + 40); 
+      }
+    };
+
+    updateScrollRange();
+    window.addEventListener("resize", updateScrollRange);
+    return () => window.removeEventListener("resize", updateScrollRange);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: targetRef,
   });
 
-  // Delay the start and end of the scroll so the user can see the first and last videos
-  const x = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], ["0%", "0%", "calc(-100% + 100vw)", "calc(-100% + 100vw)"]);
+  // Use a spring to make the scroll incredibly smooth and fluid
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 150,
+    damping: 25,
+    mass: 0.1
+  });
+
+  // Map 15% to 85% of scroll to the full horizontal movement
+  // If scrollRange is 0 (like during SSR), it just maps to [0, 0]
+  const x = useTransform(smoothProgress, [0.15, 0.85], [0, -scrollRange]);
 
   return (
     <section ref={targetRef} className="relative h-[400vh] bg-[#fdfcf5]">
@@ -38,10 +64,14 @@ export default function HorizontalGallery() {
           <p className="mt-2 md:mt-4 text-zinc-500 font-medium text-base md:text-lg">Scroll to explore our vibrant meals</p>
         </div>
         
-        {/* w-max is critical here so it sizes to the exact width of all videos, allowing the -100% translation to work accurately */}
-        <motion.div style={{ x }} className="flex gap-4 md:gap-8 px-4 md:px-10 w-max pb-10">
+        {/* w-max allows the container to be its natural massive width */}
+        <motion.div 
+          ref={containerRef}
+          style={{ x }} 
+          className="flex gap-6 md:gap-8 px-4 md:px-10 w-max pb-10"
+        >
           {videos.map((src, idx) => (
-            <div key={idx} className="relative w-[280px] md:w-[350px] h-[50vh] min-h-[350px] max-h-[500px] shrink-0 rounded-3xl overflow-hidden shadow-2xl">
+            <div key={idx} className="relative w-[250px] h-[444px] md:w-[300px] md:h-[533px] shrink-0 rounded-3xl overflow-hidden shadow-2xl bg-zinc-200">
               <video 
                 autoPlay 
                 loop 
