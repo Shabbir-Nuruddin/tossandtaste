@@ -15,7 +15,7 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           
           <div className="relative h-[600px] rounded-3xl overflow-hidden shadow-2xl">
-            <img src="/uploads/about/WhatsApp-Image-2026-02-18-at-1.01.45-PM.jpeg" alt="Arun Bhatia - Founder & Head Chef" className="absolute inset-0 w-full h-full object-cover" />
+            <img src="/uploads/about/WhatsApp-Image-2026-02-18-at-1.01.45-PM.jpeg" alt="Arun Bhatia - Founder & Head Chef" className="absolute inset-0 w-full h-full object-cover object-[center_15%]" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
             <div className="absolute bottom-8 left-8 text-white">
               <h3 className="text-3xl font-black uppercase tracking-wider mb-2">Arun Bhatia</h3>

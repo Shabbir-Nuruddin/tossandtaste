@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
@@ -85,23 +85,27 @@ export default function Home() {
       <section id="plans" className="py-24 px-6 bg-white">
         <div className="max-w-[1200px] mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-            <div className="text-center">
-              <Link href="/subscriptions">
-                <div className="aspect-square mb-6 overflow-hidden rounded-md bg-zinc-50 border border-zinc-100 p-4 shadow-sm hover:shadow-md transition-shadow">
-                  <img src="/uploads/2026/02/Protein-Pack-toss-taste-banner-24-2-2-1-768x768-1.jpg" alt="Protein Pack Meal Plan" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.src = '/uploads/2026/07/PROTEIN-pack-plan-000f.jpg' }} />
-                </div>
-                <h3 className="text-xl font-medium text-[#1a1a1a]">Protein Pack Meal Plan</h3>
-              </Link>
-            </div>
-            
-            <div className="text-center">
-              <Link href="/subscriptions">
-                <div className="aspect-square mb-6 overflow-hidden rounded-md bg-zinc-50 border border-zinc-100 p-4 shadow-sm hover:shadow-md transition-shadow">
-                  <img src="/uploads/2026/02/fat-Loss-Plan-toss-taste-banner-24-2-1-768x768-1.jpg" alt="Fat Loss Meal Plan" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.src = '/uploads/2026/07/Fat-Loss-Plan-0001x.jpg' }} />
-                </div>
-                <h3 className="text-xl font-medium text-[#1a1a1a]">Fat Loss Meal Plan</h3>
-              </Link>
-            </div>
+            <div className="text-center group">
+                <Link href="/subscriptions">
+                  <div className="aspect-[4/3] md:aspect-square mb-6 overflow-hidden rounded-[2rem] bg-zinc-50 border border-zinc-100 relative shadow-sm group-hover:shadow-2xl transition-all duration-700">
+                    <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)]">
+                      <source src="/videos/20_protein_pack_hero.mp4" type="video/mp4" />
+                    </video>
+                  </div>
+                  <h3 className="text-2xl font-black uppercase tracking-tight text-[#1a1a1a] group-hover:text-[#5e9d34] transition-colors">Protein Pack Meal Plan</h3>
+                </Link>
+              </div>
+              
+              <div className="text-center group">
+                <Link href="/subscriptions">
+                  <div className="aspect-[4/3] md:aspect-square mb-6 overflow-hidden rounded-[2rem] bg-zinc-50 border border-zinc-100 relative shadow-sm group-hover:shadow-2xl transition-all duration-700">
+                    <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)]">
+                      <source src="/videos/19_fat_loss_hero.mp4" type="video/mp4" />
+                    </video>
+                  </div>
+                  <h3 className="text-2xl font-black uppercase tracking-tight text-[#1a1a1a] group-hover:text-[#5e9d34] transition-colors">Fat Loss Meal Plan</h3>
+                </Link>
+              </div>
           </div>
         </div>
       </section>
@@ -156,24 +160,24 @@ export default function Home() {
             <div className="md:col-span-4 space-y-12">
               <div className="flex gap-4 items-start justify-end text-right relative">
                 <div>
-                  <h4 className="text-[#0f3b21] font-bold text-lg mb-2">Step 1: Planed By Fitness Expert</h4>
-                  <p className="text-zinc-500 text-sm leading-relaxed">Understand your body, goals, lifestyle, and dietary needs through a personalized expert consultation.</p>
+                  <h4 className="text-[#0f3b21] font-bold text-lg mb-2">Step 1: Planned By Experts</h4>
+                  <p className="text-zinc-500 text-sm leading-relaxed">We evaluate your fitness goals, lifestyle, and nutritional needs to design a perfectly balanced meal plan.</p>
                 </div>
                 <div className="w-12 h-12 rounded-full bg-[#84b84b] shrink-0 mt-1 shadow-md border-4 border-white"></div>
               </div>
               
               <div className="flex gap-4 items-start justify-end text-right relative">
                 <div>
-                  <h4 className="text-[#0f3b21] font-bold text-lg mb-2">Step 2: Freshly Prepared Meals</h4>
-                  <p className="text-zinc-500 text-sm leading-relaxed">We evaluate your health condition, preferences, and nutritional requirements to create the right foundation.</p>
+                  <h4 className="text-[#0f3b21] font-bold text-lg mb-2">Step 2: Freshly Prepared</h4>
+                  <p className="text-zinc-500 text-sm leading-relaxed">Our chefs prepare your meals daily using premium, fresh ingredients in a pristine, hygienic kitchen.</p>
                 </div>
                 <div className="w-12 h-12 rounded-full bg-[#84b84b] shrink-0 mt-1 shadow-md border-4 border-white"></div>
               </div>
 
               <div className="flex gap-4 items-start justify-end text-right relative">
                 <div>
-                  <h4 className="text-[#0f3b21] font-bold text-lg mb-2">Step 3: Regular Progress<br/>Monitoring In A Hygienic<br/>Environment</h4>
-                  <p className="text-zinc-500 text-sm leading-relaxed">Our nutrition experts design a customized meal plan tailored specifically to your fitness and health goals.</p>
+                  <h4 className="text-[#0f3b21] font-bold text-lg mb-2">Step 3: Delivered Daily</h4>
+                  <p className="text-zinc-500 text-sm leading-relaxed">Receive your meals right on time, securely packed and ready to eat wherever you are.</p>
                 </div>
                 <div className="w-12 h-12 rounded-full bg-[#84b84b] shrink-0 mt-1 shadow-md border-4 border-white"></div>
               </div>
@@ -195,16 +199,16 @@ export default function Home() {
               <div className="flex gap-4 items-start relative">
                 <div className="w-12 h-12 rounded-full bg-[#84b84b] shrink-0 mt-1 shadow-md border-4 border-white"></div>
                 <div>
-                  <h4 className="text-[#0f3b21] font-bold text-lg mb-2">Step 4: Maintain Your Healthy<br/>Eating Habbit</h4>
-                  <p className="text-zinc-500 text-sm leading-relaxed">We continuously track your progress and make necessary adjustments to ensure optimal results.</p>
+                  <h4 className="text-[#0f3b21] font-bold text-lg mb-2">Step 4: Track & Maintain</h4>
+                  <p className="text-zinc-500 text-sm leading-relaxed">Build a sustainable habit while we monitor your progress and adjust macros as needed.</p>
                 </div>
               </div>
               
               <div className="flex gap-4 items-start relative">
                 <div className="w-12 h-12 rounded-full bg-[#84b84b] shrink-0 mt-1 shadow-md border-4 border-white"></div>
                 <div>
-                  <h4 className="text-[#0f3b21] font-bold text-lg mb-2">Step 5: Delivered Fresh, Right On<br/>Time</h4>
-                  <p className="text-zinc-500 text-sm leading-relaxed">Receive freshly prepared, healthy, and tasty meals delivered directly to your doorstep.</p>
+                  <h4 className="text-[#0f3b21] font-bold text-lg mb-2">Step 5: Achieve Your Goals</h4>
+                  <p className="text-zinc-500 text-sm leading-relaxed">Experience higher energy levels, better performance, and real results without compromising on taste.</p>
                 </div>
               </div>
             </div>
@@ -213,7 +217,64 @@ export default function Home() {
       </section>
 
       {/* NEW: Try Toss & Taste today */}
-      <section id="cta" className="w-full py-24 relative flex flex-col items-center justify-center">
+      
+        {/* WOW Gallery Section */}
+        <section id="gallery" className="w-full py-20 bg-white overflow-hidden border-y border-zinc-100">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-black text-[#0f3b21] tracking-tight">Taste The Freshness</h2>
+            <p className="mt-4 text-zinc-500 font-medium">Real ingredients, real results.</p>
+          </div>
+          
+          <div className="relative flex overflow-x-hidden group" style={{ "--gap": "1.5rem", "--duration": "40s" } as React.CSSProperties}>
+            <div className="animate-marquee flex gap-6 whitespace-nowrap min-w-full pl-6">
+              {[
+                "/videos/4_exotic_fruit_salad.mp4",
+                "/videos/8_veggie_buddha_bowl.mp4",
+                "/videos/1_strawberry_shake.mp4",
+                "/images/salads/chicken chickpea salad.jpg",
+                "/videos/10_apple_beetroot_carrot_juice.mp4",
+                "/images/meals/baked chicken with herb rice.jpg",
+                "/videos/13_avocado_chickpea_salad.mp4",
+                "/images/shakes/chocolate banana shake.jpg"
+              ].map((src, i) => (
+                <div key={i} className="relative w-72 h-96 rounded-3xl overflow-hidden shrink-0 shadow-lg">
+                  {src.endsWith('.mp4') ? (
+                    <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover">
+                      <source src={src} type="video/mp4" />
+                    </video>
+                  ) : (
+                    <img src={src} alt="Gallery item" className="absolute inset-0 w-full h-full object-cover" />
+                  )}
+                </div>
+              ))}
+            </div>
+            
+            <div className="animate-marquee flex gap-6 whitespace-nowrap min-w-full pl-6 absolute top-0">
+              {[
+                "/videos/4_exotic_fruit_salad.mp4",
+                "/videos/8_veggie_buddha_bowl.mp4",
+                "/videos/1_strawberry_shake.mp4",
+                "/images/salads/chicken chickpea salad.jpg",
+                "/videos/10_apple_beetroot_carrot_juice.mp4",
+                "/images/meals/baked chicken with herb rice.jpg",
+                "/videos/13_avocado_chickpea_salad.mp4",
+                "/images/shakes/chocolate banana shake.jpg"
+              ].map((src, i) => (
+                <div key={i+8} className="relative w-72 h-96 rounded-3xl overflow-hidden shrink-0 shadow-lg">
+                  {src.endsWith('.mp4') ? (
+                    <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover">
+                      <source src={src} type="video/mp4" />
+                    </video>
+                  ) : (
+                    <img src={src} alt="Gallery item" className="absolute inset-0 w-full h-full object-cover" />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="cta" className="w-full py-24 relative flex flex-col items-center justify-center">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0 bg-[url('/uploads/live/Fat-Loss-Plan-0001x.jpg')] bg-fixed bg-cover bg-center">
           <div className="absolute inset-0 bg-black/70"></div>
