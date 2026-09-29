@@ -10,41 +10,53 @@ export default function AboutPage() {
         <p className="mt-4 text-zinc-600">Home &raquo; About</p>
       </div>
 
-      {/* Intro & Founder Story */}
-      <section className="py-24 px-6 max-w-[1400px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          
-          <div className="relative h-[600px] rounded-3xl overflow-hidden shadow-2xl">
-            <img src="/uploads/about/WhatsApp-Image-2026-02-18-at-1.01.45-PM.jpeg" alt="Arun Bhatia - Founder & Head Chef" className="absolute inset-0 w-full h-full object-cover object-[center_15%]" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-            <div className="absolute bottom-8 left-8 text-white">
-              <h3 className="text-3xl font-black uppercase tracking-wider mb-2">Arun Bhatia</h3>
-              <p className="text-[#a3c94a] font-bold tracking-widest text-sm uppercase">Founder & Head Chef</p>
+      
+      {/* Our Journey & Founder */}
+      <section className="py-24 px-6 bg-white relative overflow-hidden">
+        <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center gap-16 relative z-10">
+          <div className="w-full lg:w-1/2">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl h-[600px] w-full bg-zinc-100">
+              <img 
+                src="/uploads/about/WhatsApp-Image-2026-02-18-at-1.01.45-PM.jpeg" 
+                alt="Arun Bhatia - Founder" 
+                className="absolute inset-0 w-full h-full object-cover object-[center_15%]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+              <div className="absolute bottom-8 left-8 text-white">
+                <p className="font-bold text-2xl">Arun Bhatia</p>
+                <p className="text-white/80 font-medium">Founder, Toss & Taste</p>
+              </div>
             </div>
           </div>
-
-          <div className="space-y-6">
-            <h2 className="text-4xl font-black text-[#0f3b21] uppercase tracking-tight mb-8">Our Story</h2>
-            
-            <p className="text-zinc-600 leading-relaxed text-lg font-medium">As a fitness enthusiast, I was deeply committed to taking care of my body — working out regularly, staying active, and aiming for a healthy lifestyle. But despite all the effort, one major problem remained: finding food that truly nourished my body.</p>
-            
-            <p className="text-zinc-500 leading-relaxed">Every day felt like a challenge. Healthy options were either tasteless, inconsistent, or didn't provide complete nutrition. I often found myself compromising — either on taste, quality, or proper nourishment. The struggle to find balanced, wholesome meals became a part of my routine.</p>
-            
-            <p className="text-zinc-800 font-bold italic text-xl border-l-4 border-[#8cc63f] pl-4 my-6">"Why not create a brand that offers complete daily nutrition, without stress, guilt, or compromise?"</p>
-            
-            <p className="text-zinc-500 leading-relaxed">What started as a personal solution soon turned into a purpose. We began crafting meals using fresh ingredients, balanced macros, and thoughtful portions — salads, bowls, juices, smoothies, and wholesome mains designed to fuel the body and support an active lifestyle.</p>
-            
-            <p className="text-zinc-500 leading-relaxed">Every meal at Toss & Taste is inspired by real fitness needs — meals that keep you energized, satisfied, and nourished throughout the day. What once fulfilled my own daily nutritional requirements is now helping many others who face the same struggle.</p>
-            
-            <p className="text-zinc-500 leading-relaxed font-medium">Today, Toss & Taste stands for healthy food that actually works for your body — food that supports fitness, wellness, and everyday life.</p>
-            
-            <p className="text-[#5e9d34] font-black text-2xl mt-8">Because good health doesn't start in the gym.<br/>It starts on your plate.</p>
+          
+          <div className="w-full lg:w-1/2">
+            <h2 className="text-4xl md:text-5xl font-black text-[#0f3b21] uppercase tracking-tight mb-8">Our Journey</h2>
+            <div className="space-y-6 text-lg text-zinc-600 font-medium leading-relaxed">
+              <p>
+                <strong className="text-[#84b84b] block mb-2 text-xl">Toss & Taste was born from a personal struggle.</strong>
+                As a fitness enthusiast, I was deeply committed to taking care of my body — working out regularly, staying active, and aiming for a healthy lifestyle. But despite all the effort, one major problem remained: finding food that truly nourished my body.
+              </p>
+              <p>
+                Every day felt like a challenge. Healthy options were either tasteless, inconsistent, or didn't provide complete nutrition. I often found myself compromising — either on taste, quality, or proper nourishment. The struggle to find balanced, wholesome meals became a part of my routine.
+              </p>
+              <p>
+                That frustration sparked an idea.<br/>
+                <strong className="text-zinc-800">Why not create a brand that offers complete daily nutrition, without stress, guilt, or compromise?</strong>
+              </p>
+              <p>
+                That's how Toss & Taste came to life. What started as a personal solution soon turned into a purpose. We began crafting meals using fresh ingredients, balanced macros, and thoughtful portions — salads, bowls, juices, smoothies, and wholesome mains designed to fuel the body and support an active lifestyle.
+              </p>
+              <p>
+                Every meal at Toss & Taste is inspired by real fitness needs — meals that keep you energized, satisfied, and nourished throughout the day. What once fulfilled my own daily nutritional requirements is now helping many others who face the same struggle.
+              </p>
+              <p className="text-xl font-bold text-[#0f3b21] pt-4 border-t border-zinc-100">
+                Because good health doesn't start in the gym. It starts on your plate.
+              </p>
+            </div>
           </div>
         </div>
       </section>
-
-      
-      {/* Who We Are & What We Create */}
+{/* Who We Are & What We Create */}
       <section className="py-24 px-6 max-w-[1400px] mx-auto border-t border-zinc-100">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
           <div className="bg-[#fcfdf8] p-12 rounded-3xl border border-[#eaf2d7]">

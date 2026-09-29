@@ -27,19 +27,21 @@ export default function HorizontalGallery() {
     target: targetRef,
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["1%", "-85%"]);
+  // Delay the start and end of the scroll so the user can see the first and last videos
+  const x = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], ["0%", "0%", "calc(-100% + 100vw)", "calc(-100% + 100vw)"]);
 
   return (
-    <section ref={targetRef} className="relative h-[300vh] bg-[#fdfcf5]">
+    <section ref={targetRef} className="relative h-[400vh] bg-[#fdfcf5]">
       <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden">
-        <div className="text-center mb-10 mt-10">
+        <div className="text-center mb-6 md:mb-10 mt-10 px-4">
           <h2 className="text-4xl md:text-6xl font-black text-[#0f3b21] tracking-tight uppercase">Taste The Freshness</h2>
-          <p className="mt-4 text-zinc-500 font-medium text-lg">Scroll to explore our vibrant meals</p>
+          <p className="mt-2 md:mt-4 text-zinc-500 font-medium text-base md:text-lg">Scroll to explore our vibrant meals</p>
         </div>
         
-        <motion.div style={{ x }} className="flex gap-8 px-10">
+        {/* w-max is critical here so it sizes to the exact width of all videos, allowing the -100% translation to work accurately */}
+        <motion.div style={{ x }} className="flex gap-4 md:gap-8 px-4 md:px-10 w-max pb-10">
           {videos.map((src, idx) => (
-            <div key={idx} className="relative w-[300px] md:w-[400px] h-[450px] md:h-[600px] shrink-0 rounded-3xl overflow-hidden shadow-2xl">
+            <div key={idx} className="relative w-[280px] md:w-[350px] h-[50vh] min-h-[350px] max-h-[500px] shrink-0 rounded-3xl overflow-hidden shadow-2xl">
               <video 
                 autoPlay 
                 loop 
