@@ -43,6 +43,21 @@ export default function AboutPage() {
         </div>
       </section>
 
+      
+      {/* Who We Are & What We Create */}
+      <section className="py-24 px-6 max-w-[1400px] mx-auto border-t border-zinc-100">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+          <div className="bg-[#fcfdf8] p-12 rounded-3xl border border-[#eaf2d7]">
+            <h2 className="text-3xl font-black text-[#0f3b21] uppercase tracking-tight mb-6">Who We Are</h2>
+            <p className="text-zinc-600 leading-relaxed font-medium">Toss and Taste is a health-focused meal plan brand dedicated to helping you achieve your fitness and wellness goals. We create fresh, balanced, and nutrition-rich meals designed by experts to support weight loss, muscle gain, and a healthier lifestyle.</p>
+          </div>
+          <div className="bg-[#fcfdf8] p-12 rounded-3xl border border-[#eaf2d7]">
+            <h2 className="text-3xl font-black text-[#0f3b21] uppercase tracking-tight mb-6">What We Create</h2>
+            <p className="text-zinc-600 leading-relaxed font-medium">We craft customized meal plans using high-quality ingredients and scientifically balanced nutrition. Our meals are designed to fuel your body, improve performance, and make healthy eating simple, convenient, and enjoyable.</p>
+          </div>
+        </div>
+      </section>
+
       {/* Mission / Vision / How We Work */}
       <section className="py-24 bg-[#fdfcf5] px-6">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">

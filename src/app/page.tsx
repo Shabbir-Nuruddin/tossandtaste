@@ -1,5 +1,6 @@
 "use client"
 import Link from 'next/link';
+import HorizontalGallery from '@/components/HorizontalGallery';
 import { useEffect, useState } from 'react';
 
 export default function Home() {
@@ -114,7 +115,7 @@ export default function Home() {
       <section id="included" className="w-full py-10 bg-white">
         <div className="max-w-[1400px] mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-0 min-h-[500px]">
-            <div className="bg-[#84b84b] text-white p-12 md:p-20 rounded-l-3xl rounded-br-[100px] flex flex-col justify-center relative overflow-hidden">
+            <div className="bg-[#84b84b] text-white p-12 md:p-20 rounded-l-[2rem] rounded-bl-[2rem] md:rounded-bl-none flex flex-col justify-center relative overflow-hidden">
               <div className="absolute -right-20 top-0 w-[400px] h-full bg-[#fdfdfc] rounded-l-full opacity-20"></div>
               <h2 className="text-4xl font-black mb-10 tracking-tight uppercase relative z-10">What's Included</h2>
               <ul className="space-y-6 relative z-10">
@@ -218,61 +219,8 @@ export default function Home() {
 
       {/* NEW: Try Toss & Taste today */}
       
-        {/* WOW Gallery Section */}
-        <section id="gallery" className="w-full py-20 bg-white overflow-hidden border-y border-zinc-100">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-black text-[#0f3b21] tracking-tight">Taste The Freshness</h2>
-            <p className="mt-4 text-zinc-500 font-medium">Real ingredients, real results.</p>
-          </div>
-          
-          <div className="relative flex overflow-x-hidden group" style={{ "--gap": "1.5rem", "--duration": "40s" } as React.CSSProperties}>
-            <div className="animate-marquee flex gap-6 whitespace-nowrap min-w-full pl-6">
-              {[
-                "/videos/4_exotic_fruit_salad.mp4",
-                "/videos/8_veggie_buddha_bowl.mp4",
-                "/videos/1_strawberry_shake.mp4",
-                "/images/salads/chicken chickpea salad.jpg",
-                "/videos/10_apple_beetroot_carrot_juice.mp4",
-                "/images/meals/baked chicken with herb rice.jpg",
-                "/videos/13_avocado_chickpea_salad.mp4",
-                "/images/shakes/chocolate banana shake.jpg"
-              ].map((src, i) => (
-                <div key={i} className="relative w-72 h-96 rounded-3xl overflow-hidden shrink-0 shadow-lg">
-                  {src.endsWith('.mp4') ? (
-                    <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover">
-                      <source src={src} type="video/mp4" />
-                    </video>
-                  ) : (
-                    <img src={src} alt="Gallery item" className="absolute inset-0 w-full h-full object-cover" />
-                  )}
-                </div>
-              ))}
-            </div>
-            
-            <div className="animate-marquee flex gap-6 whitespace-nowrap min-w-full pl-6 absolute top-0">
-              {[
-                "/videos/4_exotic_fruit_salad.mp4",
-                "/videos/8_veggie_buddha_bowl.mp4",
-                "/videos/1_strawberry_shake.mp4",
-                "/images/salads/chicken chickpea salad.jpg",
-                "/videos/10_apple_beetroot_carrot_juice.mp4",
-                "/images/meals/baked chicken with herb rice.jpg",
-                "/videos/13_avocado_chickpea_salad.mp4",
-                "/images/shakes/chocolate banana shake.jpg"
-              ].map((src, i) => (
-                <div key={i+8} className="relative w-72 h-96 rounded-3xl overflow-hidden shrink-0 shadow-lg">
-                  {src.endsWith('.mp4') ? (
-                    <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover">
-                      <source src={src} type="video/mp4" />
-                    </video>
-                  ) : (
-                    <img src={src} alt="Gallery item" className="absolute inset-0 w-full h-full object-cover" />
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* Horizontal Scroll Gallery */}
+        <HorizontalGallery />
 
         <section id="cta" className="w-full py-24 relative flex flex-col items-center justify-center">
         {/* Background Image with Overlay */}

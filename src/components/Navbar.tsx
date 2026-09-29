@@ -8,9 +8,9 @@ export default function Navbar() {
 
   const links = [
     { name: 'HOME', href: '/' },
-    { name: 'ABOUT', href: '/about' },
     { name: 'MENU', href: '/menu' },
     { name: 'SUBSCRIPTIONS', href: '/subscriptions' },
+    { name: 'ABOUT', href: '/about' },
     { name: 'BLOG', href: '/blog' },
     { name: 'CONTACT', href: '/contact' },
   ];
