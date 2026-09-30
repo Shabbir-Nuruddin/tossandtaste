@@ -1,53 +1,70 @@
 @import "tailwindcss";
 
-:root {
-  --background: #fcfdf8; /* Very light, clean off-white */
-  --foreground: #1a1a1a; /* Dark gray for text */
-  --accent: #5e9d34; /* The healthy green from the Toss & Taste logo */
-  --accent-light: #f4faeb; /* The light green background from their footer */
+/* Brand colours are taken from the Toss & Taste logo. */
+@theme {
+  --color-cream: #fbf9f2;
+  --color-cream-deep: #f3f0e3;
+  --color-leaf: #5e9d34;
+  --color-leaf-bright: #88c040;
+  --color-leaf-dark: #467a24;
+  --color-leaf-tint: #eef6e2;
+  --color-forest: #1f3b1e;
+  --color-ink: #1c1d1a;
+  --color-charcoal: #585858;
+  --color-tangerine: #e87818;
+  --color-tangerine-tint: #fdf0e3;
+
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--color-ink);
+  background: var(--color-cream);
   overflow-x: hidden;
-  overscroll-behavior: none;
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }
-::-webkit-scrollbar-track {
-  background: transparent; 
-}
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1; 
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8; 
+
+p {
+  text-wrap: pretty;
 }
 
 ::selection {
-  background: var(--accent);
+  background: var(--color-leaf);
   color: white;
 }
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(calc(-100% - var(--gap))); }
+
+:focus-visible {
+  outline: 2px solid var(--color-leaf-dark);
+  outline-offset: 2px;
 }
 
-@keyframes marquee-vertical {
-  from { transform: translateY(0); }
-  to { transform: translateY(calc(-100% - var(--gap))); }
+/* Hide the scrollbar on horizontal swipe rows but keep them scrollable. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
-.animate-marquee {
-  animation: marquee var(--duration) linear infinite;
-}
-
-.animate-marquee-vertical {
-  animation: marquee-vertical var(--duration) linear infinite;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

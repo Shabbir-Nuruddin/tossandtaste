@@ -1,249 +1,309 @@
-"use client"
-import Link from 'next/link';
 import Image from 'next/image';
-import HorizontalGallery from '@/components/HorizontalGallery';
-import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { ArrowRight, Check, Clock, MapPin } from 'lucide-react';
+import AutoVideo from '@/components/AutoVideo';
+import FaqList from '@/components/FaqList';
+import MenuCard from '@/components/MenuCard';
+import { SocialIcon } from '@/components/SocialIcons';
+import { FEATURED_IDS, MENU } from '@/data/menu';
+import { PLANS, formatINR } from '@/data/plans';
+import { FAQS, GOOGLE_REVIEWS, GOOGLE_REVIEWS_URL, SITE, TESTIMONIALS, whatsappLink } from '@/data/site';
+
+const INCLUDED = [
+  'Lean protein in every meal — chicken, eggs, paneer, tofu or legumes',
+  'Calories, protein and carbs listed, so you can track without weighing',
+  'Portion-controlled, cooked fresh on the day of delivery',
+  'Veg, non-veg, or a mix of both',
+  'Lunch, dinner, or both — delivered to your door',
+];
+
+const STEPS = [
+  { title: 'Tell us your goal', body: 'Fat loss, more protein, or just eating better. Message us and we’ll help you pick.' },
+  { title: 'Choose your plan', body: '10, 20 or 30 meals — veg, non-veg or mix — for lunch, dinner or both.' },
+  { title: 'We cook it fresh', body: `Every meal is made the same day in our FSSAI-licensed kitchen in Sector 55, Gurugram.` },
+  { title: 'Delivered on time', body: `Lunch arrives ${SITE.slots.lunch}, dinner ${SITE.slots.dinner}.` },
+  { title: 'Adjust as you go', body: 'Tell us how you’re getting on and we’ll tweak your meals to keep you on track.' },
+];
+
+const REEL = [
+  { video: '/videos/14_quinoa_fruit_salad.mp4', poster: '/food/quinoa-fruit-salad.webp', label: 'Quinoa Fruit Salad' },
+  { video: '/videos/8_veggie_buddha_bowl.mp4', poster: '/food/veggie-buddha-bowl.webp', label: 'Veggie Buddha Bowl' },
+  { video: '/videos/3_grilled_chicken_salad.mp4', poster: '/food/grilled-chicken-salad.webp', label: 'Grilled Chicken Salad' },
+  { video: '/videos/10_apple_beetroot_carrot_juice.mp4', poster: '/food/apple-beetroot-carrot-juice.webp', label: 'Apple Beetroot Carrot' },
+  { video: '/videos/13_avocado_chickpea_salad.mp4', poster: '/food/avocado-chickpea-salad.webp', label: 'Avocado Chickpea Salad' },
+  { video: '/videos/16_mix_berry_smoothie.mp4', poster: '/food/mix-berry-smoothie.webp', label: 'Mix Berry Smoothie' },
+  { video: '/videos/11_peanut_butter_energy_bites.mp4', poster: '/food/peanut-butter-crunch.webp', label: 'Peanut Butter Crunch' },
+  { video: '/videos/4_exotic_fruit_salad.mp4', poster: '/food/exotic-fruit-salad.webp', label: 'Exotic Fruit Salad' },
+];
+
+const featured = FEATURED_IDS.map((id) => MENU.find((m) => m.id === id)!).filter(Boolean);
+
+function lowest(plan: (typeof PLANS)[number]) {
+  const all = Object.values(plan.prices).flatMap((p) => Object.values(p)).filter((n): n is number => n != null);
+  return all.length ? Math.min(...all) : null;
+}
 
 export default function Home() {
-  const [activeSection, setActiveSection] = useState('hero');
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = ['hero', 'banner', 'plans', 'included', 'works', 'cta'];
-      const scrollY = window.scrollY;
-      
-      for (const section of sections) {
-        const el = document.getElementById(section);
-        if (el && scrollY >= el.offsetTop - 300) {
-          setActiveSection(section);
-        }
-      }
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
-    <div className="w-full bg-[#fdfdfc] text-[#1a1a1a]">
-      
-      {/* Scroll Navigation Pills */}
-      <div className="fixed right-4 top-1/2 -translate-y-1/2 z-50 hidden md:flex flex-col gap-3 bg-[#111111] rounded-full px-2 py-4 shadow-2xl border border-white/10 backdrop-blur-md">
-        {['hero', 'banner', 'plans', 'included', 'works', 'cta'].map((section, i) => (
-          <a 
-            key={section} 
-            href={`#${section}`}
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
-            }}
-            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 hover:scale-150 ${activeSection === section ? "bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)] scale-125" : "bg-white/30"}`}
+    <>
+      {/* Hero */}
+      <section className="bg-cream">
+        <div className="max-w-[1280px] mx-auto px-5 sm:px-6 pt-10 pb-12 md:pt-16 md:pb-20 grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+          <div>
+            <p className="text-sm font-semibold text-leaf-dark uppercase tracking-wider">{SITE.tagline}</p>
+            <h1 className="mt-4 text-[2.6rem] leading-[1.05] sm:text-6xl lg:text-[4.2rem] font-bold text-forest">
+              Healthy food doesn’t have to be boring.
+            </h1>
+            <p className="mt-5 text-lg md:text-xl text-charcoal max-w-xl">
+              Fresh salads, bowls and juices with the calories and macros on every meal. Cooked daily in Gurugram and delivered for lunch or dinner.
+            </p>
+            <div className="mt-8 flex flex-col sm:flex-row gap-3">
+              <Link
+                href="/subscriptions"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-leaf-dark text-white font-semibold px-7 py-4 hover:bg-forest transition-colors"
+              >
+                See meal plans <ArrowRight size={18} />
+              </Link>
+              <Link
+                href="/menu"
+                className="inline-flex items-center justify-center rounded-full border border-black/15 bg-white font-semibold px-7 py-4 hover:border-black/40 transition-colors"
+              >
+                Browse the menu
+              </Link>
+            </div>
+            <ul className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-6 text-[15px] text-ink/80">
+              <li className="flex items-center gap-2">
+                <MapPin size={18} className="text-leaf-dark" aria-hidden="true" /> {SITE.areas.join(' · ')}
+              </li>
+              <li className="flex items-center gap-2">
+                <Clock size={18} className="text-leaf-dark" aria-hidden="true" /> Lunch & dinner, every day
+              </li>
+            </ul>
+          </div>
+          <div className="relative aspect-[4/3] lg:aspect-[5/4] rounded-[2rem] overflow-hidden bg-leaf-tint">
+            <Image
+              src="/food/cover-menu.webp"
+              alt="A spread of Toss & Taste salads and bowls"
+              fill
+              priority
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+            />
+            <AutoVideo src="/videos/17_menu_cover_hero.mp4" poster="/food/cover-menu.webp" className="absolute inset-0 w-full h-full object-cover" />
+          </div>
+        </div>
+      </section>
+
+      {/* Plans */}
+      <section className="bg-white border-y border-black/5">
+        <div className="max-w-[1280px] mx-auto px-5 sm:px-6 py-14 md:py-20">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
+            <div>
+              <h2 className="text-3xl md:text-5xl font-bold text-forest">Meal plans</h2>
+              <p className="mt-3 text-charcoal max-w-xl">Two plans, each in 10, 20 or 30 meals. Choose veg, non-veg or a mix.</p>
+            </div>
+            <Link href="/subscriptions" className="font-semibold text-leaf-dark inline-flex items-center gap-1.5">
+              Compare plans <ArrowRight size={18} />
+            </Link>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            {PLANS.map((plan) => {
+              const from = lowest(plan);
+              return (
+                <Link
+                  key={plan.id}
+                  href={`/subscriptions?plan=${plan.id}`}
+                  className="group rounded-3xl overflow-hidden bg-cream border border-black/5 flex flex-col"
+                >
+                  <div className="relative aspect-[16/10] bg-leaf-tint overflow-hidden">
+                    <AutoVideo
+                      src={plan.video}
+                      poster={plan.image}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                    />
+                  </div>
+                  <div className="p-6 md:p-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+                    <div>
+                      <h3 className="text-2xl md:text-3xl font-bold text-forest group-hover:text-leaf-dark transition-colors">{plan.name}</h3>
+                      <p className="mt-1 text-charcoal">{plan.short}</p>
+                    </div>
+                    <p className="text-charcoal whitespace-nowrap">
+                      {from != null ? (
+                        <>From <span className="font-semibold text-ink text-lg tabular-nums">{formatINR(from)}</span></>
+                      ) : (
+                        <span className="font-semibold text-ink text-lg">{plan.fromNote}</span>
+                      )}
+                    </p>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* What's included */}
+      <section className="max-w-[1280px] mx-auto px-5 sm:px-6 py-14 md:py-20">
+        <div className="grid md:grid-cols-2 rounded-[2rem] overflow-hidden">
+          <div className="relative min-h-[280px] md:min-h-[520px] bg-leaf-tint">
+            <Image
+              src="/uploads/2026/07/Fat-Loss-Plan-0001x.jpg"
+              alt="Toss & Taste meal-plan bowls"
+              fill
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="object-cover"
+            />
+          </div>
+          <div className="bg-forest text-white p-8 md:p-14 flex flex-col justify-center">
+            <h2 className="text-3xl md:text-4xl font-bold">What’s in every plan</h2>
+            <ul className="mt-8 space-y-5">
+              {INCLUDED.map((item) => (
+                <li key={item} className="flex gap-3 text-lg text-white/90">
+                  <Check size={22} className="mt-0.5 shrink-0 text-leaf-bright" aria-hidden="true" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured dishes */}
+      <section className="bg-white border-y border-black/5">
+        <div className="max-w-[1280px] mx-auto px-5 sm:px-6 py-14 md:py-20">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
+            <div>
+              <h2 className="text-3xl md:text-5xl font-bold text-forest">Customer favourites</h2>
+              <p className="mt-3 text-charcoal max-w-xl">Order single meals any day, or have them as part of a plan.</p>
+            </div>
+            <Link href="/menu" className="font-semibold text-leaf-dark inline-flex items-center gap-1.5">
+              Full menu <ArrowRight size={18} />
+            </Link>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {featured.map((item) => (
+              <MenuCard key={item.id} item={item} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section className="max-w-[1280px] mx-auto px-5 sm:px-6 py-14 md:py-20">
+        <h2 className="text-3xl md:text-5xl font-bold text-forest">How it works</h2>
+        <ol className="mt-10 grid sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-6">
+          {STEPS.map((s, i) => (
+            <li key={s.title} className="relative">
+              <span className="flex w-10 h-10 items-center justify-center rounded-full bg-tangerine text-white font-display font-bold">
+                {i + 1}
+              </span>
+              <h3 className="mt-4 font-display text-xl font-semibold">{s.title}</h3>
+              <p className="mt-2 text-charcoal leading-relaxed">{s.body}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      {/* Food reel — native swipe on phones, scrollable row on desktop */}
+      <section className="pb-14 md:pb-20" aria-label="Some of our dishes">
+        <ul className="flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar px-5 sm:px-6 lg:px-[max(1.5rem,calc((100vw-1280px)/2+1.5rem))]">
+          {REEL.map((r) => (
+            <li key={r.video} className="snap-start shrink-0 w-[78vw] sm:w-[340px]">
+              <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-leaf-tint">
+                <AutoVideo src={r.video} poster={r.poster} className="absolute inset-0 w-full h-full object-cover" />
+              </div>
+              <p className="mt-2 font-medium">{r.label}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Testimonials */}
+      <section className="bg-leaf-tint">
+        <div className="max-w-[1280px] mx-auto px-5 sm:px-6 py-14 md:py-20">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <h2 className="text-3xl md:text-5xl font-bold text-forest">What customers say</h2>
+            <a
+              href={GOOGLE_REVIEWS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-leaf-dark underline underline-offset-4 hover:text-forest"
+            >
+              Read all reviews on Google
+            </a>
+          </div>
+          <ul className="mt-10 columns-1 sm:columns-2 lg:columns-3 gap-5">
+            {[
+              ...GOOGLE_REVIEWS.map((r) => ({ ...r, role: 'Google review' })),
+              ...TESTIMONIALS,
+            ].map((t) => (
+              <li key={t.name} className="break-inside-avoid mb-5 rounded-2xl bg-white p-6">
+                <blockquote className="text-ink/85 leading-relaxed">“{t.quote}”</blockquote>
+                <p className="pt-5 font-semibold">{t.name}</p>
+                <p className="text-sm text-charcoal">{t.role}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* Founder */}
+      <section className="max-w-[1280px] mx-auto px-5 sm:px-6 py-14 md:py-20 grid md:grid-cols-[320px_1fr] gap-8 md:gap-14 items-center">
+        <div className="relative aspect-square max-w-[320px] rounded-3xl overflow-hidden bg-leaf-tint">
+          <Image
+            src={SITE.founder.photo}
+            alt={`${SITE.founder.name}, founder of Toss & Taste`}
+            fill
+            sizes="320px"
+            className="object-cover object-[center_15%]"
           />
-        ))}
-      </div>
-
-      {/* Hero Video Section */}
-      <section id="hero" className="w-full h-screen relative overflow-hidden pt-24">
-        <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover z-0">
-          <source src="/videos/17_menu_cover_hero.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-black/40 z-10"></div>
-        <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-6">
-          <h1 className="text-5xl md:text-7xl font-black text-white uppercase tracking-tight mb-6 drop-shadow-2xl">
-            Healthy Meals <br/>
-            <span className="text-[#a3c94a]">Delivered Daily</span>
-          </h1>
-          <p className="text-white/90 text-xl md:text-2xl font-medium max-w-2xl mb-10 drop-shadow-md">
-            Nutritionist-designed, freshly prepared, and effortlessly delicious.
+        </div>
+        <div className="max-w-2xl">
+          <p className="font-display text-2xl md:text-3xl font-semibold text-forest leading-snug">
+            “Good health doesn’t start in the gym. It starts on your plate.”
           </p>
-          <Link href="/subscriptions" className="bg-[#5e9d34] text-white px-10 py-4 rounded-full font-black uppercase tracking-[0.15em] text-sm hover:bg-[#4a8027] transition-all shadow-[0_4px_20px_rgba(94,157,52,0.4)]">
-            Explore Plans
+          <p className="mt-4 text-charcoal leading-relaxed">
+            Toss & Taste started when our founder couldn’t find healthy food that was tasty, consistent and filling enough to support his training — so he began cooking it himself.
+          </p>
+          <p className="mt-5 font-semibold">{SITE.founder.name}</p>
+          <p className="text-charcoal">{SITE.founder.role}</p>
+          <Link href="/about" className="mt-5 inline-flex items-center gap-1.5 font-semibold text-leaf-dark">
+            Read our story <ArrowRight size={18} />
           </Link>
         </div>
       </section>
 
-      {/* Balanced Meals Banner */}
-      <section id="banner" className="w-full bg-[#fdfbf6] py-16 overflow-hidden border-y border-zinc-100">
-        <div className="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-2 items-center gap-8 relative">
-          <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#eaf4e5] rounded-full mix-blend-multiply filter blur-3xl opacity-70"></div>
-          
-          <div className="text-center md:text-left z-10 px-4 md:pl-20">
-            <h2 className="text-4xl md:text-[3.5rem] font-bold text-[#e87c1e] leading-tight mb-2 uppercase">Balanced Meals</h2>
-            <h2 className="text-4xl md:text-[3.5rem] font-black text-[#0f3b21] leading-tight uppercase tracking-tight">Delivered To Your<br />Doorstep</h2>
-          </div>
-          
-          <div className="relative z-10 flex justify-center md:justify-end pr-0 md:pr-10">
-            <div className="relative">
-              <div className="absolute -inset-4 border border-zinc-300 rounded-[40%] transform rotate-12 scale-105"></div>
-              <div className="w-[300px] md:w-[450px] aspect-square relative z-10 drop-shadow-2xl"><Image src="/uploads/2026/07/Salad-200.png" alt="Balanced Salad" fill className="object-contain" /></div>
-              <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-[#6c8e3e] rounded-full z-0"></div>
-            </div>
-          </div>
+      {/* FAQ */}
+      <section className="bg-white border-t border-black/5">
+        <div className="max-w-3xl mx-auto px-5 sm:px-6 py-14 md:py-20">
+          <h2 className="text-3xl md:text-5xl font-bold text-forest mb-8">Questions</h2>
+          <FaqList items={FAQS} />
         </div>
       </section>
 
-      {/* Meal Plans Section */}
-      <section id="plans" className="py-24 px-6 bg-white">
-        <div className="max-w-[1200px] mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-            <div className="text-center group">
-                <Link href="/subscriptions">
-                  <div className="aspect-[4/3] md:aspect-square mb-6 overflow-hidden rounded-[2rem] bg-zinc-50 border border-zinc-100 relative shadow-sm group-hover:shadow-2xl transition-all duration-700">
-                    <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)]">
-                      <source src="/videos/20_protein_pack_hero.mp4" type="video/mp4" />
-                    </video>
-                  </div>
-                  <h3 className="text-2xl font-black uppercase tracking-tight text-[#1a1a1a] group-hover:text-[#5e9d34] transition-colors">Protein Pack Meal Plan</h3>
-                </Link>
-              </div>
-              
-              <div className="text-center group">
-                <Link href="/subscriptions">
-                  <div className="aspect-[4/3] md:aspect-square mb-6 overflow-hidden rounded-[2rem] bg-zinc-50 border border-zinc-100 relative shadow-sm group-hover:shadow-2xl transition-all duration-700">
-                    <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)]">
-                      <source src="/videos/19_fat_loss_hero.mp4" type="video/mp4" />
-                    </video>
-                  </div>
-                  <h3 className="text-2xl font-black uppercase tracking-tight text-[#1a1a1a] group-hover:text-[#5e9d34] transition-colors">Fat Loss Meal Plan</h3>
-                </Link>
-              </div>
-          </div>
-        </div>
-      </section>
-
-      {/* What's Included Section */}
-      <section id="included" className="w-full py-10 bg-white">
-        <div className="max-w-[1400px] mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-0 min-h-[500px]">
-            <div className="bg-[#84b84b] text-white p-12 md:p-20 rounded-l-[2rem] rounded-bl-[2rem] md:rounded-bl-none flex flex-col justify-center relative overflow-hidden">
-              <div className="absolute -right-20 top-0 w-[400px] h-full bg-[#fdfdfc] rounded-l-full opacity-20"></div>
-              <h2 className="text-4xl font-black mb-10 tracking-tight uppercase relative z-10">What's Included</h2>
-              <ul className="space-y-6 relative z-10">
-                <li className="flex gap-4">
-                  <div className="w-1 h-12 bg-white/40 shrink-0"></div>
-                  <span className="text-sm font-semibold uppercase tracking-wider">Lean Protein Sources like Chicken,<br />Paneer, Tofu, and Legumes</span>
-                </li>
-                <li className="flex gap-4">
-                  <div className="w-1 h-12 bg-white/40 shrink-0"></div>
-                  <span className="text-sm font-semibold uppercase tracking-wider">Balanced Macros for<br />Muscle Support and Recovery</span>
-                </li>
-                <li className="flex gap-4">
-                  <div className="w-1 h-12 bg-white/40 shrink-0"></div>
-                  <span className="text-sm font-semibold uppercase tracking-wider">Freshly Prepared Meals<br />Delivered Daily</span>
-                </li>
-                <li className="flex gap-4">
-                  <div className="w-1 h-12 bg-white/40 shrink-0"></div>
-                  <span className="text-sm font-semibold uppercase tracking-wider">High-Protein, Portion-<br />Controlled Meals</span>
-                </li>
-                <li className="flex gap-4">
-                  <div className="w-1 h-12 bg-white/40 shrink-0"></div>
-                  <span className="text-sm font-semibold uppercase tracking-wider">Nutritionist-Designed<br />Meal Combinations</span>
-                </li>
-              </ul>
-            </div>
-            
-            <div className="h-full w-full">
-              <Image src="/uploads/2026/07/Fat-Loss-Plan-0001x.jpg" alt="Healthy Bowls" fill className="object-cover" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How Toss & Taste Works Section */}
-      <section id="works" className="py-24 px-6 bg-white">
-        <div className="max-w-[1400px] mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black text-[#0f3b21] tracking-tight">How Toss & Taste Works</h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-            {/* Left Steps */}
-            <div className="md:col-span-4 space-y-12">
-              <div className="flex gap-4 items-start justify-end text-right relative">
-                <div>
-                  <h4 className="text-[#0f3b21] font-bold text-lg mb-2">Step 1: Planned By Experts</h4>
-                  <p className="text-zinc-500 text-sm leading-relaxed">We evaluate your fitness goals, lifestyle, and nutritional needs to design a perfectly balanced meal plan.</p>
-                </div>
-                <div className="w-12 h-12 rounded-full bg-[#84b84b] shrink-0 mt-1 shadow-md border-4 border-white"></div>
-              </div>
-              
-              <div className="flex gap-4 items-start justify-end text-right relative">
-                <div>
-                  <h4 className="text-[#0f3b21] font-bold text-lg mb-2">Step 2: Freshly Prepared</h4>
-                  <p className="text-zinc-500 text-sm leading-relaxed">Our chefs prepare your meals daily using premium, fresh ingredients in a pristine, hygienic kitchen.</p>
-                </div>
-                <div className="w-12 h-12 rounded-full bg-[#84b84b] shrink-0 mt-1 shadow-md border-4 border-white"></div>
-              </div>
-
-              <div className="flex gap-4 items-start justify-end text-right relative">
-                <div>
-                  <h4 className="text-[#0f3b21] font-bold text-lg mb-2">Step 3: Delivered Daily</h4>
-                  <p className="text-zinc-500 text-sm leading-relaxed">Receive your meals right on time, securely packed and ready to eat wherever you are.</p>
-                </div>
-                <div className="w-12 h-12 rounded-full bg-[#84b84b] shrink-0 mt-1 shadow-md border-4 border-white"></div>
-              </div>
-            </div>
-
-            {/* Center Image */}
-            <div className="md:col-span-4 flex justify-center relative">
-              <div className="relative w-full max-w-[400px] aspect-square rounded-full border-4 border-[#e87c1e] p-2 bg-white shadow-xl z-10">
-                <div className="w-full h-full rounded-full overflow-hidden">
-                  <Image src="/uploads/2026/07/Layer-1.png" alt="Happy woman eating salad" fill className="object-cover object-top" />
-                </div>
-              </div>
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[#84b84b] opacity-20 rounded-[40%_60%_70%_30%/40%_50%_60%_50%] -z-10 blur-xl"></div>
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] h-[110%] bg-[#5e9d34] opacity-80 rounded-[60%_40%_30%_70%/60%_30%_70%_40%] -z-10"></div>
-            </div>
-
-            {/* Right Steps */}
-            <div className="md:col-span-4 space-y-16">
-              <div className="flex gap-4 items-start relative">
-                <div className="w-12 h-12 rounded-full bg-[#84b84b] shrink-0 mt-1 shadow-md border-4 border-white"></div>
-                <div>
-                  <h4 className="text-[#0f3b21] font-bold text-lg mb-2">Step 4: Track & Maintain</h4>
-                  <p className="text-zinc-500 text-sm leading-relaxed">Build a sustainable habit while we monitor your progress and adjust macros as needed.</p>
-                </div>
-              </div>
-              
-              <div className="flex gap-4 items-start relative">
-                <div className="w-12 h-12 rounded-full bg-[#84b84b] shrink-0 mt-1 shadow-md border-4 border-white"></div>
-                <div>
-                  <h4 className="text-[#0f3b21] font-bold text-lg mb-2">Step 5: Achieve Your Goals</h4>
-                  <p className="text-zinc-500 text-sm leading-relaxed">Experience higher energy levels, better performance, and real results without compromising on taste.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* NEW: Try Toss & Taste today */}
-      
-        {/* Horizontal Scroll Gallery */}
-        <HorizontalGallery />
-
-        <section id="cta" className="w-full py-24 relative flex flex-col items-center justify-center">
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0 bg-[url('/uploads/live/Fat-Loss-Plan-0001x.jpg')] bg-fixed bg-cover bg-center">
-          <div className="absolute inset-0 bg-black/70"></div>
-        </div>
-        
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Try Toss & Taste today</h2>
-          <p className="text-white/90 text-lg mb-10">
-            Enjoy convenient, freshly prepared, and nutritious meals delivered weekly or monthly throughout Delhi NCR, Gurgaon, and Noida.
+      {/* CTA */}
+      <section className="relative overflow-hidden bg-forest">
+        <Image src="/food/cover-protein-pack-2.webp" alt="" fill sizes="100vw" className="object-cover opacity-25" />
+        <div className="relative max-w-3xl mx-auto px-5 sm:px-6 py-16 md:py-24 text-center text-white">
+          <h2 className="text-3xl md:text-5xl font-bold">Start eating better tomorrow</h2>
+          <p className="mt-4 text-lg text-white/85">
+            Order today and your first meal can arrive tomorrow, anywhere in {SITE.areas.slice(0, -1).join(', ')} or {SITE.areas.at(-1)}.
           </p>
-          <Link href="/subscriptions" className="inline-block bg-[#a3c94a] text-white px-8 py-3 rounded-full font-bold text-sm shadow-lg hover:bg-[#8eb53d] transition-colors">
-            Enjoy healthy meals without compromising on flavor &raquo;
-          </Link>
+          <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+            <Link href="/subscriptions" className="rounded-full bg-white text-forest font-semibold px-7 py-4 hover:bg-cream transition-colors">
+              Start a plan
+            </Link>
+            <a
+              href={whatsappLink('Hi Toss & Taste! I’d like to know more about your meal plans.')}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/40 font-semibold px-7 py-4 hover:bg-white/10 transition-colors"
+            >
+              <SocialIcon name="WhatsApp" /> Ask on WhatsApp
+            </a>
+          </div>
         </div>
       </section>
-
-      {/* Sub CTA Banner */}
-      <div className="w-full py-8 bg-white border-b border-zinc-100 text-center">
-        <h3 className="text-3xl font-bold text-[#555]">Enjoy Healthy Meals Without Compromising On Flavor.</h3>
-      </div>
-    </div>
+    </>
   );
 }

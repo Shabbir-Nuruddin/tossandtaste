@@ -1,85 +1,43 @@
-"use client"
-import Link from 'next/link';
+import type { Metadata } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
+import PageHeader from '@/components/PageHeader';
+import { POSTS, formatDate } from '@/data/blog';
 
-const blogs = [
-  {
-    title: "Natural Nutrition vs Processed Food: Which One Is Better for Your Health?",
-    excerpt: "Learn why choosing whole, natural ingredients over processed foods makes a massive difference in your daily energy and overall health.",
-    date: "February 17, 2026",
-    img: "/uploads/about/Food-Image-sweass-930x540.jpg",
-    slug: "natural-nutrition"
-  },
-  {
-    title: "Why Smart Planning Is Essential for Weight Loss",
-    excerpt: "Discover the importance of planning your meals to maintain consistency and achieve sustainable weight loss goals.",
-    date: "February 17, 2026",
-    img: "/uploads/about/Group-36-930x540.png",
-    slug: "smart-planning"
-  },
-  {
-    title: "Healthy Sip: Refreshment with Benefits",
-    excerpt: "Explore our range of healthy shakes and smoothies that pack a nutritional punch while keeping you refreshed.",
-    date: "February 17, 2026",
-    img: "/uploads/about/Group-37-930x540.png",
-    slug: "healthy-sip"
-  },
-  {
-    title: "Energy Bites: Power Your Body Naturally",
-    excerpt: "Discover how you can curb your afternoon cravings without spiking your insulin levels with our natural energy bites.",
-    date: "February 17, 2026",
-    img: "/uploads/about/Group-38-930x540.png",
-    slug: "energy-bites"
-  },
-  {
-    title: "Protein Pack: Fuel Strength, Boost Energy",
-    excerpt: "A deep dive into how our Protein Pack is scientifically designed for muscle recovery and sustained energy.",
-    date: "February 17, 2026",
-    img: "/uploads/2026/02/pic14.webp",
-    slug: "protein-pack-plan"
-  },
-  {
-    title: "Smart Fat Loss: A Sustainable Plan to Lose Weight Effectively",
-    excerpt: "Lose fat without losing flavor. Read about our approach to portion-controlled, nutrient-dense meals.",
-    date: "February 17, 2026",
-    img: "/uploads/about/24.jpg",
-    slug: "smart-fat-loss"
-  }
-];
+export const metadata: Metadata = {
+  title: 'Blog',
+  description: 'Simple, practical reads on eating well — fat loss, protein, planning your meals, and healthy snacks and drinks.',
+};
 
 export default function BlogPage() {
   return (
-    <div className="w-full bg-[#fdfdfc] text-[#1a1a1a] min-h-screen pt-20">
-      
-      {/* Page Header */}
-      <div className="py-20 text-center bg-[#fdfbf6] border-b border-zinc-100">
-        <h1 className="text-5xl font-black uppercase tracking-tight text-[#0f3b21]">Blog</h1>
-        <p className="mt-4 text-zinc-600">Home &raquo; Blog</p>
-      </div>
-
-      <div className="max-w-[1000px] mx-auto px-6 py-20 space-y-16">
-        {blogs.map((blog, i) => (
-          <div key={i} className="flex flex-col md:flex-row gap-8 items-center bg-white rounded-xl overflow-hidden shadow-sm border border-zinc-100 p-6">
-            <div className="w-full md:w-[40%] h-[250px] shrink-0 rounded-lg overflow-hidden relative">
-              <Image src={blog.img} alt={blog.title} fill sizes="(max-width: 768px) 100vw, 40vw" className="object-cover hover:scale-105 transition-transform duration-700" />
-              <span className="absolute top-4 left-4 bg-[#a3c94a] text-white text-[10px] font-bold px-3 py-1 rounded-sm uppercase tracking-wider">Blog</span>
-            </div>
-            
-            <div className="w-full md:w-[60%] flex flex-col justify-center">
-              <p className="text-xs text-zinc-500 mb-3 flex items-center gap-2">
-                <span>&#128197; {blog.date}</span>
-                <span>|</span>
-                <span>&#128100; by Toss Taste</span>
-              </p>
-              <h2 className="text-2xl font-bold leading-snug mb-4 hover:text-[#a3c94a] transition-colors cursor-pointer">{blog.title}</h2>
-              <p className="text-zinc-600 text-sm leading-relaxed mb-6">{blog.excerpt}</p>
-              <div>
-                <button className="bg-[#a3c94a] text-white text-xs font-bold uppercase tracking-wider px-6 py-2.5 rounded-sm hover:bg-[#8eb53d] transition-colors">Read More</button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+    <>
+      <PageHeader eyebrow="Blog" title="Notes from our kitchen" intro={<p>Simple, practical reads on eating well without overthinking it.</p>} />
+      <section className="max-w-[1280px] mx-auto px-5 sm:px-6 py-12 md:py-16">
+        <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {POSTS.map((post) => (
+            <li key={post.slug}>
+              <Link href={`/blog/${post.slug}`} className="group flex flex-col h-full rounded-2xl overflow-hidden bg-white border border-black/5">
+                <div className="relative aspect-[16/10] bg-leaf-tint overflow-hidden">
+                  <Image
+                    src={post.image}
+                    alt=""
+                    fill
+                    sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  />
+                </div>
+                <div className="flex flex-col flex-1 p-5">
+                  <time dateTime={post.date} className="text-sm text-charcoal">{formatDate(post.date)}</time>
+                  <h2 className="mt-2 font-display text-xl font-semibold leading-snug group-hover:text-leaf-dark transition-colors">{post.title}</h2>
+                  <p className="mt-2 text-charcoal leading-relaxed">{post.excerpt}</p>
+                  <span className="mt-auto pt-4 text-sm font-semibold text-leaf-dark">Read more →</span>
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </>
   );
 }

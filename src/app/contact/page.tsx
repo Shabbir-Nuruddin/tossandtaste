@@ -1,80 +1,78 @@
-"use client"
-import React, { useState } from 'react';
+import type { Metadata } from 'next';
+import { Clock, Mail, MapPin, Phone } from 'lucide-react';
+import PageHeader from '@/components/PageHeader';
+import SocialLinks from '@/components/SocialIcons';
+import ContactForm from './ContactForm';
+import { SITE } from '@/data/site';
+
+export const metadata: Metadata = {
+  title: 'Contact',
+  description: `Call or WhatsApp ${SITE.phone}, email ${SITE.email}, or visit us at ${SITE.address}.`,
+};
+
+const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(`Toss & Taste, ${SITE.address}`)}&output=embed`;
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const mailtoLink = `mailto:contact@tosstandtaste.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent("Name: " + formData.name + "\nEmail: " + formData.email + "\n\n" + formData.message)}`;
-    window.location.href = mailtoLink;
-    alert("Thank you! Your message has been prepared for sending.");
-  };
+  const rows = [
+    { icon: Phone, label: 'Call or WhatsApp', value: SITE.phone, href: SITE.phoneHref },
+    { icon: Mail, label: 'Email', value: SITE.email, href: `mailto:${SITE.email}` },
+    { icon: MapPin, label: 'Kitchen', value: SITE.address },
+    { icon: Clock, label: 'Delivery', value: `Lunch ${SITE.slots.lunch}\nDinner ${SITE.slots.dinner}` },
+  ];
 
   return (
-    <div className="w-full bg-[#fdfdfc] text-[#1a1a1a] min-h-screen pt-20">
-      <div className="py-20 text-center bg-[#fdfbf6] border-b border-zinc-100">
-        <h1 className="text-5xl font-black uppercase tracking-tight text-[#0f3b21]">Contact Us</h1>
-        <p className="mt-4 text-zinc-600">Home &raquo; Contact</p>
-      </div>
-      <div className="max-w-[1400px] mx-auto px-6 py-24">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          <div>
-            <h2 className="text-4xl font-black uppercase tracking-tighter text-[#0f3b21] mb-6">Get in Touch</h2>
-            <p className="text-zinc-500 leading-relaxed font-medium mb-10">Have a question about our meal plans or need help with a subscription? Fill out the form or reach out directly using the information below. We'd love to hear from you.</p>
-            <div className="space-y-8">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-[#eaf2d7] rounded-xl flex items-center justify-center shrink-0"><span className="text-2xl">📍</span></div>
-                <div><h4 className="text-lg font-bold text-[#1a1a1a] mb-1">Address</h4><p className="text-zinc-500">Sector 55, Golf Course Road<br/>Gurgaon 122001</p></div>
-              </div>
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-[#eaf2d7] rounded-xl flex items-center justify-center shrink-0"><span className="text-2xl">📞</span></div>
-                <div><h4 className="text-lg font-bold text-[#1a1a1a] mb-1">Phone</h4><p className="text-zinc-500">+91 9711533944</p></div>
-              </div>
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-[#eaf2d7] rounded-xl flex items-center justify-center shrink-0"><span className="text-2xl">✉️</span></div>
-                <div><h4 className="text-lg font-bold text-[#1a1a1a] mb-1">Email</h4><p className="text-zinc-500">contact@tosstandtaste.com</p></div>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white rounded-3xl p-10 shadow-[0_4px_24px_rgba(0,0,0,0.04)] border border-zinc-100">
-            <h3 className="text-2xl font-black uppercase tracking-tight text-[#0f3b21] mb-8">Send a Message</h3>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <>
+      <PageHeader
+        eyebrow="Contact"
+        title="Talk to us"
+        intro={<p>Questions about a plan, a diet, or an order? WhatsApp is the quickest way to reach us.</p>}
+      />
+
+      <section className="max-w-[1280px] mx-auto px-5 sm:px-6 py-12 md:py-16 grid lg:grid-cols-[1fr_1.2fr] gap-12">
+        <div>
+          <ul className="space-y-6">
+            {rows.map(({ icon: Icon, label, value, href }) => (
+              <li key={label} className="flex gap-4">
+                <span className="w-11 h-11 rounded-xl bg-leaf-tint text-leaf-dark flex items-center justify-center shrink-0">
+                  <Icon size={20} aria-hidden="true" />
+                </span>
                 <div>
-                  <label htmlFor="name" className="block text-sm font-bold text-[#1a1a1a] uppercase tracking-wider mb-2">Your Name</label>
-                  <input required type="text" id="name" name="name" value={formData.name} onChange={handleChange} className="w-full bg-[#fdfcf5] border border-zinc-200 rounded-xl px-4 py-3 focus:outline-none focus:border-[#8cc63f] focus:ring-1 focus:ring-[#8cc63f]" placeholder="John Doe" />
+                  <p className="text-sm text-charcoal">{label}</p>
+                  {href ? (
+                    <a href={href} className="font-semibold text-lg hover:text-leaf-dark break-all">{value}</a>
+                  ) : (
+                    <p className="font-semibold text-lg whitespace-pre-line">{value}</p>
+                  )}
                 </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-bold text-[#1a1a1a] uppercase tracking-wider mb-2">Email Address</label>
-                  <input required type="email" id="email" name="email" value={formData.email} onChange={handleChange} className="w-full bg-[#fdfcf5] border border-zinc-200 rounded-xl px-4 py-3 focus:outline-none focus:border-[#8cc63f] focus:ring-1 focus:ring-[#8cc63f]" placeholder="john@example.com" />
-                </div>
-              </div>
-              <div>
-                <label htmlFor="subject" className="block text-sm font-bold text-[#1a1a1a] uppercase tracking-wider mb-2">Subject</label>
-                <input required type="text" id="subject" name="subject" value={formData.subject} onChange={handleChange} className="w-full bg-[#fdfcf5] border border-zinc-200 rounded-xl px-4 py-3 focus:outline-none focus:border-[#8cc63f] focus:ring-1 focus:ring-[#8cc63f]" placeholder="How can we help?" />
-              </div>
-              <div>
-                <label htmlFor="message" className="block text-sm font-bold text-[#1a1a1a] uppercase tracking-wider mb-2">Message</label>
-                <textarea required id="message" name="message" value={formData.message} onChange={handleChange} rows={5} className="w-full bg-[#fdfcf5] border border-zinc-200 rounded-xl px-4 py-3 focus:outline-none focus:border-[#8cc63f] focus:ring-1 focus:ring-[#8cc63f]" placeholder="Write your message here..."></textarea>
-              </div>
-              <button type="submit" className="w-full bg-[#5e9d34] text-white font-black uppercase tracking-[0.2em] py-4 rounded-xl hover:bg-[#4a8027] transition-colors">Submit Message</button>
-            </form>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-8">
+            <p className="text-sm text-charcoal mb-3">Follow what’s cooking</p>
+            <SocialLinks itemClassName="w-11 h-11 rounded-full border border-black/15 flex items-center justify-center hover:bg-leaf-dark hover:text-white hover:border-leaf-dark transition-colors" />
           </div>
+          <p className="mt-8 text-sm text-charcoal">
+            We deliver across {SITE.areas.join(', ')}. FSSAI Lic. No. {SITE.fssai}.
+          </p>
         </div>
-      </div>
-    </div>
+
+        <div className="rounded-3xl bg-white border border-black/5 p-6 md:p-8">
+          <h2 className="text-2xl font-semibold mb-6">Send us a message</h2>
+          <ContactForm />
+        </div>
+      </section>
+
+      <section className="max-w-[1280px] mx-auto px-5 sm:px-6 pb-16">
+        <div className="rounded-3xl overflow-hidden border border-black/5 aspect-[4/3] sm:aspect-[21/9]">
+          <iframe
+            title="Map showing Toss & Taste, Sector 55, Gurugram"
+            src={mapSrc}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="w-full h-full border-0"
+          />
+        </div>
+      </section>
+    </>
   );
 }
