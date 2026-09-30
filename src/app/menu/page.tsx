@@ -1,7 +1,10 @@
 "use client"
 import Link from 'next/link';
+import Image from 'next/image';
+import { useCartStore } from '@/store/cartStore';
 
 export default function MenuPage() {
+  const addItem = useCartStore(state => state.addItem);
   const menuItems = [
     { id: 1, title: 'Avocado Chickpea Salad', category: 'Salads', desc: 'Fresh and delicious avocado chickpea salad made with the finest ingredients.', price: ',1250', cals: '25g Protein | 40g Carbs | 350 kcal', image: '/images/salads/Avocado chickpea salad.jpg', tags: ['Bestseller'] },
     { id: 2, title: 'Black Bean And Papaya Salad', category: 'Salads', desc: 'Fresh and delicious black bean and papaya salad made with the finest ingredients.', price: ',1250', cals: '25g Protein | 40g Carbs | 350 kcal', image: '/images/salads/Black bean and Papaya salad.jpg', tags: ['Bestseller'] },
@@ -80,11 +83,7 @@ export default function MenuPage() {
           {menuItems.map(item => (
             <div key={item.id} className="bg-white rounded-[24px] overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-zinc-100 group flex flex-col h-full">
               <div className="relative h-64 overflow-hidden bg-zinc-100">
-                <img 
-                  src={item.image} 
-                  alt={item.title} 
-                  className="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-700"
-                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                <Image src={item.image} alt={item.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-cover scale-100 group-hover:scale-105 transition-transform duration-700" /> { e.currentTarget.style.display = 'none'; }}
                 />
                 <div className="absolute top-4 left-4 flex gap-2">
                   {item.tags.map(tag => (
@@ -104,9 +103,11 @@ export default function MenuPage() {
                 </div>
                 <p className="text-zinc-500 text-sm leading-relaxed mb-6 flex-grow">{item.desc}</p>
                 <div className="pt-4 border-t border-zinc-100 mt-auto">
-                  <Link href="/cart" className="w-full block text-center bg-[#fdfcf5] border border-[#eaf2d7] text-[#5e9d34] text-sm font-bold uppercase tracking-wider py-3 rounded-xl hover:bg-[#5e9d34] hover:text-white transition-colors">
+                  <button 
+                    onClick={() => addItem({ id: item.id, title: item.title, price: item.price, image: item.image })}
+                    className="w-full block text-center bg-[#fdfcf5] border border-[#eaf2d7] text-[#5e9d34] text-sm font-bold uppercase tracking-wider py-3 rounded-xl hover:bg-[#5e9d34] hover:text-white transition-colors">
                     Add to Cart
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>

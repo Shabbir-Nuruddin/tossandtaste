@@ -151,7 +151,7 @@ export default function SubscriptionsPage() {
                       className={`relative flex flex-col items-start p-0 rounded-2xl overflow-hidden border-2 transition-all text-left shadow-sm group ${isSelected ? 'border-[#5e9d34] ring-2 ring-[#5e9d34]/20' : 'border-zinc-100 hover:border-[#5e9d34]/50 bg-white'}`}
                     >
                       <div className="w-full h-32 relative overflow-hidden bg-zinc-100">
-                        <img src={addon.img} alt={addon.label} className={`w-full h-full object-cover transition-transform duration-700 ${isSelected ? 'scale-105' : 'group-hover:scale-105'}`} />
+                        <Image fill sizes="300px" src={addon.img} alt={addon.label} className={`w-full h-full object-cover transition-transform duration-700 ${isSelected ? 'scale-105' : 'group-hover:scale-105'}`} />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                         {isSelected && (
                           <div className="absolute top-2 right-2 bg-[#5e9d34] text-[#1a1a1a] rounded-full p-1">

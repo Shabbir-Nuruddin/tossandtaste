@@ -1,5 +1,6 @@
 "use client"
 import Link from 'next/link';
+import Image from 'next/image';
 
 const blogs = [
   {
@@ -60,7 +61,7 @@ export default function BlogPage() {
         {blogs.map((blog, i) => (
           <div key={i} className="flex flex-col md:flex-row gap-8 items-center bg-white rounded-xl overflow-hidden shadow-sm border border-zinc-100 p-6">
             <div className="w-full md:w-[40%] h-[250px] shrink-0 rounded-lg overflow-hidden relative">
-              <img src={blog.img} alt={blog.title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" onError={(e) => { e.currentTarget.src = '/uploads/2026/07/Salad-200.png' }} />
+              <Image src={blog.img} alt={blog.title} fill sizes="(max-width: 768px) 100vw, 40vw" className="object-cover hover:scale-105 transition-transform duration-700" />
               <span className="absolute top-4 left-4 bg-[#a3c94a] text-white text-[10px] font-bold px-3 py-1 rounded-sm uppercase tracking-wider">Blog</span>
             </div>
             

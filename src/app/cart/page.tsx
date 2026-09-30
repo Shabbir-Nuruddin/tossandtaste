@@ -1,48 +1,13 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, User, Mail, Calendar, ArrowRight, Utensils, Clock } from 'lucide-react';
+import { MapPin, User, Mail, Calendar, ArrowRight, Utensils, Clock, Trash2, Plus, Minus, MessageSquare } from 'lucide-react';
 import MagneticButton from '@/components/MagneticButton';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import { format } from 'date-fns';
-
-const MENU_ITEMS = [
-  { id: 1, title: 'Grilled Chicken Sandwich', category: 'Breakfast' },
-  { id: 2, title: 'Grilled Paneer Sandwich', category: 'Breakfast' },
-  { id: 3, title: 'Masala Omelet With Toast', category: 'Breakfast' },
-  { id: 4, title: 'Mexican Omelet With Toast', category: 'Breakfast' },
-  { id: 5, title: 'Scrambled Egg & Baked Beans', category: 'Breakfast' },
-  { id: 6, title: 'Overnight Oats with Yogurt', category: 'Breakfast' },
-  { id: 7, title: 'Besan Chilla', category: 'Breakfast' },
-  { id: 8, title: 'Oats Chilla', category: 'Breakfast' },
-  { id: 9, title: 'Grilled Chicken Wrap', category: 'Breakfast' },
-  { id: 10, title: 'Grilled Paneer Wrap', category: 'Breakfast' },
-  { id: 11, title: 'Avocado Toast', category: 'Breakfast' },
-  { id: 12, title: 'Strawberry Shake', category: 'Shakes & Smoothies' },
-  { id: 13, title: 'Mix Berry Smoothie', category: 'Shakes & Smoothies' },
-  { id: 14, title: 'Date & Banana Shake', category: 'Shakes & Smoothies' },
-  { id: 15, title: 'Chocolate Shake', category: 'Shakes & Smoothies' },
-  { id: 16, title: 'Avocado Smoothie', category: 'Shakes & Smoothies' },
-  { id: 17, title: 'Southwest Bowl', category: 'Lunch & Dinner' },
-  { id: 18, title: 'Pesto Pasta Bowl', category: 'Lunch & Dinner' },
-  { id: 19, title: 'Herb Chicken & Mashed Potato', category: 'Lunch & Dinner' },
-  { id: 20, title: 'Protein Pack Buddha Bowl', category: 'Lunch & Dinner' },
-  { id: 21, title: 'Chicken Quinoa Bowl', category: 'Lunch & Dinner' },
-  { id: 22, title: 'Chicken With Hummus', category: 'Lunch & Dinner' },
-  { id: 23, title: 'Moroccan Chicken', category: 'Lunch & Dinner' },
-  { id: 24, title: 'Minced Chicken Rice Bowl', category: 'Lunch & Dinner' },
-  { id: 25, title: 'Tomato Rice with Tofu', category: 'Lunch & Dinner' },
-  { id: 26, title: 'Stir Fry Chicken Bowl', category: 'Lunch & Dinner' },
-  { id: 27, title: 'Grilled Paneer Spinach Rice', category: 'Lunch & Dinner' },
-  { id: 28, title: 'Roasted Chickpea Quinoa', category: 'Lunch & Dinner' },
-  { id: 29, title: 'Teriyaki Chicken Rice Bowl', category: 'Lunch & Dinner' },
-  { id: 30, title: 'Grilled Cottage Cheese Salad', category: 'Salads' },
-  { id: 31, title: 'Quinoa Salad', category: 'Salads' },
-  { id: 32, title: 'Falafel Salad', category: 'Salads' },
-  { id: 33, title: 'Chicken Avocado Salad', category: 'Salads' },
-  { id: 34, title: 'Exotic Fruit Salad', category: 'Salads' }
-];
+import { useCartStore } from '@/store/cartStore';
+import Image from 'next/image';
 
 const LOCATIONS = ['Gurugram', 'Delhi NCR', 'Noida'];
 const PLANS = [
@@ -50,281 +15,163 @@ const PLANS = [
   { id: '30-day', title: '30-Day Plan', days: 30, price: 9500 },
 ];
 
-export default function CheckoutPage() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [location, setLocation] = useState(LOCATIONS[0]);
-  const [selectedPlan, setSelectedPlan] = useState(PLANS[0]);
+export default function CartPage() {
+  const [mounted, setMounted] = useState(false);
+  const cart = useCartStore();
+  const [step, setStep] = useState(1);
+  const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedDate, setSelectedDate] = useState<Date>();
+  const [selectedPlan, setSelectedPlan] = useState('');
   
-  const [selectedDates, setSelectedDates] = useState<Date[]>([]);
-  const [mealSelections, setMealSelections] = useState<Record<string, { time: string, mealId: number }>>({});
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  const handlePlanSelect = (plan: typeof PLANS[0]) => {
-    setSelectedPlan(plan);
-    if (selectedDates.length > plan.days) {
-      setSelectedDates(selectedDates.slice(0, plan.days));
+  if (!mounted) return null; // prevent hydration mismatch
+
+  const plan = PLANS.find(p => p.id === selectedPlan);
+  const total = cart.getTotal() + (plan?.price || 0);
+
+  const handleCheckout = () => {
+    let message = "Hi Toss & Taste! I'd like to place an order:%0A%0A";
+    if (cart.items.length > 0) {
+      message += "*A La Carte Items:*%0A";
+      cart.items.forEach(item => {
+        message += - x  ()%0A;
+      });
     }
-  };
-
-  const handleDateSelect = (dates: Date[] | undefined) => {
-    if (!dates) {
-      setSelectedDates([]);
-      return;
+    if (selectedPlan) {
+      message += %0A*Subscription Plan:*%0A-  ()%0A;
     }
-    if (dates.length > selectedPlan.days) {
-      alert(`You can only select up to ${selectedPlan.days} days for this plan.`);
-      return;
+    if (selectedLocation) {
+      message += %0A*Delivery Location:* %0A;
     }
-    setSelectedDates(dates);
-    
-    const newSelections = { ...mealSelections };
-    dates.forEach(d => {
-      const key = format(d, 'yyyy-MM-dd');
-      if (!newSelections[key]) {
-        newSelections[key] = { time: 'Lunch', mealId: 17 };
-      }
-    });
-    setMealSelections(newSelections);
-  };
-
-  const updateSelection = (dateKey: string, field: string, value: string | number) => {
-    setMealSelections(prev => ({
-      ...prev,
-      [dateKey]: {
-        ...prev[dateKey],
-        [field]: value
-      }
-    }));
-  };
-
-  const handleWhatsAppCheckout = () => {
-    if (!name || !email) {
-      alert("Please fill in your name and email");
-      return;
+    if (selectedDate) {
+      message += *Start Date:* %0A;
     }
+    message += %0A*Total Estimated:* ₹%0A;
+    message += %0APlease let me know the payment details.;
     
-    if (selectedDates.length !== selectedPlan.days) {
-      alert(`Please select exactly ${selectedPlan.days} days on the calendar.`);
-      return;
-    }
-
-    const phoneNumber = "919711533944";
-    let message = `Hello Toss & Taste, I'd like to subscribe to the ${selectedPlan.title}.\n\n`;
-    message += `Customer Details:\n`;
-    message += `Name: ${name}\n`;
-    message += `Email: ${email}\n`;
-    message += `Location: ${location}\n\n`;
-    
-    message += `Meal Selections:\n`;
-    
-    const sortedDates = [...selectedDates].sort((a, b) => a.getTime() - b.getTime());
-    sortedDates.forEach((d, i) => {
-      const key = format(d, 'yyyy-MM-dd');
-      const sel = mealSelections[key];
-      const meal = MENU_ITEMS.find(m => m.id === Number(sel?.mealId))?.title || '';
-      message += `Day ${i + 1} (${format(d, 'MMM dd, yyyy')}): ${sel?.time} ${meal}\n`;
-    });
-
-    message += `\n*Total Plan Price: ₹${selectedPlan.price}*\n\n`;
-    message += "Please confirm my subscription.";
-    
-    const encodedMessage = encodeURIComponent(message);
-    window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, "_blank");
+    window.open(https://wa.me/919711533944?text=, '_blank');
   };
 
   return (
-    <div className="pt-40 pb-32 px-6 max-w-[1200px] mx-auto min-h-screen">
-      <motion.div 
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="mb-16"
-      >
-        <h1 className="text-5xl md:text-[5rem] font-black uppercase tracking-tighter">Checkout</h1>
-        <p className="text-zinc-500 mt-4 text-xl">Customize your impeccable dining experience.</p>
-      </motion.div>
+    <div className="w-full bg-[#fdfdfc] text-[#1a1a1a] min-h-screen pt-20">
+      <div className="py-20 text-center bg-[#fdfbf6] border-b border-zinc-100">
+        <h1 className="text-5xl font-black uppercase tracking-tight text-[#0f3b21]">Your Cart</h1>
+      </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+      <div className="max-w-[1400px] mx-auto px-6 py-20 flex flex-col lg:flex-row gap-16">
         
-        <div className="lg:col-span-8 space-y-12">
+        {/* LEFT COLUMN */}
+        <div className="w-full lg:w-2/3 space-y-12">
           
-          <section>
-            <h2 className="text-2xl font-black uppercase tracking-widest mb-6">1. Choose Your Plan</h2>
+          {/* A LA CARTE ITEMS */}
+          <div>
+            <h2 className="text-2xl font-bold uppercase tracking-wider mb-6 flex items-center gap-3">
+              <Utensils className="text-[#a3c94a]" /> A La Carte Menu
+            </h2>
+            {cart.items.length === 0 ? (
+              <p className="text-zinc-500 italic p-8 bg-zinc-50 rounded-2xl border border-zinc-100 text-center">Your cart is empty. Add meals from the Menu.</p>
+            ) : (
+              <div className="space-y-4">
+                {cart.items.map(item => (
+                  <div key={item.id} className="flex flex-col sm:flex-row items-center gap-6 p-4 bg-white border border-zinc-200 rounded-2xl shadow-sm">
+                    <div className="w-24 h-24 relative rounded-xl overflow-hidden shrink-0">
+                      <Image src={item.image} alt={item.title} fill className="object-cover" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-bold text-lg">{item.title}</h3>
+                      <p className="text-[#5e9d34] font-bold">{item.price}</p>
+                    </div>
+                    <div className="flex items-center gap-4 bg-zinc-50 rounded-full p-2 border border-zinc-200">
+                      <button onClick={() => cart.updateQuantity(item.id, item.quantity - 1)} className="p-2 hover:bg-zinc-200 rounded-full transition-colors"><Minus size={16} /></button>
+                      <span className="font-bold w-4 text-center">{item.quantity}</span>
+                      <button onClick={() => cart.updateQuantity(item.id, item.quantity + 1)} className="p-2 hover:bg-zinc-200 rounded-full transition-colors"><Plus size={16} /></button>
+                    </div>
+                    <button onClick={() => cart.removeItem(item.id)} className="p-3 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors">
+                      <Trash2 size={20} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* ADD SUBSCRIPTION PLAN */}
+          <div>
+            <h2 className="text-2xl font-bold uppercase tracking-wider mb-6 flex items-center gap-3">
+              <Clock className="text-[#a3c94a]" /> Add a Subscription Plan (Optional)
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {PLANS.map(plan => (
-                <button
-                  key={plan.id}
-                  onClick={() => handlePlanSelect(plan)}
-                  className={`p-6 rounded-3xl border transition-all duration-300 flex flex-col text-left ${selectedPlan.id === plan.id ? 'bg-[#f6faed] text-[#1a1a1a] border-[#5e9d34]' : 'bg-white text-[#1a1a1a] border-zinc-200 hover:border-zinc-300'}`}
+              {PLANS.map(p => (
+                <button 
+                  key={p.id}
+                  onClick={() => setSelectedPlan(p.id === selectedPlan ? '' : p.id)}
+                  className={p-6 rounded-2xl border-2 text-left transition-all }
                 >
-                  <span className="text-2xl font-black uppercase tracking-tight">{plan.title}</span>
-                  <span className={`text-sm mt-2 font-bold ${selectedPlan.id === plan.id ? 'text-zinc-600' : 'text-zinc-500'}`}>₹{plan.price}</span>
+                  <h3 className="font-bold text-xl mb-2">{p.title}</h3>
+                  <p className="text-zinc-500 text-sm mb-4">Delivered daily for {p.days} days</p>
+                  <p className="text-xl font-bold text-[#5e9d34]">₹{p.price}</p>
                 </button>
               ))}
             </div>
-          </section>
+          </div>
+          
+        </div>
 
-          <section>
-            <h2 className="text-2xl font-black uppercase tracking-widest mb-6">2. Contact Details</h2>
-            <div className="space-y-4">
-              <div className="relative">
-                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
-                <input 
-                  type="text"
-                  placeholder="Full Name"
-                  value={name}
-                  onChange={e => setName(e.target.value)}
-                  className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-4 rounded-xl focus:outline-none focus:border-[#5e9d34] transition-colors"
-                />
-              </div>
-              <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
-                <input 
-                  type="email"
-                  placeholder="Email Address"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-4 rounded-xl focus:outline-none focus:border-[#5e9d34] transition-colors"
-                />
-              </div>
-              <div className="relative">
-                <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
-                <select 
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-4 rounded-xl appearance-none focus:outline-none focus:border-[#5e9d34] transition-colors cursor-pointer"
-                >
-                  {LOCATIONS.map(loc => (
-                    <option key={loc} value={loc} className="bg-zinc-100">{loc}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-black uppercase tracking-widest mb-6 flex items-center justify-between">
-              <span>3. Meal Calendar</span>
-              <span className="text-sm font-normal text-zinc-500 normal-case tracking-normal">
-                Selected: {selectedDates.length} / {selectedPlan.days}
-              </span>
-            </h2>
-            <div className="bg-white p-6 rounded-3xl border border-zinc-200 shadow-sm flex flex-col items-center">
-              <DayPicker
-                mode="multiple"
-                selected={selectedDates}
-                onSelect={handleDateSelect}
-                className="font-sans"
-                classNames={{
-                  selected: "bg-[#5e9d34] text-white hover:bg-[#4a8027] hover:text-white rounded-full",
-                  today: "font-black text-[#5e9d34]"
-                }}
-              />
-              {selectedDates.length === 0 && (
-                <p className="text-zinc-500 text-sm mt-4">Please select {selectedPlan.days} dates to build your plan.</p>
+        {/* RIGHT COLUMN - SUMMARY */}
+        <div className="w-full lg:w-1/3">
+          <div className="bg-white p-8 rounded-3xl border border-zinc-200 shadow-xl sticky top-32">
+            <h2 className="text-2xl font-black uppercase tracking-widest mb-8 border-b border-zinc-100 pb-4">Order Summary</h2>
+            
+            <div className="space-y-4 mb-8">
+              {cart.items.length > 0 && (
+                <div className="flex justify-between items-center text-zinc-600">
+                  <span>A La Carte ({cart.items.reduce((a,b) => a + b.quantity, 0)} items)</span>
+                  <span className="font-bold text-black">₹{cart.getTotal()}</span>
+                </div>
+              )}
+              {selectedPlan && (
+                <div className="flex justify-between items-center text-zinc-600">
+                  <span>Subscription ({plan?.title})</span>
+                  <span className="font-bold text-black">₹{plan?.price}</span>
+                </div>
+              )}
+              {!selectedPlan && cart.items.length === 0 && (
+                <p className="text-zinc-400 text-sm text-center">Add items to see total</p>
               )}
             </div>
 
-            <div className="space-y-6 mt-8">
-              <AnimatePresence>
-                {[...selectedDates].sort((a, b) => a.getTime() - b.getTime()).map((date, idx) => {
-                  const dateKey = format(date, 'yyyy-MM-dd');
-                  const sel = mealSelections[dateKey] || { time: 'Lunch', mealId: 17 };
-
-                  return (
-                    <motion.div 
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      key={dateKey}
-                      className="p-6 rounded-3xl bg-white border border-zinc-200 space-y-4 shadow-sm"
-                    >
-                      <div className="flex items-center justify-between border-b border-zinc-200 pb-4 mb-4">
-                        <span className="text-sm font-bold uppercase tracking-widest text-zinc-500">
-                          Day {idx + 1} &middot; {format(date, 'MMMM dd, yyyy')}
-                        </span>
-                      </div>
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="relative flex-1">
-                          <Clock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-                          <select
-                            value={sel.time}
-                            onChange={e => updateSelection(dateKey, 'time', e.target.value)}
-                            className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-3 rounded-xl appearance-none focus:outline-none focus:border-[#5e9d34] transition-colors cursor-pointer text-sm"
-                          >
-                            <option value="Lunch" className="bg-zinc-100">Lunch</option>
-                            <option value="Dinner" className="bg-zinc-100">Dinner</option>
-                          </select>
-                        </div>
-
-                        <div className="relative flex-1">
-                          <Utensils className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-                          <select
-                            value={sel.mealId}
-                            onChange={e => updateSelection(dateKey, 'mealId', Number(e.target.value))}
-                            className="w-full bg-white/5 border border-zinc-200 text-[#1a1a1a] pl-12 pr-4 py-3 rounded-xl appearance-none focus:outline-none focus:border-[#5e9d34] transition-colors cursor-pointer text-sm truncate"
-                          >
-                            {MENU_ITEMS.map(item => (
-                              <option key={item.id} value={item.id} className="bg-zinc-100">
-                                {item.title}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </AnimatePresence>
-            </div>
-          </section>
-
-        </div>
-
-        <div className="lg:col-span-4">
-          <motion.div 
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="sticky top-32 bg-white border border-zinc-200 rounded-[2rem] p-8 shadow-sm"
-          >
-            <h3 className="text-2xl font-black uppercase tracking-tight mb-8">Summary</h3>
-            
-            <div className="space-y-4 text-zinc-500 mb-8 border-t border-zinc-200 pt-8">
-              <div className="flex justify-between">
-                <span>Plan</span>
-                <span className="text-[#1a1a1a] font-bold">{selectedPlan.title}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Delivery Location</span>
-                <span className="text-[#1a1a1a] text-right break-words w-1/2">{location}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>Selected Days</span>
-                <span className={`text-[#1a1a1a] font-bold ${selectedDates.length === selectedPlan.days ? 'text-[#5e9d34]' : 'text-red-500'}`}>
-                  {selectedDates.length} / {selectedPlan.days}
-                </span>
+            <div className="border-t border-zinc-200 pt-6 mb-8">
+              <div className="flex justify-between items-center text-2xl font-black">
+                <span>Total</span>
+                <span className="text-[#5e9d34]">₹{total}</span>
               </div>
             </div>
-            
-            <div className="flex justify-between items-center mb-8 pt-6 border-t border-zinc-200">
-              <span className="text-xl font-bold uppercase tracking-widest text-zinc-500">Total</span>
-              <span className="text-3xl font-black text-[#5e9d34]">₹{selectedPlan.price}</span>
+
+            <div className="space-y-4 mb-8">
+              <h3 className="font-bold uppercase tracking-wider text-sm mb-2">Delivery Details</h3>
+              <select 
+                className="w-full p-4 bg-zinc-50 border border-zinc-200 rounded-xl outline-none focus:border-[#5e9d34]"
+                value={selectedLocation}
+                onChange={(e) => setSelectedLocation(e.target.value)}
+              >
+                <option value="">Select Location...</option>
+                {LOCATIONS.map(loc => <option key={loc} value={loc}>{loc}</option>)}
+              </select>
             </div>
-            
-            <MagneticButton 
-              onClick={handleWhatsAppCheckout}
-              className="w-full flex items-center justify-center gap-3 bg-[#5e9d34] hover:bg-[#4a8027] text-white hover:text-white py-5 rounded-xl font-black uppercase tracking-[0.2em] text-sm transition-all duration-300"
+
+            <button 
+              onClick={handleCheckout}
+              disabled={total === 0 || !selectedLocation}
+              className="w-full bg-[#1a1a1a] hover:bg-[#2a2a2a] text-white py-4 rounded-xl font-bold uppercase tracking-widest flex items-center justify-center gap-3 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Checkout on WhatsApp <ArrowRight className="w-5 h-5" />
-            </MagneticButton>
-            
-            <p className="text-center text-zinc-500 text-xs mt-6 tracking-wide leading-relaxed">
-              Complete your personalized plan securely via WhatsApp.
-            </p>
-          </motion.div>
+              <MessageSquare size={20} /> Order via WhatsApp
+            </button>
+          </div>
         </div>
+
       </div>
     </div>
   );

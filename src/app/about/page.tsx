@@ -1,5 +1,6 @@
 "use client"
 import Link from 'next/link';
+import Image from 'next/image';
 import { Target, Heart, Leaf } from 'lucide-react';
 
 export default function AboutPage() {
@@ -16,11 +17,7 @@ export default function AboutPage() {
         <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center gap-16 relative z-10">
           <div className="w-full lg:w-1/2">
             <div className="relative rounded-3xl overflow-hidden shadow-2xl h-[600px] w-full bg-zinc-100">
-              <img 
-                src="/uploads/about/WhatsApp-Image-2026-02-18-at-1.01.45-PM.jpeg" 
-                alt="Arun Bhatia - Founder" 
-                className="absolute inset-0 w-full h-full object-cover object-[center_15%]"
-              />
+              <Image src="/uploads/about/WhatsApp-Image-2026-02-18-at-1.01.45-PM.jpeg" alt="Arun Bhatia - Founder" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover object-[center_15%]" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
               <div className="absolute bottom-8 left-8 text-white">
                 <p className="font-bold text-2xl">Arun Bhatia</p>

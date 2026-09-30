@@ -1,5 +1,6 @@
 "use client"
 import Link from 'next/link';
+import Image from 'next/image';
 import HorizontalGallery from '@/components/HorizontalGallery';
 import { useEffect, useState } from 'react';
 
@@ -75,7 +76,7 @@ export default function Home() {
           <div className="relative z-10 flex justify-center md:justify-end pr-0 md:pr-10">
             <div className="relative">
               <div className="absolute -inset-4 border border-zinc-300 rounded-[40%] transform rotate-12 scale-105"></div>
-              <img src="/uploads/2026/07/Salad-200.png" alt="Balanced Salad" className="w-[300px] md:w-[450px] object-contain relative z-10 drop-shadow-2xl" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+              <div className="w-[300px] md:w-[450px] aspect-square relative z-10 drop-shadow-2xl"><Image src="/uploads/2026/07/Salad-200.png" alt="Balanced Salad" fill className="object-contain" /></div>
               <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-[#6c8e3e] rounded-full z-0"></div>
             </div>
           </div>
@@ -143,7 +144,7 @@ export default function Home() {
             </div>
             
             <div className="h-full w-full">
-              <img src="/uploads/2026/07/Fat-Loss-Plan-0001x.jpg" alt="Healthy Bowls" className="w-full h-full object-cover" />
+              <Image src="/uploads/2026/07/Fat-Loss-Plan-0001x.jpg" alt="Healthy Bowls" fill className="object-cover" />
             </div>
           </div>
         </div>
@@ -188,7 +189,7 @@ export default function Home() {
             <div className="md:col-span-4 flex justify-center relative">
               <div className="relative w-full max-w-[400px] aspect-square rounded-full border-4 border-[#e87c1e] p-2 bg-white shadow-xl z-10">
                 <div className="w-full h-full rounded-full overflow-hidden">
-                  <img src="/uploads/2026/07/Layer-1.png" alt="Happy woman eating salad" className="w-full h-full object-cover object-top" />
+                  <Image src="/uploads/2026/07/Layer-1.png" alt="Happy woman eating salad" fill className="object-cover object-top" />
                 </div>
               </div>
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[#84b84b] opacity-20 rounded-[40%_60%_70%_30%/40%_50%_60%_50%] -z-10 blur-xl"></div>

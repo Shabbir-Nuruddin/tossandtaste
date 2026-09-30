@@ -1,5 +1,6 @@
 "use client";
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Footer() {
   return (
@@ -7,7 +8,7 @@ export default function Footer() {
       <div className="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
         {/* Brand */}
         <div className="space-y-6">
-          <img src="/uploads/2026/07/cropped-Toss-Taste-LOGO-ICON--180x180.png" alt="Toss & Taste" className="h-16 object-contain" />
+          <Image src="/uploads/2026/07/cropped-Toss-Taste-LOGO-ICON--180x180.png" alt="Toss & Taste" width={64} height={64} className="h-16 w-auto object-contain" />
           <h4 className="font-bold uppercase tracking-widest text-sm text-[#182411]">About Company</h4>
           <p className="text-sm font-medium leading-relaxed opacity-80">
             At Toss and Taste, we are dedicated to helping you achieve a healthier lifestyle through personalized diet meal plans. Our meals are carefully designed by nutrition experts and prepared fresh daily using high-quality, natural ingredients.
