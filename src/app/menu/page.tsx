@@ -83,7 +83,7 @@ export default function MenuPage() {
           {menuItems.map(item => (
             <div key={item.id} className="bg-white rounded-[24px] overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-zinc-100 group flex flex-col h-full">
               <div className="relative h-64 overflow-hidden bg-zinc-100">
-                <Image src={item.image} alt={item.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-cover scale-100 group-hover:scale-105 transition-transform duration-700" /> { e.currentTarget.style.display = 'none'; }}
+                <Image src={item.image} alt={item.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-cover scale-100 group-hover:scale-105 transition-transform duration-700" />
                 />
                 <div className="absolute top-4 left-4 flex gap-2">
                   {item.tags.map(tag => (

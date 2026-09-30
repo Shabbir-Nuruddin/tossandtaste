@@ -37,22 +37,22 @@ export default function CartPage() {
     if (cart.items.length > 0) {
       message += "*A La Carte Items:*%0A";
       cart.items.forEach(item => {
-        message += - x  ()%0A;
+        message += `- ${item.quantity}x ${item.title} (${item.price})%0A`;
       });
     }
     if (selectedPlan) {
-      message += %0A*Subscription Plan:*%0A-  ()%0A;
+      message += `%0A*Subscription Plan:*%0A- ${plan?.title} (${plan?.price})%0A`;
     }
     if (selectedLocation) {
-      message += %0A*Delivery Location:* %0A;
+      message += `%0A*Delivery Location:* ${selectedLocation}%0A`;
     }
     if (selectedDate) {
-      message += *Start Date:* %0A;
+      message += `*Start Date:* ${format(selectedDate, 'PP')}%0A`;
     }
-    message += %0A*Total Estimated:* ₹%0A;
-    message += %0APlease let me know the payment details.;
+    message += `%0A*Total Estimated:* ₹${total}%0A`;
+    message += `%0APlease let me know the payment details.`;
     
-    window.open(https://wa.me/919711533944?text=, '_blank');
+    window.open(`https://wa.me/919711533944?text=${message}`, '_blank');
   };
 
   return (
@@ -108,7 +108,7 @@ export default function CartPage() {
                 <button 
                   key={p.id}
                   onClick={() => setSelectedPlan(p.id === selectedPlan ? '' : p.id)}
-                  className={p-6 rounded-2xl border-2 text-left transition-all }
+                  className={`p-6 rounded-2xl border-2 text-left transition-all ${selectedPlan === p.id ? 'border-[#5e9d34] bg-[#5e9d34]/5' : 'border-zinc-200 hover:border-zinc-300'}`}
                 >
                   <h3 className="font-bold text-xl mb-2">{p.title}</h3>
                   <p className="text-zinc-500 text-sm mb-4">Delivered daily for {p.days} days</p>
