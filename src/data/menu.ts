@@ -13,6 +13,8 @@ export type MenuItem = {
   diet: Diet;
   description?: string;
   image?: string;
+  // Short looping clip of the dish, played on the card when it is on screen.
+  video?: string;
   price: number | null;
   // Bites are sold in packs, each with its own price.
   packs?: { label: string; price: number }[];
@@ -29,13 +31,14 @@ export const CATEGORIES: { id: Category; label: string; blurb: string }[] = [
 ];
 
 const img = (slug: string) => `/food/${slug}.webp`;
+const vid = (file: string) => `/videos/${file}.mp4`;
 
 export const MENU: MenuItem[] = [
   // ─── Salads ─────────────────────────────────────────────
   {
     id: 'quinoa-fruit-salad', name: 'Quinoa Fruit Salad', category: 'salads', diet: 'veg',
     description: 'Quinoa with pomegranate, green apple, cherries, mango, kiwi, orange, papaya, grapes, apricots, pecans and sunflower seeds. Mint-honey-lime dressing.',
-    image: img('quinoa-fruit-salad'), price: 310, kcal: 250, protein: 9.2, carbs: 34.9,
+    image: img('quinoa-fruit-salad'), video: vid('14_quinoa_fruit_salad'), price: 310, kcal: 250, protein: 9.2, carbs: 34.9,
   },
   {
     id: 'grilled-cottage-cheese-salad', name: 'Grilled Cottage Cheese Salad', category: 'salads', diet: 'veg',
@@ -55,7 +58,7 @@ export const MENU: MenuItem[] = [
   {
     id: 'avocado-chickpea-salad', name: 'Avocado Chickpea Salad', category: 'salads', diet: 'veg',
     description: 'Chickpeas, avocado, cucumber, cherry tomatoes, onion and carrot. Sweet chilli dressing.',
-    image: img('avocado-chickpea-salad'), price: 325, kcal: 310, protein: 17.5, carbs: 35,
+    image: img('avocado-chickpea-salad'), video: vid('13_avocado_chickpea_salad'), price: 325, kcal: 310, protein: 17.5, carbs: 35,
   },
   {
     id: 'trio-bean-salad', name: 'Trio Bean Salad', category: 'salads', diet: 'veg',
@@ -70,7 +73,7 @@ export const MENU: MenuItem[] = [
   {
     id: 'exotic-fruit-salad', name: 'Exotic Fruit Salad', category: 'salads', diet: 'veg',
     description: 'A bowl of fresh exotic and seasonal fruit.',
-    image: img('exotic-fruit-salad'), price: 325, kcal: 210, protein: 3, carbs: 25,
+    image: img('exotic-fruit-salad'), video: vid('4_exotic_fruit_salad'), price: 325, kcal: 210, protein: 3, carbs: 25,
   },
   {
     id: 'chicken-quinoa-salad', name: 'Chicken Quinoa Salad', category: 'salads', diet: 'nonveg',
@@ -80,7 +83,7 @@ export const MENU: MenuItem[] = [
   {
     id: 'grilled-chicken-salad', name: 'Grilled Chicken Salad', category: 'salads', diet: 'nonveg',
     description: 'Chicken, avocado, cherry tomatoes, cucumber, sweet corn, onion and roasted pistachios. Honey mustard dressing, with bread.',
-    image: img('grilled-chicken-salad'), price: 345, kcal: 320, protein: 35.2, carbs: 14.9,
+    image: img('grilled-chicken-salad'), video: vid('3_grilled_chicken_salad'), price: 345, kcal: 320, protein: 35.2, carbs: 14.9,
   },
   {
     id: 'teriyaki-chicken-salad', name: 'Teriyaki Chicken Salad', category: 'salads', diet: 'nonveg',
@@ -102,7 +105,7 @@ export const MENU: MenuItem[] = [
   {
     id: 'veggie-buddha-bowl', name: 'Veggie Buddha Bowl', category: 'bowls', diet: 'veg',
     description: 'Pan-grilled paneer, rice, purple cabbage, carrots, cherry tomatoes and green onion. Dijon honey mustard dressing.',
-    image: img('veggie-buddha-bowl'), price: 355, kcal: 360, protein: 27.5, carbs: 38.9,
+    image: img('veggie-buddha-bowl'), video: vid('8_veggie_buddha_bowl'), price: 355, kcal: 360, protein: 27.5, carbs: 38.9,
   },
   {
     id: 'paneer-herb-rice', name: 'Paneer with Herb Rice', category: 'bowls', diet: 'veg',
@@ -157,7 +160,7 @@ export const MENU: MenuItem[] = [
   {
     id: 'protein-pack-buddha-bowl', name: 'Protein Pack Buddha Bowl', category: 'bowls', diet: 'nonveg',
     description: 'Roast chicken, brown rice, yellow pepper, purple cabbage, carrots, kale, cherry tomatoes and green onion. Dijon honey mustard dressing.',
-    image: img('protein-pack-buddha-bowl'), price: 365, kcal: 390, protein: 34.4, carbs: 47,
+    image: img('protein-pack-buddha-bowl'), video: vid('5_chicken_buddha_bowl'), price: 365, kcal: 390, protein: 34.4, carbs: 47,
   },
   {
     id: 'herb-chicken-mashed-potato', name: 'Herb Chicken, Mash & Grilled Veggies', category: 'bowls', diet: 'nonveg',
@@ -209,18 +212,18 @@ export const MENU: MenuItem[] = [
   { id: 'avocado-smoothie', name: 'Avocado Smoothie', category: 'drinks', diet: 'veg', description: 'Avocado, pineapple, yogurt and spinach.', image: img('avocado-smoothie'), price: 160 },
   { id: 'tropical-green-smoothie', name: 'Tropical Green Protein Smoothie', category: 'drinks', diet: 'veg', description: 'Spinach, mango and pineapple with coconut milk and protein powder.', price: 160 },
   { id: 'date-banana-shake', name: 'Date & Banana Shake', category: 'drinks', diet: 'veg', description: 'Dates, oats and banana with skimmed milk.', image: img('date-banana-shake'), price: 160 },
-  { id: 'strawberry-shake', name: 'Strawberry Shake', category: 'drinks', diet: 'veg', description: 'A classic, made with real strawberries.', image: img('strawberry-shake'), price: 160 },
-  { id: 'mix-berry-smoothie', name: 'Mixed Berry Smoothie', category: 'drinks', diet: 'veg', image: img('mix-berry-smoothie'), price: 160 },
-  { id: 'apple-beetroot-carrot-juice', name: 'Apple Beetroot Carrot Juice', category: 'drinks', diet: 'veg', image: img('apple-beetroot-carrot-juice'), price: 160 },
+  { id: 'strawberry-shake', name: 'Strawberry Shake', category: 'drinks', diet: 'veg', description: 'A classic, made with real strawberries.', image: img('strawberry-shake'), video: vid('1_strawberry_shake'), price: 160 },
+  { id: 'mix-berry-smoothie', name: 'Mixed Berry Smoothie', category: 'drinks', diet: 'veg', image: img('mix-berry-smoothie'), video: vid('16_mix_berry_smoothie'), price: 160 },
+  { id: 'apple-beetroot-carrot-juice', name: 'Apple Beetroot Carrot Juice', category: 'drinks', diet: 'veg', image: img('apple-beetroot-carrot-juice'), video: vid('10_apple_beetroot_carrot_juice'), price: 160 },
   { id: 'apple-pomegranate-juice', name: 'Apple Pomegranate Juice', category: 'drinks', diet: 'veg', image: img('apple-pomegranate-juice'), price: 160 },
-  { id: 'watermelon-pineapple-juice', name: 'Watermelon & Pineapple Juice', category: 'drinks', diet: 'veg', image: img('watermelon-juice'), price: 160 },
-  { id: 'pineapple-juice', name: 'Pineapple Juice', category: 'drinks', diet: 'veg', image: img('pineapple-juice'), price: 160 },
+  { id: 'watermelon-pineapple-juice', name: 'Watermelon & Pineapple Juice', category: 'drinks', diet: 'veg', image: img('watermelon-juice'), video: vid('6_watermelon_mint_juice'), price: 160 },
+  { id: 'pineapple-juice', name: 'Pineapple Juice', category: 'drinks', diet: 'veg', image: img('pineapple-juice'), video: vid('9_pineapple_juice'), price: 160 },
   { id: 'orange-juice', name: 'Orange Juice', category: 'drinks', diet: 'veg', image: img('orange-juice'), price: 160 },
 
   // ─── Bliss bites ────────────────────────────────────────
   {
     id: 'peanut-butter-crunch', name: 'Peanut Butter Crunch', category: 'bites', diet: 'veg',
-    image: img('peanut-butter-crunch'), price: 190,
+    image: img('peanut-butter-crunch'), video: vid('11_peanut_butter_energy_bites'), price: 190,
     packs: [{ label: '4 pc', price: 190 }, { label: '8 pc', price: 360 }], kcal: 240, protein: 15, carbs: 28,
   },
   {

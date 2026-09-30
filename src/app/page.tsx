@@ -5,9 +5,10 @@ import AutoVideo from '@/components/AutoVideo';
 import FaqList from '@/components/FaqList';
 import MenuCard from '@/components/MenuCard';
 import { SocialIcon } from '@/components/SocialIcons';
-import { FEATURED_IDS, MENU } from '@/data/menu';
-import { PLANS, formatINR } from '@/data/plans';
-import { FAQS, GOOGLE_REVIEWS, GOOGLE_REVIEWS_URL, SITE, TESTIMONIALS, whatsappLink } from '@/data/site';
+import FoodReel from '@/components/FoodReel';
+import { CATEGORIES, FEATURED_IDS, MENU } from '@/data/menu';
+import { PLANS, formatINR, lowestPerMeal, lowestPrice } from '@/data/plans';
+import { CONSULT_MESSAGE, FAQS, GOOGLE_REVIEWS, GOOGLE_REVIEWS_URL, SITE, whatsappLink } from '@/data/site';
 
 const INCLUDED = [
   'Lean protein in every meal — chicken, eggs, paneer, tofu or legumes',
@@ -18,30 +19,18 @@ const INCLUDED = [
 ];
 
 const STEPS = [
-  { title: 'Tell us your goal', body: 'Fat loss, more protein, or just eating better. Message us and we’ll help you pick.' },
+  { title: 'Free consultation', body: 'Tell us your goal, routine and what you like to eat. We’ll suggest the right plan and portions.' },
   { title: 'Choose your plan', body: '10, 20 or 30 meals — veg, non-veg or mix — for lunch, dinner or both.' },
   { title: 'We cook it fresh', body: `Every meal is made the same day in our FSSAI-licensed kitchen in Sector 55, Gurugram.` },
   { title: 'Delivered on time', body: `Lunch arrives ${SITE.slots.lunch}, dinner ${SITE.slots.dinner}.` },
   { title: 'Adjust as you go', body: 'Tell us how you’re getting on and we’ll tweak your meals to keep you on track.' },
 ];
 
-const REEL = [
-  { video: '/videos/14_quinoa_fruit_salad.mp4', poster: '/food/quinoa-fruit-salad.webp', label: 'Quinoa Fruit Salad' },
-  { video: '/videos/8_veggie_buddha_bowl.mp4', poster: '/food/veggie-buddha-bowl.webp', label: 'Veggie Buddha Bowl' },
-  { video: '/videos/3_grilled_chicken_salad.mp4', poster: '/food/grilled-chicken-salad.webp', label: 'Grilled Chicken Salad' },
-  { video: '/videos/10_apple_beetroot_carrot_juice.mp4', poster: '/food/apple-beetroot-carrot-juice.webp', label: 'Apple Beetroot Carrot' },
-  { video: '/videos/13_avocado_chickpea_salad.mp4', poster: '/food/avocado-chickpea-salad.webp', label: 'Avocado Chickpea Salad' },
-  { video: '/videos/16_mix_berry_smoothie.mp4', poster: '/food/mix-berry-smoothie.webp', label: 'Mix Berry Smoothie' },
-  { video: '/videos/11_peanut_butter_energy_bites.mp4', poster: '/food/peanut-butter-crunch.webp', label: 'Peanut Butter Crunch' },
-  { video: '/videos/4_exotic_fruit_salad.mp4', poster: '/food/exotic-fruit-salad.webp', label: 'Exotic Fruit Salad' },
-];
+// Every dish that has a clip, meals first, then drinks and bites.
+const categoryOrder = CATEGORIES.map((c) => c.id);
+const reel = MENU.filter((m) => m.video).sort((a, b) => categoryOrder.indexOf(a.category) - categoryOrder.indexOf(b.category));
 
 const featured = FEATURED_IDS.map((id) => MENU.find((m) => m.id === id)!).filter(Boolean);
-
-function lowest(plan: (typeof PLANS)[number]) {
-  const all = Object.values(plan.prices).flatMap((p) => Object.values(p)).filter((n): n is number => n != null);
-  return all.length ? Math.min(...all) : null;
-}
 
 export default function Home() {
   return (
@@ -71,6 +60,22 @@ export default function Home() {
                 Browse the menu
               </Link>
             </div>
+            <p className="mt-4 text-[15px] text-charcoal">
+              Not ready for a plan?{' '}
+              <Link href="/menu" className="font-semibold text-leaf-dark underline underline-offset-4 hover:text-forest">
+                Try a single meal
+              </Link>{' '}
+              or{' '}
+              <a
+                href={whatsappLink(CONSULT_MESSAGE)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-leaf-dark underline underline-offset-4 hover:text-forest"
+              >
+                book a free consultation
+              </a>
+              .
+            </p>
             <ul className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-6 text-[15px] text-ink/80">
               <li className="flex items-center gap-2">
                 <MapPin size={18} className="text-leaf-dark" aria-hidden="true" /> {SITE.areas.join(' · ')}
@@ -94,6 +99,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Dish clips — swipe on phones, arrows on desktop */}
+      <FoodReel items={reel} />
+
       {/* Plans */}
       <section className="bg-white border-y border-black/5">
         <div className="max-w-[1280px] mx-auto px-5 sm:px-6 py-14 md:py-20">
@@ -108,7 +116,8 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             {PLANS.map((plan) => {
-              const from = lowest(plan);
+              const from = lowestPrice(plan);
+              const perMeal = lowestPerMeal(plan);
               return (
                 <Link
                   key={plan.id}
@@ -127,9 +136,12 @@ export default function Home() {
                       <h3 className="text-2xl md:text-3xl font-bold text-forest group-hover:text-leaf-dark transition-colors">{plan.name}</h3>
                       <p className="mt-1 text-charcoal">{plan.short}</p>
                     </div>
-                    <p className="text-charcoal whitespace-nowrap">
-                      {from != null ? (
-                        <>From <span className="font-semibold text-ink text-lg tabular-nums">{formatINR(from)}</span></>
+                    <p className="text-charcoal whitespace-nowrap sm:text-right">
+                      {from != null && perMeal != null ? (
+                        <>
+                          From <span className="font-semibold text-ink text-lg tabular-nums">{formatINR(perMeal)}</span> a meal
+                          <span className="block text-sm tabular-nums">{formatINR(from)} for 10 meals</span>
+                        </>
                       ) : (
                         <span className="font-semibold text-ink text-lg">{plan.fromNote}</span>
                       )}
@@ -204,20 +216,6 @@ export default function Home() {
         </ol>
       </section>
 
-      {/* Food reel — native swipe on phones, scrollable row on desktop */}
-      <section className="pb-14 md:pb-20" aria-label="Some of our dishes">
-        <ul className="flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar px-5 sm:px-6 lg:px-[max(1.5rem,calc((100vw-1280px)/2+1.5rem))]">
-          {REEL.map((r) => (
-            <li key={r.video} className="snap-start shrink-0 w-[78vw] sm:w-[340px]">
-              <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-leaf-tint">
-                <AutoVideo src={r.video} poster={r.poster} className="absolute inset-0 w-full h-full object-cover" />
-              </div>
-              <p className="mt-2 font-medium">{r.label}</p>
-            </li>
-          ))}
-        </ul>
-      </section>
-
       {/* Testimonials */}
       <section className="bg-leaf-tint">
         <div className="max-w-[1280px] mx-auto px-5 sm:px-6 py-14 md:py-20">
@@ -232,15 +230,13 @@ export default function Home() {
               Read all reviews on Google
             </a>
           </div>
-          <ul className="mt-10 columns-1 sm:columns-2 lg:columns-3 gap-5">
-            {[
-              ...GOOGLE_REVIEWS.map((r) => ({ ...r, role: 'Google review' })),
-              ...TESTIMONIALS,
-            ].map((t) => (
-              <li key={t.name} className="break-inside-avoid mb-5 rounded-2xl bg-white p-6">
+          {/* Three reviews: a swipe row on phones, a grid from md up. The rest are on the About page. */}
+          <ul className="mt-10 -mx-5 px-5 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 flex md:grid md:grid-cols-3 gap-4 md:gap-5 overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-px-5 no-scrollbar">
+            {GOOGLE_REVIEWS.slice(0, 3).map((t) => (
+              <li key={t.name} className="snap-start shrink-0 w-[82vw] sm:w-[360px] md:w-auto flex flex-col rounded-2xl bg-white p-6">
                 <blockquote className="text-ink/85 leading-relaxed">“{t.quote}”</blockquote>
-                <p className="pt-5 font-semibold">{t.name}</p>
-                <p className="text-sm text-charcoal">{t.role}</p>
+                <p className="mt-auto pt-5 font-semibold">{t.name}</p>
+                <p className="text-sm text-charcoal">Google review</p>
               </li>
             ))}
           </ul>
@@ -263,7 +259,7 @@ export default function Home() {
             “Good health doesn’t start in the gym. It starts on your plate.”
           </p>
           <p className="mt-4 text-charcoal leading-relaxed">
-            Toss & Taste started when our founder couldn’t find healthy food that was tasty, consistent and filling enough to support his training — so he began cooking it himself.
+            Toss & Taste started as a personal fix: healthy food that was tasty, consistent and filling enough to train on was impossible to find, so our founder began cooking it.
           </p>
           <p className="mt-5 font-semibold">{SITE.founder.name}</p>
           <p className="text-charcoal">{SITE.founder.role}</p>
@@ -294,12 +290,12 @@ export default function Home() {
               Start a plan
             </Link>
             <a
-              href={whatsappLink('Hi Toss & Taste! I’d like to know more about your meal plans.')}
+              href={whatsappLink(CONSULT_MESSAGE)}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-white/40 font-semibold px-7 py-4 hover:bg-white/10 transition-colors"
             >
-              <SocialIcon name="WhatsApp" /> Ask on WhatsApp
+              <SocialIcon name="WhatsApp" /> Free consultation
             </a>
           </div>
         </div>

@@ -28,6 +28,8 @@ export const SITE = {
   },
 } as const;
 
+export const CONSULT_MESSAGE = "Hi Toss & Taste! I'd like to book a free consultation to choose the right meal plan.";
+
 export function whatsappLink(message?: string) {
   const base = `https://wa.me/${SITE.whatsappNumber}`;
   return message ? `${base}?text=${encodeURIComponent(message)}` : base;
@@ -65,6 +67,7 @@ export const TESTIMONIALS = [
 // Reviewers are shown by first name and last initial.
 export const GOOGLE_REVIEWS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`Toss & Taste ${SITE.address}`)}`;
 
+// The first three are shown on the homepage; the rest on the About page.
 export const GOOGLE_REVIEWS = [
   {
     name: 'Raihan S.',
@@ -72,9 +75,9 @@ export const GOOGLE_REVIEWS = [
       'Let me be honest. The food is incredibly good, which allows me to meet my protein goals and stay fit with this meal plan. Would highly recommend it.',
   },
   {
-    name: 'Ankesh A.',
+    name: 'Sakshi S.',
     quote:
-      'Really happy with the service! The meals are well-balanced, thoughtfully portioned, and have a great approach, with options like brown rice, good protein sources, vegetables, and other healthy choices.',
+      'Their delivery is always on time, the packaging is neat, and the food remains fresh upon arrival. I love the flexibility of their subscription plans — it makes eating healthy effortless.',
   },
   {
     name: 'Roneeta N.',
@@ -82,9 +85,9 @@ export const GOOGLE_REVIEWS = [
       'Absolutely loving my experience so far! Been having their healthy lunch bowls for the last 2 days — Super fresh, tasty!! — healthy doesn’t have to be boring!',
   },
   {
-    name: 'Sakshi S.',
+    name: 'Ankesh A.',
     quote:
-      'Their delivery is always on time, the packaging is neat, and the food remains fresh upon arrival. I love the flexibility of their subscription plans — it makes eating healthy effortless.',
+      'Really happy with the service! The meals are well-balanced, thoughtfully portioned, and have a great approach, with options like brown rice, good protein sources, vegetables, and other healthy choices.',
   },
   {
     name: 'Farhan A.',
@@ -99,6 +102,10 @@ export const GOOGLE_REVIEWS = [
 
 // Answers are drawn from the policies and plan pages on tossandtaste.com.
 export const FAQS = [
+  {
+    q: 'Can you help me choose a plan?',
+    a: 'Yes, and it’s free. Book a consultation on WhatsApp and tell us your goal, your routine and what you like to eat. Our team will suggest the right plan, portions and meal times for you.',
+  },
   {
     q: 'Where do you deliver?',
     a: 'We cook in Sector 55, Gurugram and deliver across Gurugram, Delhi and Noida. Availability can vary by pin code, so send us your address on WhatsApp and we’ll confirm before you pay.',

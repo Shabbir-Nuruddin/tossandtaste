@@ -9,6 +9,8 @@ import {
   PREFERENCES,
   SLOTS,
   formatINR,
+  lowestPerMeal,
+  lowestPrice,
   mixSplit,
   type MealCount,
   type MealSlot,
@@ -17,11 +19,6 @@ import {
 } from '@/data/plans';
 import { SITE } from '@/data/site';
 import { useCartStore } from '@/store/cartStore';
-
-function lowestPrice(plan: Plan) {
-  const all = Object.values(plan.prices).flatMap((p) => Object.values(p)).filter((n): n is number => n != null);
-  return all.length ? Math.min(...all) : null;
-}
 
 function Option({
   selected,
@@ -79,6 +76,7 @@ export default function PlanBuilder({ initialPlan = 'protein-pack' }: { initialP
         <div className="grid md:grid-cols-2 gap-6">
           {PLANS.map((p) => {
             const from = lowestPrice(p);
+            const perMeal = lowestPerMeal(p);
             const active = p.id === planId;
             return (
               <article
@@ -104,9 +102,10 @@ export default function PlanBuilder({ initialPlan = 'protein-pack' }: { initialP
                   </ul>
                   <div className="mt-auto pt-6 flex flex-wrap items-center justify-between gap-4">
                     <p className="text-charcoal">
-                      {from != null ? (
+                      {from != null && perMeal != null ? (
                         <>
-                          From <span className="text-xl font-semibold text-ink tabular-nums">{formatINR(from)}</span> for 10 meals
+                          From <span className="text-xl font-semibold text-ink tabular-nums">{formatINR(perMeal)}</span> a meal
+                          <span className="block text-sm tabular-nums">{formatINR(from)} for 10 meals</span>
                         </>
                       ) : (
                         <span className="text-xl font-semibold text-ink">{p.fromNote ?? 'Price on WhatsApp'}</span>

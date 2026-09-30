@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import PageHeader from '@/components/PageHeader';
-import { SITE } from '@/data/site';
+import { CONSULT_MESSAGE, GOOGLE_REVIEWS, GOOGLE_REVIEWS_URL, SITE, TESTIMONIALS, whatsappLink } from '@/data/site';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -15,6 +15,19 @@ const FACTS = [
   { title: 'Numbers on every dish', body: 'Calories, protein and carbs are listed for our meals, so you can track without weighing anything.' },
   { title: 'Veg, non-veg or both', body: 'Paneer, tofu, chickpeas and beans for veg meals; chicken and eggs for non-veg. Mix plans split them half and half.' },
   { title: 'FSSAI licensed', body: `Our kitchen is registered with the Food Safety and Standards Authority of India (Lic. No. ${SITE.fssai}).` },
+];
+
+// Real dishes from our kitchen (the files are small, so they're shown small).
+const KITCHEN_MEALS = [
+  { src: '/uploads/about/meal1.webp', alt: 'Grilled paneer with herb rice, salad and a bowl of curry' },
+  { src: '/uploads/about/meal2.webp', alt: 'A protein bowl from our kitchen' },
+  { src: '/uploads/about/meal3.webp', alt: 'Grilled chicken with vegetables' },
+];
+
+// The homepage shows the first three Google reviews; the rest live here.
+const REVIEWS = [
+  ...GOOGLE_REVIEWS.slice(3).map((r) => ({ ...r, role: 'Google review' })),
+  ...TESTIMONIALS,
 ];
 
 export default function AboutPage() {
@@ -62,6 +75,32 @@ export default function AboutPage() {
         </div>
       </section>
 
+      <section className="max-w-[1280px] mx-auto px-5 sm:px-6 py-14 md:py-20 grid md:grid-cols-[5fr_7fr] gap-10 lg:gap-16 items-center">
+        <figure className="order-last md:order-none relative aspect-[4/5] md:aspect-[2/3] max-h-[640px] w-full rounded-3xl overflow-hidden bg-leaf-tint">
+          <Image
+            src="/uploads/about/WhatsApp-Image-2026-02-18-at-1.01.44-PM.jpeg"
+            alt="A Toss & Taste chef preparing fresh vegetables in our kitchen"
+            fill
+            sizes="(min-width: 768px) 40vw, 100vw"
+            className="object-cover"
+          />
+        </figure>
+        <div>
+          <h2 className="text-3xl md:text-4xl font-bold text-forest">Our kitchen</h2>
+          <p className="mt-4 text-[17px] leading-relaxed text-ink/85 max-w-xl">
+            Every meal is prepared in our own FSSAI-licensed kitchen in Sector 55, Gurugram. We chop, cook and pack on the
+            day of delivery, so what reaches you for lunch or dinner was made that morning or afternoon, not days before.
+          </p>
+          <ul className="mt-8 grid grid-cols-3 gap-3">
+            {KITCHEN_MEALS.map((m) => (
+              <li key={m.src} className="relative aspect-[9/5] rounded-xl overflow-hidden bg-leaf-tint">
+                <Image src={m.src} alt={m.alt} fill sizes="(min-width: 768px) 15vw, 30vw" className="object-cover" />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       <section className="bg-white border-y border-black/5">
         <div className="max-w-[1280px] mx-auto px-5 sm:px-6 py-14 md:py-20">
           <h2 className="text-3xl md:text-4xl font-bold text-forest max-w-2xl">What you can expect from us</h2>
@@ -76,9 +115,45 @@ export default function AboutPage() {
         </div>
       </section>
 
+      <section className="bg-leaf-tint">
+        <div className="max-w-[1280px] mx-auto px-5 sm:px-6 py-14 md:py-20">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-forest">What customers say</h2>
+            <a
+              href={GOOGLE_REVIEWS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-leaf-dark underline underline-offset-4 hover:text-forest"
+            >
+              Read all reviews on Google
+            </a>
+          </div>
+          <ul className="mt-10 columns-1 sm:columns-2 lg:columns-3 gap-5">
+            {REVIEWS.map((t) => (
+              <li key={t.name} className="break-inside-avoid mb-5 rounded-2xl bg-white p-6">
+                <blockquote className="text-ink/85 leading-relaxed">“{t.quote}”</blockquote>
+                <p className="pt-5 font-semibold">{t.name}</p>
+                <p className="text-sm text-charcoal">{t.role}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       <section className="max-w-[1280px] mx-auto px-5 sm:px-6 py-14 md:py-20 text-center">
         <h2 className="text-3xl md:text-4xl font-bold text-forest">Try it for yourself</h2>
-        <p className="mt-3 text-charcoal max-w-xl mx-auto">Start with a 10-meal plan, or order a few dishes from the menu first.</p>
+        <p className="mt-3 text-charcoal max-w-xl mx-auto">
+          Start with a 10-meal plan, order a few dishes from the menu first, or{' '}
+          <a
+            href={whatsappLink(CONSULT_MESSAGE)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-leaf-dark underline underline-offset-4 hover:text-forest"
+          >
+            book a free consultation
+          </a>{' '}
+          and we’ll help you choose.
+        </p>
         <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
           <Link href="/subscriptions" className="rounded-full bg-leaf-dark text-white font-semibold px-6 py-3.5 hover:bg-forest transition-colors">
             See meal plans

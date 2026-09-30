@@ -78,3 +78,17 @@ export const PLANS: Plan[] = [
 ];
 
 export const formatINR = (n: number) => `₹${n.toLocaleString('en-IN')}`;
+
+// Cheapest way into a plan (usually 10 veg meals).
+export function lowestPrice(plan: Plan) {
+  const all = Object.values(plan.prices).flatMap((p) => Object.values(p)).filter((n): n is number => n != null);
+  return all.length ? Math.min(...all) : null;
+}
+
+// Best per-meal rate across all sizes and preferences (usually the 30-meal plan).
+export function lowestPerMeal(plan: Plan) {
+  const rates = Object.values(plan.prices).flatMap((byCount) =>
+    MEAL_COUNTS.flatMap((n) => (byCount[n] != null ? [Math.round(byCount[n]! / n)] : []))
+  );
+  return rates.length ? Math.min(...rates) : null;
+}

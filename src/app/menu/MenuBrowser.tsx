@@ -50,7 +50,8 @@ export default function MenuBrowser() {
 
       <div className="max-w-[1280px] mx-auto px-5 sm:px-6 py-10 md:py-14 space-y-16">
         {visible.map((c) => {
-          const items = MENU.filter((m) => m.category === c.id && matchesDiet(m.diet));
+          // Dishes without a photo yet go to the end of their section.
+          const items = MENU.filter((m) => m.category === c.id && matchesDiet(m.diet)).sort((a, b) => Number(!a.image) - Number(!b.image));
           if (!items.length) return null;
           return (
             <section key={c.id} aria-labelledby={`cat-${c.id}`}>

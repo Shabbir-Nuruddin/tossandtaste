@@ -1,11 +1,13 @@
 "use client";
 import Image from 'next/image';
 import { useState } from 'react';
-import { Check, Leaf, Plus } from 'lucide-react';
+import { Leaf, Minus, Plus } from 'lucide-react';
 import type { Diet, MenuItem } from '@/data/menu';
 import { isHighProtein } from '@/data/menu';
 import { whatsappLink } from '@/data/site';
 import { useCartStore } from '@/store/cartStore';
+import { useHydrated } from '@/lib/useHydrated';
+import AutoVideo from '@/components/AutoVideo';
 
 export function DietMark({ diet }: { diet: Diet }) {
   // Indian food-labelling convention: green square = veg, red/brown = non-veg, yellow = egg.
@@ -31,37 +33,45 @@ function Macros({ item }: { item: MenuItem }) {
 
 export default function MenuCard({ item }: { item: MenuItem }) {
   const addItem = useCartStore((s) => s.addItem);
+  const updateQuantity = useCartStore((s) => s.updateQuantity);
+  const mounted = useHydrated();
   const [pack, setPack] = useState(0);
-  const [added, setAdded] = useState(false);
 
   const selected = item.packs?.[pack];
   const price = selected ? selected.price : item.price;
+  const cartId = selected ? `${item.id}-${selected.label}` : item.id;
+  const inCart = useCartStore((s) => s.items.find((i) => i.id === cartId)?.quantity ?? 0);
+  const quantity = mounted ? inCart : 0;
 
-  const add = () => {
+  const add = () =>
     addItem({
-      id: selected ? `${item.id}-${selected.label}` : item.id,
+      id: cartId,
       title: selected ? `${item.name} (${selected.label})` : item.name,
       price,
       image: item.image,
     });
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1400);
-  };
 
   return (
-    <article className="group flex flex-col bg-white rounded-2xl overflow-hidden border border-black/5 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+    <article id={item.id} className="scroll-mt-40 group flex flex-col bg-white rounded-2xl overflow-hidden border border-black/5 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
       <div className="relative aspect-[4/3] bg-leaf-tint overflow-hidden">
         {item.image ? (
-          <Image
-            src={item.image}
-            alt={item.name}
-            fill
-            sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-          />
+          <>
+            <Image
+              src={item.image}
+              alt={item.name}
+              fill
+              sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            />
+            {item.video && (
+              <AutoVideo src={item.video} poster={item.image} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+            )}
+          </>
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-leaf/40">
-            <Leaf size={48} strokeWidth={1.3} />
+          // No photo yet: show the dish name so the card still reads as intentional.
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center bg-gradient-to-br from-leaf-tint to-cream">
+            <Leaf size={28} strokeWidth={1.5} className="text-leaf" aria-hidden="true" />
+            <p className="font-display text-2xl font-semibold text-forest leading-tight max-w-[16ch]">{item.name}</p>
           </div>
         )}
         {isHighProtein(item) && (
@@ -110,17 +120,35 @@ export default function MenuCard({ item }: { item: MenuItem }) {
               Ask for price
             </a>
           )}
-          <button
-            onClick={add}
-            aria-label={added ? `${item.name} added to order` : `Add ${item.name} to order`}
-            aria-live="polite"
-            className={`inline-flex items-center gap-1.5 text-sm font-semibold px-4 py-2 rounded-full transition-colors ${
-              added ? 'bg-forest text-white' : 'bg-leaf-dark text-white hover:bg-forest'
-            }`}
-          >
-            {added ? <Check size={16} /> : <Plus size={16} />}
-            {added ? 'Added' : 'Add'}
-          </button>
+          {quantity > 0 ? (
+            <div className="inline-flex items-center rounded-full bg-leaf-dark text-white" role="group" aria-label={`${item.name} quantity`}>
+              <button
+                onClick={() => updateQuantity(cartId, quantity - 1)}
+                aria-label={quantity === 1 ? `Remove ${item.name} from order` : `One less ${item.name}`}
+                className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-forest transition-colors"
+              >
+                <Minus size={16} />
+              </button>
+              <span className="min-w-[1.75rem] text-center text-sm font-semibold tabular-nums" aria-live="polite">
+                {quantity}
+              </span>
+              <button
+                onClick={add}
+                aria-label={`One more ${item.name}`}
+                className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-forest transition-colors"
+              >
+                <Plus size={16} />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={add}
+              aria-label={`Add ${item.name} to order`}
+              className="inline-flex items-center gap-1.5 h-9 text-sm font-semibold px-4 rounded-full bg-leaf-dark text-white hover:bg-forest transition-colors"
+            >
+              <Plus size={16} /> Add
+            </button>
+          )}
         </div>
       </div>
     </article>
