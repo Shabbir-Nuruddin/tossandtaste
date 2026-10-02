@@ -25,7 +25,7 @@ export type MenuItem = {
 
 export const CATEGORIES: { id: Category; label: string; blurb: string }[] = [
   { id: 'salads', label: 'Salads', blurb: 'Big, crunchy salads with a proper protein and a dressing made in-house.' },
-  { id: 'bowls', label: 'Bowls & Mains', blurb: 'Rice, quinoa and millet bowls — the heart of every meal plan.' },
+  { id: 'bowls', label: 'Bowls & Mains', blurb: 'Rice, quinoa and millet bowls. The heart of every meal plan.' },
   { id: 'drinks', label: 'Juices & Shakes', blurb: 'Glow sips: cold-pressed juices, shakes and smoothies. ₹160 each.' },
   { id: 'bites', label: 'Bliss Bites', blurb: 'Snack-sized energy bites for the 4 pm slump.' },
 ];

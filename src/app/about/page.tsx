@@ -58,7 +58,7 @@ export default function AboutPage() {
           <p className="text-xl text-ink font-medium">Toss & Taste began with a problem I had every single day.</p>
           <p>
             I was working out regularly and trying to eat right, but finding food that actually nourished me was hard. The
-            “healthy” options were bland, inconsistent, or didn’t give me the nutrition I needed. I kept compromising — on
+            “healthy” options were bland, inconsistent, or didn’t give me the nutrition I needed. I kept compromising on
             taste, on quality, or on how much protein I was getting.
           </p>
           <p>

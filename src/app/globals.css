@@ -13,6 +13,8 @@
   --color-charcoal: #585858;
   --color-tangerine: #e87818;
   --color-tangerine-tint: #fdf0e3;
+  /* Darker orange for text: the logo orange is too light to read on cream. */
+  --color-tangerine-dark: #a84f08;
 
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-heading), ui-sans-serif, system-ui, sans-serif;

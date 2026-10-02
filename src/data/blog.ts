@@ -53,7 +53,7 @@ It is built around clean eating and balanced meals.
 - Stay hydrated
 - Add some light exercise to your routine
 
-Consistency is what gets results. Weight loss doesn’t mean starving — with the right food and a balanced approach, you can lose fat safely and keep it off.`,
+Consistency is what gets results. Weight loss doesn’t mean starving. With the right food and a balanced approach, you can lose fat safely and keep it off.`,
   },
   {
     slug: 'protein-pack-plan-build-strength-boost-energy',
@@ -131,7 +131,7 @@ Energy Bites keep you going without the empty calories.`,
     excerpt: 'Sodas and sugary drinks add up. Our fresh juices and smoothies are the lighter alternative.',
     date: '2026-02-17',
     image: '/uploads/about/Group-37-930x540.png',
-    body: `Sugary drinks and sodas can harm your health over time. Our Glow Sips — fresh juices, shakes and smoothies — are a smarter alternative.
+    body: `Sugary drinks and sodas can harm your health over time. Our Glow Sips (fresh juices, shakes and smoothies) are a smarter alternative.
 
 ## What you get
 
@@ -178,7 +178,7 @@ Smart planning is what makes results last.`,
   {
     slug: 'natural-nutrition-vs-processed-food-make-the-right-choice',
     title: 'Natural Nutrition vs Processed Food: Which Is Better for You?',
-    excerpt: 'Added sugar, preservatives and additives — why real ingredients make the difference.',
+    excerpt: 'Added sugar, preservatives and additives, and why real ingredients make the difference.',
     date: '2026-02-17',
     image: '/uploads/about/Food-Image-sweass-930x540.jpg',
     body: `Processed foods are often loaded with:

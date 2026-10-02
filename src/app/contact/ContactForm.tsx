@@ -75,8 +75,8 @@ export default function ContactForm() {
       {sent && (
         <p role="status" className="rounded-xl bg-leaf-tint px-4 py-3 text-sm text-forest">
           {sent === 'whatsapp'
-            ? 'WhatsApp should have opened with your message — just press send.'
-            : 'Your email app should have opened with your message — just press send.'}{' '}
+            ? 'WhatsApp should have opened with your message. Just press send.'
+            : 'Your email app should have opened with your message. Just press send.'}{' '}
           We usually reply within a few hours.
         </p>
       )}

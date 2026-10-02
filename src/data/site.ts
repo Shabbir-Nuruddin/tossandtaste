@@ -120,7 +120,7 @@ export const FAQS = [
   },
   {
     q: 'Do you have vegetarian options?',
-    a: 'Yes. Every plan comes in Veg, Non-Veg, or Mix — a half-and-half split of veg and non-veg meals. Veg meals use paneer, tofu, chickpeas and beans for protein.',
+    a: 'Yes. Every plan comes in Veg, Non-Veg, or Mix (a half-and-half split of veg and non-veg meals). Veg meals use paneer, tofu, chickpeas and beans for protein.',
   },
   {
     q: 'How soon can I start?',
@@ -128,7 +128,7 @@ export const FAQS = [
   },
   {
     q: 'Can I cancel or pause?',
-    a: 'Orders can be cancelled up to 24 hours before the scheduled delivery. Pausing or extending a plan is possible with approval from our team — just message us on WhatsApp.',
+    a: 'Orders can be cancelled up to 24 hours before the scheduled delivery. Pausing or extending a plan is possible with approval from our team. Just message us on WhatsApp.',
   },
   {
     q: 'What if something is wrong with my order?',

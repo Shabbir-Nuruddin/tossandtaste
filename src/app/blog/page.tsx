@@ -6,7 +6,7 @@ import { POSTS, formatDate } from '@/data/blog';
 
 export const metadata: Metadata = {
   title: 'Blog',
-  description: 'Simple, practical reads on eating well — fat loss, protein, planning your meals, and healthy snacks and drinks.',
+  description: 'Simple, practical reads on eating well: fat loss, protein, planning your meals, and healthy snacks and drinks.',
 };
 
 export default function BlogPage() {

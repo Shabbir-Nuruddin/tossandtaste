@@ -40,7 +40,7 @@ export default function FoodReel({ items }: { items: MenuItem[] }) {
 
       <ul
         ref={track}
-        className="flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-px-5 sm:scroll-px-6 px-5 sm:px-6 lg:px-[max(1.5rem,calc((100vw-1280px)/2+1.5rem))] lg:scroll-px-[max(1.5rem,calc((100vw-1280px)/2+1.5rem))]"
+        className="relative flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-px-5 sm:scroll-px-6 px-5 sm:px-6 lg:px-[max(1.5rem,calc((100vw-1280px)/2+1.5rem))] lg:scroll-px-[max(1.5rem,calc((100vw-1280px)/2+1.5rem))]"
       >
         {items.map((item) => (
           <li key={item.id} className="snap-start shrink-0 w-[82vw] sm:w-[420px]">

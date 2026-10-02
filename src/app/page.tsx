@@ -11,19 +11,20 @@ import { PLANS, formatINR, lowestPerMeal, lowestPrice } from '@/data/plans';
 import { CONSULT_MESSAGE, FAQS, GOOGLE_REVIEWS, GOOGLE_REVIEWS_URL, SITE, whatsappLink } from '@/data/site';
 
 const INCLUDED = [
-  'Lean protein in every meal — chicken, eggs, paneer, tofu or legumes',
-  'Calories, protein and carbs listed, so you can track without weighing',
-  'Portion-controlled, cooked fresh on the day of delivery',
-  'Veg, non-veg, or a mix of both',
-  'Lunch, dinner, or both — delivered to your door',
+  'Proper protein in every meal: chicken, eggs, paneer, tofu or legumes',
+  'Calories, protein and carbs listed, so you never have to weigh anything',
+  'Sensible portions, cooked the day you eat them',
+  'Veg, non-veg, or a bit of both',
+  'Lunch, dinner or both, brought to your door',
 ];
 
-const STEPS = [
-  { title: 'Free consultation', body: 'Tell us your goal, routine and what you like to eat. We’ll suggest the right plan and portions.' },
-  { title: 'Choose your plan', body: '10, 20 or 30 meals — veg, non-veg or mix — for lunch, dinner or both.' },
-  { title: 'We cook it fresh', body: `Every meal is made the same day in our FSSAI-licensed kitchen in Sector 55, Gurugram.` },
-  { title: 'Delivered on time', body: `Lunch arrives ${SITE.slots.lunch}, dinner ${SITE.slots.dinner}.` },
-  { title: 'Adjust as you go', body: 'Tell us how you’re getting on and we’ll tweak your meals to keep you on track.' },
+// What a day on a plan looks like, from the first chat to the weekly check-in.
+const DAY = [
+  { when: 'Before you start', title: 'A free chat', body: 'Tell us your goal, your routine and what you like to eat. We’ll suggest a plan and portions that fit.' },
+  { when: 'Same day', title: 'We cook', body: 'Your meals are chopped, cooked and packed in our Sector 55 kitchen on the day you eat them.' },
+  { when: SITE.slots.lunch, title: 'Lunch arrives', body: 'At your office or at home, ready to eat. Nothing to cook, nothing to count.' },
+  { when: SITE.slots.dinner, title: 'Dinner arrives', body: 'If your plan includes dinner, it comes in the evening slot. Same kitchen, same day.' },
+  { when: 'Every week', title: 'We adjust', body: 'Tell us how you’re getting on and we’ll tweak your meals to keep you on track.' },
 ];
 
 // Every dish that has a clip, meals first, then drinks and bites.
@@ -39,12 +40,11 @@ export default function Home() {
       <section className="bg-cream">
         <div className="max-w-[1280px] mx-auto px-5 sm:px-6 pt-10 pb-12 md:pt-16 md:pb-20 grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           <div>
-            <p className="text-sm font-semibold text-leaf-dark uppercase tracking-wider">{SITE.tagline}</p>
-            <h1 className="mt-4 text-[2.6rem] leading-[1.05] sm:text-6xl lg:text-[4.2rem] font-bold text-forest">
+            <h1 className="text-[2.6rem] leading-[1.05] sm:text-6xl lg:text-[4.2rem] font-bold text-forest">
               Healthy food doesn’t have to be boring.
             </h1>
             <p className="mt-5 text-lg md:text-xl text-charcoal max-w-xl">
-              Fresh salads, bowls and juices with the calories and macros on every meal. Cooked daily in Gurugram and delivered for lunch or dinner.
+              Salads, bowls and fresh juices with the calories and protein on every dish. We cook it the same day in Gurugram and bring it to you for lunch or dinner.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Link
@@ -99,7 +99,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Dish clips — swipe on phones, arrows on desktop */}
+      {/* Dish clips: swipe on phones, arrows on desktop */}
       <FoodReel items={reel} />
 
       {/* Plans */}
@@ -200,70 +200,104 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How it works */}
+      {/* A day on a plan: a timeline, vertical on phones and horizontal on desktop */}
       <section className="max-w-[1280px] mx-auto px-5 sm:px-6 py-14 md:py-20">
-        <h2 className="text-3xl md:text-5xl font-bold text-forest">How it works</h2>
-        <ol className="mt-10 grid sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-6">
-          {STEPS.map((s, i) => (
-            <li key={s.title} className="relative">
-              <span className="flex w-10 h-10 items-center justify-center rounded-full bg-tangerine text-white font-display font-bold">
-                {i + 1}
-              </span>
-              <h3 className="mt-4 font-display text-xl font-semibold">{s.title}</h3>
-              <p className="mt-2 text-charcoal leading-relaxed">{s.body}</p>
+        <h2 className="text-3xl md:text-5xl font-bold text-forest">A day with Toss & Taste</h2>
+        <ol className="mt-10 lg:mt-14 grid lg:grid-cols-5 lg:gap-8">
+          {DAY.map((d, i) => (
+            <li key={d.title} className="relative pl-8 pb-8 lg:pl-0 lg:pb-0 lg:pt-8">
+              {/* The line joining the stops: down the left on phones, across the top on desktop. */}
+              {i < DAY.length - 1 && (
+                <span
+                  aria-hidden="true"
+                  className="absolute left-[5px] top-3 bottom-0 w-0.5 bg-tangerine/30 lg:left-3 lg:-right-8 lg:top-[5px] lg:bottom-auto lg:w-auto lg:h-0.5"
+                />
+              )}
+              <span aria-hidden="true" className="absolute left-0 top-1 lg:top-0 w-3 h-3 rounded-full bg-tangerine" />
+              <p className="font-display text-sm font-semibold text-tangerine-dark tabular-nums">{d.when}</p>
+              <h3 className="mt-1 font-display text-xl font-semibold">{d.title}</h3>
+              <p className="mt-2 text-charcoal leading-relaxed">{d.body}</p>
             </li>
           ))}
         </ol>
       </section>
 
-      {/* Testimonials */}
-      <section className="bg-leaf-tint">
-        <div className="max-w-[1280px] mx-auto px-5 sm:px-6 py-14 md:py-20">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <h2 className="text-3xl md:text-5xl font-bold text-forest">What customers say</h2>
+      {/* Reviews: one large, two small. The rest are on the About page. */}
+      <section className="bg-tangerine-tint">
+        <div className="max-w-[1280px] mx-auto px-5 sm:px-6 py-14 md:py-20 grid lg:grid-cols-[3fr_2fr] gap-8 lg:gap-14 items-start">
+          <figure>
+            <span aria-hidden="true" className="block font-display text-8xl leading-none text-tangerine h-12">“</span>
+            <blockquote className="font-display text-2xl md:text-4xl font-semibold text-forest leading-snug">
+              {GOOGLE_REVIEWS[0].quote}
+            </blockquote>
+            <figcaption className="mt-6">
+              <span className="font-semibold">{GOOGLE_REVIEWS[0].name}</span>
+              <span className="text-charcoal">, Google review</span>
+            </figcaption>
+          </figure>
+          <div>
+            <ul className="space-y-4">
+              {GOOGLE_REVIEWS.slice(1, 3).map((t) => (
+                <li key={t.name} className="rounded-2xl bg-white p-5">
+                  <blockquote className="text-ink/85 leading-relaxed">“{t.quote}”</blockquote>
+                  <p className="mt-3 text-sm">
+                    <span className="font-semibold">{t.name}</span>
+                    <span className="text-charcoal">, Google review</span>
+                  </p>
+                </li>
+              ))}
+            </ul>
             <a
               href={GOOGLE_REVIEWS_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-semibold text-leaf-dark underline underline-offset-4 hover:text-forest"
+              className="mt-5 inline-flex items-center gap-1.5 font-semibold text-tangerine-dark hover:text-forest"
             >
-              Read all reviews on Google
+              Read all our Google reviews <ArrowRight size={18} />
             </a>
           </div>
-          {/* Three reviews: a swipe row on phones, a grid from md up. The rest are on the About page. */}
-          <ul className="mt-10 -mx-5 px-5 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 flex md:grid md:grid-cols-3 gap-4 md:gap-5 overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-px-5 no-scrollbar">
-            {GOOGLE_REVIEWS.slice(0, 3).map((t) => (
-              <li key={t.name} className="snap-start shrink-0 w-[82vw] sm:w-[360px] md:w-auto flex flex-col rounded-2xl bg-white p-6">
-                <blockquote className="text-ink/85 leading-relaxed">“{t.quote}”</blockquote>
-                <p className="mt-auto pt-5 font-semibold">{t.name}</p>
-                <p className="text-sm text-charcoal">Google review</p>
-              </li>
-            ))}
-          </ul>
         </div>
       </section>
 
-      {/* Founder */}
-      <section className="max-w-[1280px] mx-auto px-5 sm:px-6 py-14 md:py-20 grid md:grid-cols-[320px_1fr] gap-8 md:gap-14 items-center">
-        <div className="relative aspect-square max-w-[320px] rounded-3xl overflow-hidden bg-leaf-tint">
-          <Image
-            src={SITE.founder.photo}
-            alt={`${SITE.founder.name}, founder of Toss & Taste`}
-            fill
-            sizes="320px"
-            className="object-cover object-[center_15%]"
-          />
+      {/* Who cooks your food: the founder and the kitchen */}
+      <section className="max-w-[1280px] mx-auto px-5 sm:px-6 py-14 md:py-20 grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 items-start">
+          <figure>
+            <div className="relative aspect-[2/3] rounded-2xl overflow-hidden bg-leaf-tint">
+              <Image
+                src={SITE.founder.photo}
+                alt={`${SITE.founder.name}, founder of Toss & Taste`}
+                fill
+                sizes="(min-width: 768px) 25vw, 50vw"
+                className="object-cover object-[center_15%]"
+              />
+            </div>
+            <figcaption className="mt-2 text-sm text-charcoal">{SITE.founder.name}, founder</figcaption>
+          </figure>
+          <figure className="mt-10 sm:mt-16">
+            <div className="relative aspect-[2/3] rounded-2xl overflow-hidden bg-leaf-tint">
+              <Image
+                src="/uploads/about/WhatsApp-Image-2026-02-18-at-1.01.44-PM.jpeg"
+                alt="A Toss & Taste chef preparing fresh vegetables in our kitchen"
+                fill
+                sizes="(min-width: 768px) 25vw, 50vw"
+                className="object-cover"
+              />
+            </div>
+            <figcaption className="mt-2 text-sm text-charcoal">Our kitchen, Sector 55</figcaption>
+          </figure>
         </div>
-        <div className="max-w-2xl">
-          <p className="font-display text-2xl md:text-3xl font-semibold text-forest leading-snug">
-            “Good health doesn’t start in the gym. It starts on your plate.”
+        <div className="max-w-xl">
+          <h2 className="text-3xl md:text-5xl font-bold text-forest">Who cooks your food</h2>
+          <p className="mt-5 text-[17px] text-ink/85 leading-relaxed">
+            Toss & Taste started as Arun’s own fix. Healthy food that tasted good and kept you full enough to train on was
+            impossible to find, so Arun started cooking it.
           </p>
-          <p className="mt-4 text-charcoal leading-relaxed">
-            Toss & Taste started as a personal fix: healthy food that was tasty, consistent and filling enough to train on was impossible to find, so our founder began cooking it.
+          <p className="mt-4 text-[17px] text-ink/85 leading-relaxed">
+            Today our team cooks every order in our own FSSAI-licensed kitchen in Sector 55, Gurugram. Same recipes, same
+            portions, made the day you eat them.
           </p>
-          <p className="mt-5 font-semibold">{SITE.founder.name}</p>
-          <p className="text-charcoal">{SITE.founder.role}</p>
-          <Link href="/about" className="mt-5 inline-flex items-center gap-1.5 font-semibold text-leaf-dark">
+          <Link href="/about" className="mt-6 inline-flex items-center gap-1.5 font-semibold text-leaf-dark">
             Read our story <ArrowRight size={18} />
           </Link>
         </div>
@@ -281,7 +315,7 @@ export default function Home() {
       <section className="relative overflow-hidden bg-forest">
         <Image src="/food/cover-protein-pack-2.webp" alt="" fill sizes="100vw" className="object-cover opacity-25" />
         <div className="relative max-w-3xl mx-auto px-5 sm:px-6 py-16 md:py-24 text-center text-white">
-          <h2 className="text-3xl md:text-5xl font-bold">Start eating better tomorrow</h2>
+          <h2 className="text-3xl md:text-5xl font-bold">Hungry yet?</h2>
           <p className="mt-4 text-lg text-white/85">
             Order today and your first meal can arrive tomorrow, anywhere in {SITE.areas.slice(0, -1).join(', ')} or {SITE.areas.at(-1)}.
           </p>

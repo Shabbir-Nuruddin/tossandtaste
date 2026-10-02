@@ -9,7 +9,7 @@ import { SITE } from '@/data/site';
 export const metadata: Metadata = {
   title: 'Menu',
   description:
-    'Salads, rice and millet bowls, fresh juices and energy bites — with calories and macros for every dish. Delivered across Gurugram, Delhi and Noida.',
+    'Salads, rice and millet bowls, fresh juices and energy bites, with calories and macros for every dish. Delivered across Gurugram, Delhi and Noida.',
 };
 
 export default function MenuPage() {

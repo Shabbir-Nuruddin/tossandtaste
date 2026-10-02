@@ -8,7 +8,7 @@ import { PLANS } from '@/data/plans';
 export const metadata: Metadata = {
   title: 'Meal Plans',
   description:
-    'Protein Pack and Fat Loss meal plans in 10, 20 or 30 meals — veg, non-veg or mix, delivered for lunch, dinner or both across Gurugram, Delhi and Noida.',
+    'Protein Pack and Fat Loss meal plans in 10, 20 or 30 meals. Veg, non-veg or mix, delivered for lunch, dinner or both across Gurugram, Delhi and Noida.',
 };
 
 // Links like /subscriptions?plan=fat-loss (from the home page) preselect that plan.
