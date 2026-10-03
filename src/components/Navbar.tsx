@@ -3,12 +3,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, Phone, ShoppingBag, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { cartCount, useCartStore } from '@/store/cartStore';
 import { SITE, whatsappLink } from '@/data/site';
 import SocialLinks from '@/components/SocialIcons';
 import { useHydrated } from '@/lib/useHydrated';
+import { VideoPlaybackControl } from '@/components/VideoPlayback';
 
 const LINKS = [
   { name: 'Menu', href: '/menu' },
@@ -24,6 +25,9 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [lastPath, setLastPath] = useState(pathname);
   const count = useCartStore((s) => cartCount(s));
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const reducedMotion = useReducedMotion();
 
   // Close the mobile menu whenever the route changes.
   if (pathname !== lastPath) {
@@ -31,9 +35,50 @@ export default function Navbar() {
     setOpen(false);
   }
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
+    if (!open) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const background = Array.from(document.querySelectorAll<HTMLElement>('main, footer'));
+    const previousInert = background.map((element) => element.inert);
+    background.forEach((element) => { element.inert = true; });
+
+    const frame = requestAnimationFrame(() => menuRef.current?.querySelector<HTMLElement>('a')?.focus());
+    const closeMenu = () => {
+      setOpen(false);
+      toggleRef.current?.focus();
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeMenu();
+      }
+      if (event.key !== 'Tab') return;
+      const links = Array.from(menuRef.current?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])') ?? []);
+      const controls = [toggleRef.current, ...links].filter((element): element is HTMLElement => element != null);
+      const first = controls[0];
+      const last = controls.at(-1);
+      const current = document.activeElement;
+      if (!controls.includes(current as HTMLElement)) {
+        event.preventDefault();
+        (event.shiftKey ? last : first)?.focus();
+      } else if (event.shiftKey && current === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && current === last) {
+        event.preventDefault();
+        first?.focus();
+      }
+    };
+    const desktop = window.matchMedia('(min-width: 768px)');
+    const onResize = () => { if (desktop.matches) setOpen(false); };
+    document.addEventListener('keydown', onKeyDown);
+    desktop.addEventListener('change', onResize);
     return () => {
-      document.body.style.overflow = '';
+      cancelAnimationFrame(frame);
+      document.body.style.overflow = previousOverflow;
+      background.forEach((element, index) => { element.inert = previousInert[index]; });
+      document.removeEventListener('keydown', onKeyDown);
+      desktop.removeEventListener('change', onResize);
     };
   }, [open]);
 
@@ -80,6 +125,7 @@ export default function Navbar() {
         </div>
 
         <div className="hidden md:flex items-center gap-5">
+          <VideoPlaybackControl />
           {cart}
           <Link
             href="/subscriptions"
@@ -89,9 +135,12 @@ export default function Navbar() {
           </Link>
         </div>
 
-        <div className="flex md:hidden items-center gap-5">
+        <div className="flex md:hidden items-center gap-4">
+          <VideoPlaybackControl />
           {cart}
           <button
+            ref={toggleRef}
+            type="button"
             onClick={() => setOpen((o) => !o)}
             aria-expanded={open}
             aria-controls="mobile-menu"
@@ -108,11 +157,12 @@ export default function Navbar() {
       <AnimatePresence>
         {open && (
           <motion.div
+            ref={menuRef}
             id="mobile-menu"
-            initial={{ opacity: 0, y: -8 }}
+            initial={{ opacity: 0, y: reducedMotion ? 0 : -8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.18 }}
+            exit={{ opacity: 0, y: reducedMotion ? 0 : -8 }}
+            transition={{ duration: reducedMotion ? 0 : 0.18 }}
             className="md:hidden fixed inset-x-0 top-16 h-[calc(100dvh-4rem)] bg-cream z-40 overflow-y-auto"
           >
             <div className="px-5 pt-4 pb-10 flex flex-col min-h-full">
@@ -121,6 +171,8 @@ export default function Navbar() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
+                      onClick={() => setOpen(false)}
+                      aria-current={(link.href === '/' ? pathname === '/' : isActive(link.href)) ? 'page' : undefined}
                       className={`block py-4 font-display text-2xl font-semibold ${
                         (link.href === '/' ? pathname === '/' : isActive(link.href)) ? 'text-leaf-dark' : 'text-ink'
                       }`}

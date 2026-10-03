@@ -22,17 +22,17 @@ export default function MenuBrowser() {
     <>
       <div className="sticky top-16 md:top-20 z-30 bg-cream/95 backdrop-blur border-b border-black/5">
         <div className="max-w-[1280px] mx-auto px-5 sm:px-6 py-3 flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
-          <div className="flex gap-2 overflow-x-auto no-scrollbar -mx-5 px-5 md:mx-0 md:px-0" role="tablist" aria-label="Menu category">
-            <button role="tab" aria-selected={category === 'all'} className={chip(category === 'all')} onClick={() => setCategory('all')}>
+          <div className="flex gap-2 overflow-x-auto no-scrollbar -mx-5 px-5 md:mx-0 md:px-0" role="group" aria-label="Menu category">
+            <button type="button" aria-pressed={category === 'all'} className={chip(category === 'all')} onClick={() => setCategory('all')}>
               All
             </button>
             {CATEGORIES.map((c) => (
-              <button key={c.id} role="tab" aria-selected={category === c.id} className={chip(category === c.id)} onClick={() => setCategory(c.id)}>
+              <button type="button" key={c.id} aria-pressed={category === c.id} className={chip(category === c.id)} onClick={() => setCategory(c.id)}>
                 {c.label}
               </button>
             ))}
           </div>
-          <div className="flex gap-2" aria-label="Diet filter">
+          <div className="flex gap-2" role="group" aria-label="Diet filter">
             {(
               [
                 ['all', 'Veg & non-veg'],

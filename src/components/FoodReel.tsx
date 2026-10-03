@@ -13,7 +13,10 @@ export default function FoodReel({ items }: { items: MenuItem[] }) {
   const scroll = (dir: 1 | -1) => {
     const el = track.current;
     if (!el) return;
-    el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: 'smooth' });
+    el.scrollBy({
+      left: dir * el.clientWidth * 0.8,
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+    });
   };
 
   const arrow =

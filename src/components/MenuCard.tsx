@@ -1,6 +1,6 @@
 "use client";
 import Image from 'next/image';
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { Leaf, Minus, Plus } from 'lucide-react';
 import type { Diet, MenuItem } from '@/data/menu';
 import { isHighProtein } from '@/data/menu';
@@ -36,6 +36,7 @@ export default function MenuCard({ item }: { item: MenuItem }) {
   const updateQuantity = useCartStore((s) => s.updateQuantity);
   const mounted = useHydrated();
   const [pack, setPack] = useState(0);
+  const packGroup = useId();
 
   const selected = item.packs?.[pack];
   const price = selected ? selected.price : item.price;
@@ -90,21 +91,20 @@ export default function MenuCard({ item }: { item: MenuItem }) {
         <Macros item={item} />
 
         {item.packs && (
-          <div className="flex gap-2 mt-1" role="radiogroup" aria-label="Pack size">
+          <fieldset className="flex gap-2 mt-1">
+            <legend className="sr-only">{item.name} pack size</legend>
             {item.packs.map((p, i) => (
-              <button
+              <label
                 key={p.label}
-                role="radio"
-                aria-checked={pack === i}
-                onClick={() => setPack(i)}
-                className={`text-sm px-3 py-1 rounded-full border transition-colors ${
+                className={`relative cursor-pointer text-sm px-3 py-2 rounded-full border transition-colors focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-leaf-dark ${
                   pack === i ? 'border-leaf-dark bg-leaf-tint text-leaf-dark font-semibold' : 'border-black/15 text-ink/70'
                 }`}
               >
+                <input type="radio" name={packGroup} value={p.label} checked={pack === i} onChange={() => setPack(i)} className="sr-only" />
                 {p.label}
-              </button>
+              </label>
             ))}
-          </div>
+          </fieldset>
         )}
 
         <div className="mt-auto pt-3 flex items-center justify-between gap-3">

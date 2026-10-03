@@ -32,7 +32,7 @@ export default function Footer() {
             </div>
           </div>
           <p className="text-sm leading-relaxed max-w-sm">
-            Healthy meal plans cooked fresh every day in Gurugram. Salads, bowls and juices with the calories and protein listed on every dish.
+            Healthy meal plans cooked fresh every day in Gurugram. Salads, bowls and juices, with calories and protein listed for most dishes.
           </p>
           <SocialLinks itemClassName="w-10 h-10 rounded-full bg-white/10 hover:bg-leaf text-white flex items-center justify-center transition-colors" />
         </div>

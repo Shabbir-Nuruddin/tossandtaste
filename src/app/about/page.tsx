@@ -6,13 +6,14 @@ import { CONSULT_MESSAGE, GOOGLE_REVIEWS, GOOGLE_REVIEWS_URL, SITE, TESTIMONIALS
 
 export const metadata: Metadata = {
   title: 'About',
+  alternates: { canonical: '/about' },
   description:
     'Toss & Taste started when founder Arun Bhatia couldn’t find healthy food that actually tasted good. Today we cook fresh, macro-counted meals in Gurugram every day.',
 };
 
 const FACTS = [
   { title: 'Cooked the same day', body: `Everything is made fresh in our kitchen in ${SITE.address.split(',')[0]}, Gurugram, and delivered for lunch or dinner.` },
-  { title: 'Numbers on every dish', body: 'Calories, protein and carbs are listed for our meals, so you can track without weighing anything.' },
+  { title: 'Numbers on most dishes', body: 'Calories, protein and carbs are listed for most of our meals, so you can track without weighing anything.' },
   { title: 'Veg, non-veg or both', body: 'Paneer, tofu, chickpeas and beans for veg meals; chicken and eggs for non-veg. Mix plans split them half and half.' },
   { title: 'FSSAI licensed', body: `Our kitchen is registered with the Food Safety and Standards Authority of India (Lic. No. ${SITE.fssai}).` },
 ];

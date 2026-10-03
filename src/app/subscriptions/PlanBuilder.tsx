@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowRight, Check } from 'lucide-react';
 import AutoVideo from '@/components/AutoVideo';
@@ -9,8 +9,7 @@ import {
   PREFERENCES,
   SLOTS,
   formatINR,
-  lowestPerMeal,
-  lowestPrice,
+  bestRatePackage,
   mixSplit,
   type MealCount,
   type MealSlot,
@@ -22,34 +21,34 @@ import { useCartStore } from '@/store/cartStore';
 
 function Option({
   selected,
+  name,
   onClick,
   title,
   sub,
 }: {
   selected: boolean;
+  name: string;
   onClick: () => void;
   title: string;
   sub?: string;
 }) {
   return (
-    <button
-      type="button"
-      role="radio"
-      aria-checked={selected}
-      onClick={onClick}
-      className={`flex-1 min-w-[6.5rem] text-left rounded-xl border px-4 py-3 transition-colors ${
+    <label
+      className={`relative cursor-pointer flex-1 min-w-[6.5rem] text-left rounded-xl border px-4 py-3 transition-colors focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-leaf-dark ${
         selected ? 'border-leaf-dark bg-leaf-tint ring-1 ring-leaf-dark' : 'border-black/10 bg-white hover:border-black/30'
       }`}
     >
+      <input type="radio" name={name} value={title} checked={selected} onChange={onClick} className="sr-only" />
       <span className="block font-semibold">{title}</span>
       {sub && <span className="block text-sm text-charcoal mt-0.5 tabular-nums">{sub}</span>}
-    </button>
+    </label>
   );
 }
 
 export default function PlanBuilder({ initialPlan = 'protein-pack' }: { initialPlan?: Plan['id'] }) {
   const router = useRouter();
   const setPlan = useCartStore((s) => s.setPlan);
+  const groupId = useId();
 
   const [planId, setPlanId] = useState<Plan['id']>(initialPlan);
   const [meals, setMeals] = useState<MealCount>(20);
@@ -61,7 +60,10 @@ export default function PlanBuilder({ initialPlan = 'protein-pack' }: { initialP
 
   const choosePlan = (id: Plan['id']) => {
     setPlanId(id);
-    document.getElementById('build')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById('build')?.scrollIntoView({
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+      block: 'start',
+    });
   };
 
   const checkout = () => {
@@ -75,8 +77,7 @@ export default function PlanBuilder({ initialPlan = 'protein-pack' }: { initialP
       <section className="max-w-[1280px] mx-auto px-5 sm:px-6 py-12 md:py-16">
         <div className="grid md:grid-cols-2 gap-6">
           {PLANS.map((p) => {
-            const from = lowestPrice(p);
-            const perMeal = lowestPerMeal(p);
+            const offer = bestRatePackage(p);
             const active = p.id === planId;
             return (
               <article
@@ -102,13 +103,14 @@ export default function PlanBuilder({ initialPlan = 'protein-pack' }: { initialP
                   </ul>
                   <div className="mt-auto pt-6 flex flex-wrap items-center justify-between gap-4">
                     <p className="text-charcoal">
-                      {from != null && perMeal != null ? (
+                      {offer ? (
                         <>
-                          From <span className="text-xl font-semibold text-ink tabular-nums">{formatINR(perMeal)}</span> a meal
-                          <span className="block text-sm tabular-nums">{formatINR(from)} for 10 meals</span>
+                          From <span className="text-xl font-semibold text-ink tabular-nums">{formatINR(Math.round(offer.rate))}</span> a meal
+                          <span className="block text-sm tabular-nums">{formatINR(offer.price)} for {offer.meals} {offer.preference.toLowerCase()} meals</span>
+                          <span className="block text-xs">Delivery extra</span>
                         </>
                       ) : (
-                        <span className="text-xl font-semibold text-ink">{p.fromNote ?? 'Price on WhatsApp'}</span>
+                        <span className="text-xl font-semibold text-ink">Price on WhatsApp</span>
                       )}
                     </p>
                     <button
@@ -138,21 +140,22 @@ export default function PlanBuilder({ initialPlan = 'protein-pack' }: { initialP
 
             <fieldset>
               <legend className="font-display text-lg font-semibold mb-3">1. Plan</legend>
-              <div className="flex flex-wrap gap-3" role="radiogroup">
+              <div className="flex flex-wrap gap-3">
                 {PLANS.map((p) => (
-                  <Option key={p.id} selected={planId === p.id} onClick={() => setPlanId(p.id)} title={p.name} />
+                  <Option key={p.id} name={`${groupId}-plan`} selected={planId === p.id} onClick={() => setPlanId(p.id)} title={p.name} />
                 ))}
               </div>
             </fieldset>
 
             <fieldset>
               <legend className="font-display text-lg font-semibold mb-3">2. Number of meals</legend>
-              <div className="flex flex-wrap gap-3" role="radiogroup">
+              <div className="flex flex-wrap gap-3">
                 {MEAL_COUNTS.map((n) => {
                   const p = plan.prices[preference][n];
                   return (
                     <Option
                       key={n}
+                      name={`${groupId}-meals`}
                       selected={meals === n}
                       onClick={() => setMeals(n)}
                       title={`${n} meals`}
@@ -168,10 +171,11 @@ export default function PlanBuilder({ initialPlan = 'protein-pack' }: { initialP
 
             <fieldset>
               <legend className="font-display text-lg font-semibold mb-3">3. Food preference</legend>
-              <div className="flex flex-wrap gap-3" role="radiogroup">
+              <div className="flex flex-wrap gap-3">
                 {PREFERENCES.map((p) => (
                   <Option
                     key={p.id}
+                    name={`${groupId}-preference`}
                     selected={preference === p.id}
                     onClick={() => setPreference(p.id)}
                     title={p.label}
@@ -183,10 +187,11 @@ export default function PlanBuilder({ initialPlan = 'protein-pack' }: { initialP
 
             <fieldset>
               <legend className="font-display text-lg font-semibold mb-3">4. Delivery</legend>
-              <div className="flex flex-wrap gap-3" role="radiogroup">
+              <div className="flex flex-wrap gap-3">
                 {SLOTS.map((s) => (
                   <Option
                     key={s.id}
+                    name={`${groupId}-slot`}
                     selected={slot === s.id}
                     onClick={() => setSlot(s.id)}
                     title={s.label}
@@ -217,7 +222,7 @@ export default function PlanBuilder({ initialPlan = 'protein-pack' }: { initialP
               {price != null ? (
                 <>
                   <p className="flex items-baseline justify-between">
-                    <span className="text-charcoal">Total</span>
+                    <span className="text-charcoal">Meals subtotal</span>
                     <span className="text-3xl font-bold tabular-nums">{formatINR(price)}</span>
                   </p>
                   <p className="text-right text-sm text-charcoal tabular-nums">{formatINR(Math.round(price / meals))} per meal</p>

@@ -7,6 +7,7 @@ import { SITE } from '@/data/site';
 
 export const metadata: Metadata = {
   title: 'Contact',
+  alternates: { canonical: '/contact' },
   description: `Call or WhatsApp ${SITE.phone}, email ${SITE.email}, or visit us at ${SITE.address}.`,
 };
 

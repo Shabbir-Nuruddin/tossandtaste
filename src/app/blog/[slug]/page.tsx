@@ -17,6 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!post) return {};
   return {
     title: post.title,
+    alternates: { canonical: `/blog/${post.slug}` },
     description: post.excerpt,
     openGraph: { type: 'article', title: post.title, description: post.excerpt, images: [post.image] },
   };
@@ -44,7 +45,7 @@ export default async function PostPage({ params }: Props) {
         <Prose source={post.body} />
         <div className="mt-12 rounded-2xl bg-leaf-tint p-6 md:p-8">
           <p className="font-display text-xl font-semibold text-forest">Want meals like this without the planning?</p>
-          <p className="mt-2 text-ink/80">Our plans are cooked fresh every day and come with calories and macros for every meal.</p>
+          <p className="mt-2 text-ink/80">Our plans are cooked fresh every day, and most come with their calories and macros.</p>
           <div className="mt-5 flex flex-wrap gap-3">
             <Link href="/subscriptions" className="rounded-full bg-leaf-dark text-white font-semibold px-5 py-3 hover:bg-forest transition-colors">See meal plans</Link>
             <Link href="/menu" className="rounded-full border border-forest/20 font-semibold px-5 py-3 hover:border-forest/50 transition-colors">Browse the menu</Link>

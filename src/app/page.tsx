@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, Check, Clock, MapPin } from 'lucide-react';
 import AutoVideo from '@/components/AutoVideo';
@@ -7,12 +8,14 @@ import MenuCard from '@/components/MenuCard';
 import { SocialIcon } from '@/components/SocialIcons';
 import FoodReel from '@/components/FoodReel';
 import { CATEGORIES, FEATURED_IDS, MENU } from '@/data/menu';
-import { PLANS, formatINR, lowestPerMeal, lowestPrice } from '@/data/plans';
+import { PLANS, formatINR, bestRatePackage } from '@/data/plans';
 import { CONSULT_MESSAGE, FAQS, GOOGLE_REVIEWS, GOOGLE_REVIEWS_URL, SITE, whatsappLink } from '@/data/site';
+
+export const metadata: Metadata = { alternates: { canonical: '/' } };
 
 const INCLUDED = [
   'Proper protein in every meal: chicken, eggs, paneer, tofu or legumes',
-  'Calories, protein and carbs listed, so you never have to weigh anything',
+  'Calories, protein and carbs listed for most dishes, so you can track without weighing',
   'Sensible portions, cooked the day you eat them',
   'Veg, non-veg, or a bit of both',
   'Lunch, dinner or both, brought to your door',
@@ -44,7 +47,7 @@ export default function Home() {
               Healthy food doesn’t have to be boring.
             </h1>
             <p className="mt-5 text-lg md:text-xl text-charcoal max-w-xl">
-              Salads, bowls and fresh juices with the calories and protein on every dish. We cook it the same day in Gurugram and bring it to you for lunch or dinner.
+              Salads, bowls and fresh juices, with calories and protein listed for most dishes. We cook it the same day in Gurugram and bring it to you for lunch or dinner.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Link
@@ -116,8 +119,7 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             {PLANS.map((plan) => {
-              const from = lowestPrice(plan);
-              const perMeal = lowestPerMeal(plan);
+              const offer = bestRatePackage(plan);
               return (
                 <Link
                   key={plan.id}
@@ -137,13 +139,14 @@ export default function Home() {
                       <p className="mt-1 text-charcoal">{plan.short}</p>
                     </div>
                     <p className="text-charcoal whitespace-nowrap sm:text-right">
-                      {from != null && perMeal != null ? (
+                      {offer ? (
                         <>
-                          From <span className="font-semibold text-ink text-lg tabular-nums">{formatINR(perMeal)}</span> a meal
-                          <span className="block text-sm tabular-nums">{formatINR(from)} for 10 meals</span>
+                          From <span className="font-semibold text-ink text-lg tabular-nums">{formatINR(Math.round(offer.rate))}</span> a meal
+                          <span className="block text-sm tabular-nums">{formatINR(offer.price)} for {offer.meals} {offer.preference.toLowerCase()} meals</span>
+                          <span className="block text-xs">Delivery extra</span>
                         </>
                       ) : (
-                        <span className="font-semibold text-ink text-lg">{plan.fromNote}</span>
+                        <span className="font-semibold text-ink text-lg">Price on WhatsApp</span>
                       )}
                     </p>
                   </div>
@@ -317,7 +320,7 @@ export default function Home() {
         <div className="relative max-w-3xl mx-auto px-5 sm:px-6 py-16 md:py-24 text-center text-white">
           <h2 className="text-3xl md:text-5xl font-bold">Hungry yet?</h2>
           <p className="mt-4 text-lg text-white/85">
-            Order today and your first meal can arrive tomorrow, anywhere in {SITE.areas.slice(0, -1).join(', ')} or {SITE.areas.at(-1)}.
+            Ask about your first meal in {SITE.areas.slice(0, -1).join(', ')} or {SITE.areas.at(-1)}. We’ll confirm availability for your address and your start date before you pay.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/subscriptions" className="rounded-full bg-white text-forest font-semibold px-7 py-4 hover:bg-cream transition-colors">

@@ -8,8 +8,9 @@ import { SITE } from '@/data/site';
 
 export const metadata: Metadata = {
   title: 'Menu',
+  alternates: { canonical: '/menu' },
   description:
-    'Salads, rice and millet bowls, fresh juices and energy bites, with calories and macros for every dish. Delivered across Gurugram, Delhi and Noida.',
+    'Salads, rice and millet bowls, fresh juices and energy bites, with calories and macros for most dishes. Ask about delivery availability in Gurugram, Delhi and Noida.',
 };
 
 export default function MenuPage() {
@@ -20,7 +21,7 @@ export default function MenuPage() {
         title="Salads, bowls & fresh juices"
         intro={
           <p>
-            Every dish is cooked fresh on the day it’s delivered, with calories and macros listed so you know exactly what you’re eating. Order single meals here, or get them on a{' '}
+            Every dish is cooked fresh on the day it’s delivered. Most dishes list their calories and macros. Order single meals here, or get them on a{' '}
             <Link href="/subscriptions" className="text-leaf-dark font-semibold underline underline-offset-4">meal plan</Link>.
           </p>
         }

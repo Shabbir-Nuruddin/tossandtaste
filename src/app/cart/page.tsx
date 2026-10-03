@@ -8,6 +8,7 @@ import { PREFERENCES, SLOTS, formatINR, mixSplit } from '@/data/plans';
 import { SITE, whatsappLink } from '@/data/site';
 import { SocialIcon } from '@/components/SocialIcons';
 import { useHydrated } from '@/lib/useHydrated';
+import { currentCartPrices } from '@/lib/cartPricing';
 
 const inputClass =
   'w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-base outline-none focus:border-leaf-dark focus:ring-2 focus:ring-leaf-dark/20';
@@ -32,7 +33,8 @@ function Field({ label, htmlFor, children, hint }: { label: string; htmlFor: str
 }
 
 export default function CartPage() {
-  const { items, plan, updateQuantity, removeItem, setPlan, clearCart } = useCartStore();
+  const { items: savedItems, plan: savedPlan, updateQuantity, removeItem, setPlan, clearCart } = useCartStore();
+  const { items, plan } = currentCartPrices(savedItems, savedPlan);
   const mounted = useHydrated();
   const [sent, setSent] = useState(false);
 
@@ -114,9 +116,12 @@ export default function CartPage() {
       <p className="mt-2 text-charcoal max-w-2xl">
         Fill in your details and we’ll open WhatsApp with your order ready to send. Our team confirms the delivery charge and start date, then shares payment details.
       </p>
+      <p className="mt-4 lg:hidden text-sm text-charcoal">
+        {hasUnpriced ? 'Your total requires a quote.' : <>Meals subtotal: <strong className="text-ink tabular-nums">{formatINR(total)}</strong>. Delivery is additional.</>}
+      </p>
 
       <div className="mt-10 grid lg:grid-cols-[1fr_400px] gap-10 items-start">
-        <form id="checkout" onSubmit={submit} className="space-y-10 order-2 lg:order-1">
+        <form id="checkout" onSubmit={submit} className="space-y-10">
           {/* Order */}
           <div>
             <h2 className="font-display text-2xl font-semibold mb-4">Your order</h2>
@@ -266,7 +271,7 @@ export default function CartPage() {
         </form>
 
         {/* Summary */}
-        <aside className="order-1 lg:order-2 lg:sticky lg:top-28 rounded-3xl bg-white border border-black/5 p-6 md:p-7">
+        <aside className="lg:sticky lg:top-28 rounded-3xl bg-white border border-black/5 p-6 md:p-7">
           <h2 className="font-display text-xl font-semibold">Summary</h2>
           <dl className="mt-4 space-y-2.5 text-[15px]">
             {plan && (
@@ -280,7 +285,7 @@ export default function CartPage() {
                 <dt className="text-charcoal">
                   Dishes ({items.reduce((a, b) => a + b.quantity, 0)})
                 </dt>
-                <dd className="font-medium tabular-nums">{formatINR(subtotal)}</dd>
+                <dd className="font-medium tabular-nums">{items.some((i) => i.price == null) ? 'Quote required' : formatINR(subtotal)}</dd>
               </div>
             )}
             <div className="flex justify-between gap-4">
@@ -289,10 +294,11 @@ export default function CartPage() {
             </div>
           </dl>
           <div className="mt-5 pt-5 border-t border-black/10 flex items-baseline justify-between">
-            <span className="text-charcoal">Total</span>
-            <span className="text-3xl font-bold tabular-nums">{formatINR(total)}{hasUnpriced && '+'}</span>
+            <span className="text-charcoal">{hasUnpriced ? 'Total' : 'Subtotal'}</span>
+            <span className={`${hasUnpriced ? 'text-xl' : 'text-3xl'} font-bold tabular-nums`}>{hasUnpriced ? 'Quote required' : formatINR(total)}</span>
           </div>
           {hasUnpriced && <p className="mt-1 text-sm text-charcoal">Some prices will be confirmed on WhatsApp.</p>}
+          {!hasUnpriced && <p className="mt-1 text-sm text-charcoal">Delivery is additional. The team confirms the final total before you pay.</p>}
 
           <button
             type="submit"

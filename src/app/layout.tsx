@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 import { SITE } from "@/data/site";
+import { VideoPlaybackProvider } from '@/components/VideoPlayback';
 
 const heading = Outfit({ subsets: ["latin"], variable: "--font-heading", display: "swap" });
 const body = DM_Sans({ subsets: ["latin"], variable: "--font-body", display: "swap" });
@@ -58,6 +59,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en-IN" className={`${heading.variable} ${body.variable}`}>
       <body className="antialiased min-h-screen flex flex-col font-sans">
+        <VideoPlaybackProvider>
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg"
@@ -71,6 +73,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Footer />
         <FloatingWhatsApp />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        </VideoPlaybackProvider>
       </body>
     </html>
   );

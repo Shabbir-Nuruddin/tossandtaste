@@ -1,5 +1,5 @@
-// Meal plans. Protein Pack prices are the ones published on tossandtaste.com.
-// Fat Loss prices are not published yet, so `null` shows "Price on WhatsApp".
+// Prices published on both product pages at tossandtaste.com, verified 4 October 2026.
+// Delivery is additional and confirmed by the team before payment.
 
 export type Preference = 'veg' | 'nonveg' | 'mix';
 export type MealSlot = 'lunch' | 'dinner' | 'both';
@@ -39,10 +39,10 @@ export const PLANS: Plan[] = [
     name: 'Protein Pack Plan',
     short: 'For building strength and staying full.',
     description:
-      'Protein-rich, balanced meals to help you hit your daily protein goal, recover from workouts and stay full between meals. Every meal is portioned and comes with its calories and macros.',
+      'Protein-rich, balanced meals to help you hit your daily protein goal, recover from workouts and stay full between meals. Meals are portioned, and most come with their calories and macros.',
     points: [
       'Chicken, paneer, tofu, beans and eggs as the protein',
-      'Calories and macros listed for every meal',
+      'Calories and macros listed for most meals',
       'Veg, non-veg, or a mix of both',
       'Lunch, dinner, or both',
     ],
@@ -68,11 +68,10 @@ export const PLANS: Plan[] = [
     ],
     image: '/food/cover-fat-loss.webp',
     video: '/videos/19_fat_loss_hero.mp4',
-    fromNote: 'Starting at ₹740',
     prices: {
-      veg: { 10: null, 20: null, 30: null },
-      nonveg: { 10: null, 20: null, 30: null },
-      mix: { 10: null, 20: null, 30: null },
+      veg: { 10: 3100, 20: 5900, 30: 8600 },
+      nonveg: { 10: 3300, 20: 6400, 30: 9200 },
+      mix: { 10: 3200, 20: 6200, 30: 9000 },
     },
   },
 ];
@@ -91,4 +90,15 @@ export function lowestPerMeal(plan: Plan) {
     MEAL_COUNTS.flatMap((n) => (byCount[n] != null ? [Math.round(byCount[n]! / n)] : []))
   );
   return rates.length ? Math.min(...rates) : null;
+}
+
+// Keep the advertised rate tied to the package that actually offers it.
+export function bestRatePackage(plan: Plan) {
+  const offers = PREFERENCES.flatMap(({ id, label }) =>
+    MEAL_COUNTS.flatMap((meals) => {
+      const price = plan.prices[id][meals];
+      return price == null ? [] : [{ meals, price, preference: label, rate: price / meals }];
+    })
+  );
+  return offers.sort((a, b) => a.rate - b.rate)[0] ?? null;
 }

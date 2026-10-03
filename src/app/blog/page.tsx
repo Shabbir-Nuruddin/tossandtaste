@@ -6,6 +6,7 @@ import { POSTS, formatDate } from '@/data/blog';
 
 export const metadata: Metadata = {
   title: 'Blog',
+  alternates: { canonical: '/blog' },
   description: 'Simple, practical reads on eating well: fat loss, protein, planning your meals, and healthy snacks and drinks.',
 };
 
