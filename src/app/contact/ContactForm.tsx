@@ -15,7 +15,7 @@ export default function ContactForm() {
     const f = new FormData(form);
     const get = (k: string) => String(f.get(k) ?? '').trim();
     return {
-      subject: `${get('topic')} — ${get('name')}`,
+      subject: `${get('topic')} from ${get('name')}`,
       body: `Hi Toss & Taste, I'm ${get('name')}.\n\n${get('message')}\n\nTopic: ${get('topic')}\nPhone: ${get('phone')}`,
     };
   };

@@ -76,7 +76,7 @@ export default function CartPage() {
         plan.preference === 'mix' ? `Mix (${mixSplit(plan.meals)})` : PREFERENCES.find((p) => p.id === plan.preference)?.label;
       lines.push(
         '*Meal plan*',
-        `${plan.planName} — ${plan.meals} meals, ${pref}, ${SLOTS.find((s) => s.id === plan.slot)?.label}`,
+        `${plan.planName}: ${plan.meals} meals, ${pref}, ${SLOTS.find((s) => s.id === plan.slot)?.label}`,
         plan.price != null ? formatINR(plan.price) : 'Price: please confirm',
         ''
       );
@@ -85,7 +85,7 @@ export default function CartPage() {
     if (items.length) {
       lines.push('*Items*');
       items.forEach((i) =>
-        lines.push(`${i.quantity} × ${i.title} — ${i.price != null ? formatINR(i.price * i.quantity) : 'price to confirm'}`)
+        lines.push(`${i.quantity} × ${i.title}: ${i.price != null ? formatINR(i.price * i.quantity) : 'price to confirm'}`)
       );
       lines.push('');
     }
@@ -193,7 +193,7 @@ export default function CartPage() {
                     </div>
                   </div>
                   <p className="font-semibold tabular-nums self-start">
-                    {item.price != null ? formatINR(item.price * item.quantity) : '—'}
+                    {item.price != null ? formatINR(item.price * item.quantity) : 'To confirm'}
                   </p>
                 </li>
               ))}

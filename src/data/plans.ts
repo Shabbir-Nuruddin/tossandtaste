@@ -1,5 +1,5 @@
 // Meal plans. Protein Pack prices are the ones published on tossandtaste.com.
-// Fat Loss prices are not published yet — `null` shows "Price on WhatsApp".
+// Fat Loss prices are not published yet, so `null` shows "Price on WhatsApp".
 
 export type Preference = 'veg' | 'nonveg' | 'mix';
 export type MealSlot = 'lunch' | 'dinner' | 'both';

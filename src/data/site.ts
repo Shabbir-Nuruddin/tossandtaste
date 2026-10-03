@@ -1,5 +1,5 @@
 // Single source of truth for business details used across the site.
-// Everything here is taken from tossandtaste.com — update it in one place.
+// Everything here is taken from tossandtaste.com. Update it in one place.
 
 export const SITE = {
   name: 'Toss & Taste',
@@ -14,8 +14,8 @@ export const SITE = {
   fssai: '20824005000269',
   areas: ['Gurugram', 'Delhi', 'Noida'],
   slots: {
-    lunch: '11:30 AM – 1:30 PM',
-    dinner: '5:00 PM – 8:30 PM',
+    lunch: '11:30 AM to 1:30 PM',
+    dinner: '5:00 PM to 8:30 PM',
   },
   socials: [
     { name: 'Instagram', href: 'https://www.instagram.com/tossandtasteindia/' },
@@ -77,12 +77,12 @@ export const GOOGLE_REVIEWS = [
   {
     name: 'Sakshi S.',
     quote:
-      'Their delivery is always on time, the packaging is neat, and the food remains fresh upon arrival. I love the flexibility of their subscription plans — it makes eating healthy effortless.',
+      'Their delivery is always on time, the packaging is neat, and the food remains fresh upon arrival. I love the flexibility of their subscription plans. It makes eating healthy effortless.',
   },
   {
     name: 'Roneeta N.',
     quote:
-      'Absolutely loving my experience so far! Been having their healthy lunch bowls for the last 2 days — Super fresh, tasty!! — healthy doesn’t have to be boring!',
+      'Absolutely loving my experience so far! Been having their healthy lunch bowls for the last 2 days. Super fresh, tasty!! Healthy doesn’t have to be boring!',
   },
   {
     name: 'Ankesh A.',

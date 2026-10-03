@@ -5,7 +5,7 @@ import { SocialIcon } from "@/components/SocialIcons";
 
 export default function FloatingWhatsApp() {
   const pathname = usePathname();
-  // The cart has its own WhatsApp checkout button — don't stack a second one on top.
+  // The cart has its own WhatsApp checkout button, so don't stack a second one on top.
   if (pathname === "/cart") return null;
 
   return (

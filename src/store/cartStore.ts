@@ -60,7 +60,7 @@ export const useCartStore = create<CartState>()(
     {
       name: 'toss-taste-cart',
       version: 2,
-      // Older carts stored prices as strings — start fresh rather than mis-read them.
+      // Older carts stored prices as strings, so start fresh rather than mis-read them.
       migrate: () => ({ items: [], plan: null }),
     }
   )
